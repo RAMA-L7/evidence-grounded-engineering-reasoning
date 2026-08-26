@@ -1,11 +1,11 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P011)
+Last updated: 2026-08-26 (EGER-P012)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
-| Current phase | **Phase 1 — Protocol Frozen (EGER-EXP-001 v0.1, P011 PASS WITH DOCUMENTED LIMITATIONS)** — ready for controlled pilot (P012) before formal C0–C5. |
+| Current phase | **Phase 1 — Pilot validated (P012 PASS, 12 pilot runs, infrastructure proven)** — ready for formal C0–C5 execution (P013) after MODEL-002/BENCH-002 freeze. |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
 | Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
@@ -20,7 +20,8 @@ Last updated: 2026-08-26 (EGER-P011)
 | Benchmark status | **BENCH-001 v0.1 provisional freeze** (19 artifacts at 3b5c2f2, small, no held-out — formal BENCH-002 pending) |
 | Model status | **MODEL-001 control frozen** (FakeEngineerModel v1.0, deterministic); live MODEL-002 NOT frozen (documented limitation) |
 | Prompt status | **PROMPT-001 frozen** (`eger.prompt.v1` neutral, versioned, hashed) |
-| Research ledger | Established by EGER-P004; version-controlled since P005; P006–P011 recorded |
+| Research ledger | Established by EGER-P004; version-controlled since P005; P006–P012 recorded |
+| Pilot (P012) | **PASS** — 12 pilot runs (3 tasks × 4 conditions), pilot=true, 0 formal results, 2 informational findings, no blocking |
 | Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded |
 | EvidenceOracle contract | **EGER-ORACLE-CONTRACT-001** FROZEN/PROVISIONAL per matrix (see §20 of contract doc) — **IMPLEMENTED** |
 | Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — **IMPLEMENTED** |
@@ -75,9 +76,19 @@ Last updated: 2026-08-26 (EGER-P011)
 
 ## Next authorized step
 
-Await external review of P011 protocol freeze (EXP-001 v0.1, PASS WITH DOCUMENTED LIMITATIONS).
-The single recommended next action after review: authorize **EGER-P012 — Controlled Pilot / Dry Run**
-(small, explicitly pilot-labeled, no formal results, pilot contamination controlled) as the last gate before formal C0–C5 execution.
+Await external review of P012 pilot (12 runs, PASS, RTA 3b5c2f2 main 19, no formal results).
+The single recommended next action after review: authorize **EGER-P013 — Formal C0–C5 Execution**
+(after freezing MODEL-002 live provider/version and BENCH-002 held-out as explicit version bumps).
+
+## Pilot Verification (P012)
+
+- RTA before: 3b5c2f2 main 19 — after: 3b5c2f2 main 19 (no mutation, L1 invocation only via pilot runner)
+- 12 pilot manifests: pilot=true formal=false, experiment_version EXP-001 v0.1, BENCH-001 v0.1, MODEL-001, oracle 3b5c2f2
+- Capability leakage: PASS (C0 omits evidence, C5 enforces gate)
+- Authorities: PASS (single LLM, L1/L2/L3 separate, no rta_generate, no direct LLM→L2/L3)
+- Two memories: PASS (ledger ∄ claim IDs)
+- No C6, no GitHub push, no formal results (0 C0–C5 formal runs)
+- Findings: 2 informational (INSUFFICIENT prevents VALIDATED — expected), 0 blocking
 
 ## Implementation Records
 

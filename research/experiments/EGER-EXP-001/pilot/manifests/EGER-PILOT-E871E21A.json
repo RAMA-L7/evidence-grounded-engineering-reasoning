@@ -1,0 +1,38 @@
+{
+  "run_id": "EGER-PILOT-E871E21A",
+  "pilot": true,
+  "formal_experiment": false,
+  "experiment_version": "EGER-EXP-001 v0.1",
+  "condition": "C3",
+  "task_id": "BENCH-007",
+  "benchmark_version": "EGER-BENCH-001 v0.1",
+  "model": {
+    "provider": "fake",
+    "model": "fake-engineer-v1",
+    "version": "1.0",
+    "prompt_version": "eger.prompt.v1"
+  },
+  "oracle_revision": "3b5c2f2",
+  "schema_versions": {
+    "candidate": "eger.candidate.v1",
+    "evidence": "eger.evidence.v1",
+    "epistemic": "eger.epistemic.v1"
+  },
+  "start": "2026-08-26T15:16:56.201847+00:00",
+  "end": "2026-08-26T15:16:56.539887+00:00",
+  "iteration_limit": 5,
+  "tool_call_limit": 5,
+  "candidate_hash": "83f3e345a44de9a1ca93c762bf552ceb2d05a30b6b72576cddfad8d516896cb5",
+  "evidence_hash": "14b1ba250a4619e4303a464c5ac0cf647d754bed3e666c3d12c02fce0ea27c8c",
+  "epistemic_transitions": [
+    "EGER-TRANS-71E21A-0001"
+  ],
+  "authorization_decisions": [],
+  "final_epistemic_state": "UNKNOWN",
+  "final_authorization": null,
+  "failure_class": "INSUFFICIENT_SCOPE",
+  "violation": {
+    "type": "INSUFFICIENT_SCOPE",
+    "reason": "evidence_scope INSUFFICIENT is not FULL \u2014 insufficient/unsupported cannot validate"
+  }
+}

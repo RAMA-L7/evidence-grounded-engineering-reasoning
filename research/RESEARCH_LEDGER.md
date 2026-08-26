@@ -273,6 +273,24 @@ Literature synthesis that preceded the contract is recorded in
 | Decisions | Protocol `EGER-EXP-001 v0.1` (30 sections, hypothesis/null, C0–C5 capability matrix, metrics EVR/AVR + convergence/tool efficiency, failure taxonomy, run/manifest/retention, anti-gaming, versioning). Benchmark `EGER-BENCH-001 v0.1` provisional (19 artifacts at 3b5c2f2, BENCH-001..015, small, no held-out). Model `EGER-MODEL-001` control frozen (FakeEngineerModel v1.0, deterministic); live model NOT frozen (documented as MODEL-002 preparation). Prompt `EGER-PROMPT-001` `eger.prompt.v1` frozen (neutral system + deterministic templates + extraction). Independent variable: degree of authority-separated grounding (C0–C5); controls frozen; confound/unknown registers created. |
 | Status | **PASS WITH DOCUMENTED LIMITATIONS** — strongest reproducible freeze achievable with current engineering-validation benchmark and control model; formal publication requires MODEL-002 + BENCH-002 |
 
+## 5i. EGER-P012 — Controlled Pilot / Dry Run
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P012 · 2026-08-26 |
+| Type | Prompt / pilot validation — NOT formal experiment |
+| Purpose | Validate frozen machinery (L1/L2/L3 + Engineer, EXP-001 v0.1) executes end-to-end with pilot tasks before formal C0–C5; discover implementation/interface/leakage/budget/provenance defects |
+| Previous state | P011 PASS WITH DOCUMENTED LIMITATIONS (EXP-001 v0.1, BENCH-001 v0.1 provisional, MODEL-001 control frozen, PROMPT-001 frozen; 47/47 tests; RTA 3b5c2f2 main 19) |
+| Scope | 3 tasks (BENCH-001 minimal_sdc.sdc, BENCH-004 buggy_no_clocks.sdc, BENCH-007 edge_case_malformed.sdc) × 4 conditions (C0, C2, C3, C5 representative) = 12 runs; model = FakeEngineerModel (LIVE_MODEL_PILOT = NOT EXECUTED per §8) |
+| Implementation | `research/experiments/EGER-EXP-001/pilot_runner.py` (deterministic runner, pilot=true, cwd outside Ṛta), manifests `pilot/manifests/*.json` (12 runs, pilot=true formal=false, experiment_version BENCH/MODEL/PROMPT/oracle hashes) |
+| Observations | All 12 settled to HYPOTHESIS (C0) or UNKNOWN (C2/C3 due to INSUFFICIENT scope) or REJECTED (C5 — correctly, since not VALIDATED); no VALIDATED+APPROVED under canned insufficient candidate (expected). No capability leakage (C0 omits evidence, C5 enforces gate), authorities separated (single probabilistic component), two-memories separate, rta_generate 0 hits, RTA 3b5c2f2 main 19 unchanged, no formal results claimed. |
+| Findings | PILOT-F-001 (INSUFFICIENT scope prevents VALIDATED — informational, BENCH-002 design note), PILOT-F-002 (capability isolation verified) — no BLOCKING/MAJOR |
+| Decisions | PILOT-DEC-001 (use fake for infrastructure pilot, live remains optional), PILOT-DEC-002 (keep pilot manifests under `pilot/` separate from formal `results/`) |
+| Contamination | Pilot data PILOT-CONTAMINATED — reusable for formal experiment: NO (default) |
+| Safety | 12 manifests with `pilot=true formal=false`; no Ṛta modification; no GitHub push; exactly one probabilistic component; no C6 |
+| Artifacts | EGER-P012-PILOT.md (`research/implementation/`), pilot_runner.py + 12 manifests (`research/experiments/EGER-EXP-001/pilot/`); EGER git commit `test: validate EGER pilot execution path` (local only) |
+| Status | PASS |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.
