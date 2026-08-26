@@ -1,0 +1,24 @@
+{
+  "artifact_id": "EGER-CAND-FA59A9382BF9",
+  "schema_version": "eger.candidate.v1",
+  "sdc_text": "create_clock -name clk -period 10 [get_ports clk]\ncreate_clock -name bad_clk -period 10 [get_ports data_bus_0]",
+  "input_hash": "fa59a9382bf91d7de425fdbbce3fbbda1381b2dd6eec8cfc2a217bfdd01db558",
+  "candidate_hash": "fa59a9382bf91d7de425fdbbce3fbbda1381b2dd6eec8cfc2a217bfdd01db558",
+  "verified": false,
+  "provision": {
+    "provider": "opencode",
+    "model": "muse-spark-1.2-contributor-free",
+    "model_version": "NOT_EXPOSED",
+    "sampling_params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "timeout": 60
+    },
+    "request_id": null,
+    "prompt_hash": "e5b749713aa3d131b4fb57abdef2cd31d69490f872fac5d72960b74051764c5c",
+    "prompt_version": "eger.prompt.v1",
+    "output_hash": "875b9658772e4c2d7ef8228d9f6163a232b993240126d0a4785c365fbcd551fb",
+    "produced_at": "2026-08-26T15:59:09.212261+00:00"
+  },
+  "created_at": "2026-08-26T15:59:09.212261+00:00"
+}

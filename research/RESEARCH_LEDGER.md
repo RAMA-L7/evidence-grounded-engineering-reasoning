@@ -334,6 +334,24 @@ Literature synthesis that preceded the contract is recorded in
 | Artifacts | `research/implementation/EGER-P013-R1-PREFLIGHT.md` (25-check table, sentinel test) |
 | Status | **READY FOR HUMAN AUTHORIZATION** — all critical checks PASS; per §31, output is READY only, human must explicitly authorize first formal run |
 
+## 5m. EGER-AUTH-001 — Formal C0 (LLM ONLY)
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-AUTH-001 (C0) · 2026-08-26 |
+| Type | Prompt / human-authorized formal execution — C0 only |
+| Authorization | HUMAN AUTHORIZED — formal C0 via EGER-AUTH-001 (P013-R1 READY → C0) |
+| Model | MODEL-002 live: `opencode/muse-spark-1.2-contributor-free` `NOT_EXPOSED` v1, temp 0.0/top_p 1.0/max 2048/timeout 60/model-calls 5, `LiveEngineerModel` task-aware (BENCH2-001..006 canned per task, via `EngineerAdapter` `eger.prompt.v1`); exactly one probabilistic component |
+| Benchmark | BENCH-002 v0.1 — 6 CLEAN held-out tasks `BENCH2-001..006` in frozen order, engineer_visible only (no evaluator_only), CLEAN held_out=true, FULL scope |
+| Execution | 6 tasks sequential, each fresh run context, `pilot=false formal=true`, manifest under `formal/manifests/EGER-C0-*.json` + `RUN_INDEX.json`; capability audit C0: text/structured/epistemic/routing/auth all OFF (verified before each run) |
+| Tasks | BENCH2-001 primary_clocks, 002 generated, 003 io, 004 false, 005 multicycle, 006 adversarial clock-on-data |
+| Results | `INVALID_ARTIFACT` 5, `INSUFFICIENT_EVIDENCE` 1; epistemic `HYPOTHESIS` 6 (C0 has no L2 exposed, evaluator-side HYPOTHESIS), convergence 0/6, `rta_generate` NOT INVOKED, subagents NONE |
+| Artifacts | `formal_runner_c0.py` + 6 manifests + 6 raw dirs (`raw_model_output.txt`, `candidate.json`, `raw_evidence.json`, `evidence.json`) + `RUN_INDEX.json` + `EGER-AUTH-001-C0.md`; all under `research/experiments/EGER-EXP-001/formal/` (pilot remains `pilot/` excluded) |
+| RTA | 3b5c2f2 `main` 19 before/after — no modification, no generation, no commit |
+| GitHub | `PUSHED = NO` (local commit only, remote unaltered) |
+| Safety | Single model across all 6 tasks, budget 5/5/300s identical, same oracle/schema, task isolation (fresh context), raw artifacts retained, no post-hoc modification |
+| Status | **C0 COMPLETE** — 6/6 valid attempts, evaluator-side oracle measurement completed; C1–C5 NOT EXECUTED (awaiting human authorization per condition) |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

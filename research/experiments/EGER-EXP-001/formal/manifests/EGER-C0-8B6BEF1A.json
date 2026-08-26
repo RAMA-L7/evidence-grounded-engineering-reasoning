@@ -1,0 +1,33 @@
+{
+  "run_id": "EGER-C0-8B6BEF1A",
+  "experiment_version": "EGER-EXP-001 v0.1",
+  "benchmark_version": "EGER-BENCH-002 v0.1",
+  "model_id": "EGER-MODEL-002",
+  "condition": "C0",
+  "task_id": "BENCH2-005",
+  "prompt_version": "eger.prompt.v1",
+  "oracle_revision": "3b5c2f2",
+  "schema_versions": {
+    "candidate": "eger.candidate.v1",
+    "evidence": "eger.evidence.v1",
+    "epistemic": "eger.epistemic.v1"
+  },
+  "start_timestamp": "2026-08-26T15:59:08.772407+00:00",
+  "end_timestamp": "2026-08-26T15:59:09.212261+00:00",
+  "iteration_limit": 5,
+  "model_call_limit": 5,
+  "oracle_call_limit": 5,
+  "model_call_count": 1,
+  "candidate_hash": "b942044add496e5d920576b55f35e10f12419cbd4bad49de15e7f6e1a1bdd766",
+  "raw_output_hash": "816ddac463cf5df909f0f3915917329a4bd10fa77e87e9558f69292e6fe7306d",
+  "evidence_hash": "9ffb2cbbfd0f1a7a97bbf158f65b3d2ecdf4ec9bb1a18859e81f8a9d5c0d1f88",
+  "epistemic_transitions": [],
+  "authorization_decisions": [],
+  "final_epistemic_state": "HYPOTHESIS",
+  "final_authorization": null,
+  "final_outcome": "INVALID_ARTIFACT",
+  "failure_class": "INVALID_ARTIFACT",
+  "completion_status": "COMPLETED",
+  "pilot": false,
+  "formal_experiment": true
+}

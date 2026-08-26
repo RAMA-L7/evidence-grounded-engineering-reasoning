@@ -1,0 +1,4 @@
+```sdc
+create_clock -name clk -period 10 [get_ports clk]
+set_multicycle_path -setup 2 -from [get_pins pipe_reg1/Q] -to [get_pins pipe_reg2/D]
+```

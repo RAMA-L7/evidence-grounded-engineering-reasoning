@@ -1,0 +1,4 @@
+```sdc
+create_clock -name clk -period 10 [get_ports clk]
+create_generated_clock -name clk_div2 -source [get_ports clk] -divide_by 2 [get_pins div_reg/Q]
+```

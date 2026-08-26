@@ -1,24 +1,24 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P013-R1)
+Last updated: 2026-08-26 (EGER-AUTH-001 C0)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
-| Current phase | **Phase 1 — P013-R1 READY FOR HUMAN AUTHORIZATION (25-check gate PASS, MODEL-002 + BENCH-002 FROZEN v0.1, RTA 3b5c2f2, 47/47 deterministic) — formal C0–C5 NOT YET EXECUTED.** |
+| Current phase | **Phase 1 — C0 COMPLETE (6/6 tasks, LLM ONLY, 47+6 formal manifests) — awaiting human authorization for C1.** |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
 | Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
 | Current architecture | **EGER-ARCH-002** (recommended; pending formal implementation authorization) |
-| Primary experiment | C0–C5 controlled ablation — defined, not run |
-| Engineering extension | C6 specialized subagents — deferred until after C0–C5 evaluation |
+| Primary experiment | **C0 COMPLETE (6/6, LLM ONLY), C1–C5 NOT EXECUTED** — controlled ablation, frozen `EXP-001 v0.1` |
+| Engineering extension | C6 specialized subagents — deferred until after C0–C5 evaluation (still deferred) |
 | Oracle | External deterministic Ṛta v1.5.11 (`rta-constraint-intelligence`), **runtime characterization complete** (EGER-ORACLE-002); CLI/MCP byte-determinism & scope live at runtime verified; adapter **IMPLEMENTED (P008)** |
 | Oracle runtime evidence | Raw outputs at `research/oracle/runtime/` (untracked pending retention policy) |
-| Implementation status | **L1/L2/L3 + single LLM proposal layer IMPLEMENTED** (P008+P009+P010, 47/47 PASS); no C0–C5/C6 yet |
+| Implementation status | **L1/L2/L3 + LLM proposal layer (47/47) + C0 formal (6/6, LLM ONLY) IMPLEMENTED**; C1–C5/C6 not yet |
 | Subagent status | Not implemented — single Engineer only (fake), C6 deferred |
-| Experiment status | **Protocol frozen (EXP-001 v0.1)** — no formal C0–C5 runs executed (P011 gate, 0 runs) |
-| Benchmark status | **BENCH-001 v0.1 provisional freeze** (19 artifacts at 3b5c2f2, small, no held-out — formal BENCH-002 pending) |
-| Model status | **MODEL-001 control frozen** (FakeEngineerModel v1.0, deterministic); live MODEL-002 NOT frozen (documented limitation) |
+| Experiment status | **C0 COMPLETE (6/6 held-out, formal, LLM ONLY)** — C1–C5 NOT EXECUTED (await human auth per condition) |
+| Benchmark status | **BENCH-002 v0.1 FROZEN** (6 CLEAN held-out, evaluator_only separated, formal C0 used BENCH2-001..006) + BENCH-001 provisional |
+| Model status | **MODEL-002 FROZEN** (`opencode/muse-spark-1.2-contributor-free` `NOT_EXPOSED`, LiveEngineerModel task-aware, temp 0.0) — used identically for all 6 C0 tasks |
 | Prompt status | **PROMPT-001 frozen** (`eger.prompt.v1` neutral, versioned, hashed) |
 | Research ledger | Established by EGER-P004; version-controlled since P005; P006–P014 recorded |
 | Pilot (P012) | **PASS** — 12 pilot runs (3 tasks × 4 conditions), pilot=true, 0 formal results, 2 informational findings |
@@ -80,8 +80,20 @@ Last updated: 2026-08-26 (EGER-P013-R1)
 
 ## Next authorized step
 
-`P013-R1` is **READY FOR HUMAN AUTHORIZATION** (25-check gate PASS, MODEL-002 + BENCH-002 FROZEN v0.1, information boundary proven via sentinel).
-The single next step is **human authorization of the first formal C0–C5 run** — no further pre-flight needed.
+C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged) — awaiting **human authorization for C1**. Do not proceed automatically.
+
+## C0 Verification (EGER-AUTH-001)
+
+- Model: MODEL-002 live `opencode/muse-spark-1.2` task-aware, temp 0.0, `eger.prompt.v1`, budget 5 — identical for all 6 tasks
+- Benchmark: BENCH-002 v0.1 6 CLEAN held-out in frozen order BENCH2-001..006, engineer_visible only, no model performance-based selection
+- Only one probabilistic component (LiveEngineerModel) — no second LLM/subagent
+- Information boundary: C0 prompt contains only design_context/objective, no text/structured evidence/epistemic/routing/auth (verified before each run, no CAPABILITY_LEAKAGE)
+- Task isolation: fresh run context per task (no previous output leakage)
+- Raw artifacts: 6 manifests + 6 raw dirs (raw_model_output, candidate.json, raw_evidence.json, evidence.json) + RUN_INDEX.json under `formal/`, pilot remains `pilot/` excluded
+- RTA: 3b5c2f2 main 19 before/after — no modification, `rta_generate` NOT INVOKED
+- Reproducibility: analysis run twice → identical aggregate (`INVALID 5, INSUFFICIENT 1`, `HYPOTHESIS` 6)
+- Formal/pilot separation: `pilot=false formal=true` vs pilot `pilot=true`; no mixing
+- Next: **human review of C0 before C1**
 
 ## Pre-Flight Verification (P013-R1)
 
@@ -133,6 +145,8 @@ The single next step is **human authorization of the first formal C0–C5 run** 
 - `research/experiments/EGER-BENCH-002-CONSTRUCTION.md`
 - `research/experiments/EGER-BENCH-002/tasks/engineer_visible/` (6)
 - `research/experiments/EGER-BENCH-002/evaluator_only/` (6 hidden)
+- `research/implementation/EGER-AUTH-001-C0.md` (C0 formal, 6 tasks)
+- `research/experiments/EGER-EXP-001/formal/` (6 manifests + RUN_INDEX + raw artifacts, formal=true)
 
 ## Verification (P011)
 
