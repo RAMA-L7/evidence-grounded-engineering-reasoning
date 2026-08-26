@@ -1,5 +1,7 @@
 # EGER-C0-REVIEW-001 — Strictly Read-Only Scientific Review
 
+**⚠️ SUPERSEDED BY EGER-C0-REVIEW-001-R1** — This version overclaimed conclusions. See R1 for corrected assessment.
+
 **Prompt ID:** EGER-C0-REVIEW-001
 **Date:** 2026-08-26
 **Type:** Read-only scientific review — NO code changes, NO benchmark changes, NO C1, NO Ṛta modifications

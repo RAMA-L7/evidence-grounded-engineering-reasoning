@@ -1,6 +1,6 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-C0-REVIEW-001 scientific review)
+Last updated: 2026-08-26 (EGER-C0-REVIEW-001-R1 revised scientific review)
 
 | Item | Status |
 |---|---|
@@ -97,24 +97,28 @@ Last updated: 2026-08-26 (EGER-C0-REVIEW-001 scientific review)
 C0                    ✓ COMPLETE
 C0 evidence           ✓ PRESERVED
 C0 checkpoint         ✓ PRESERVED
-C0 review             ✓ COMPLETE (INSUFFICIENT scope NOT a confounder)
+C0 review (R1)       ✓ COMPLETE (documented limitation, confound status open)
 GitHub                ✓ PUSHED (PRIVATE)
 Benchmark exposure    ⚠ COMPROMISED (remediated to PRIVATE)
-C1                    ⏸ READY FOR HUMAN AUTHORIZATION
+C1                    ⏸ REQUIRES HUMAN AUTHORIZATION
 Ṛta                   ✓ UNTOUCHED
 ```
 
-## C0 Review (EGER-C0-REVIEW-001)
+## C0 Review (EGER-C0-REVIEW-001-R1)
 
-- **Central question answered:** INSUFFICIENT oracle scope is NOT a confounder. C0 correctly measures LLM proposal quality, oracle error detection, and the INSUFFICIENT→FULL gap.
-- **6 findings:** 0 BLOCKING, 0 MAJOR, 1 INFORMATIONAL (BENCH2-005 PARTIAL scope).
-- **C1 readiness:** READY — INSUFFICIENT scope feedback is still feedback; C1 can test whether it helps.
+- **Central question:** INSUFFICIENT oracle scope — not established as a confounder, but also not proven absent as one.
+- **C0 status:** VALID BASELINE with documented limitations.
+- **Oracle scope:** ACCEPTABLE WITH DOCUMENTED LIMITATION.
+- **Key separation preserved:** ORACLE EXECUTION SUCCESS ≠ EVIDENCE SUFFICIENCY INSUFFICIENT ≠ EPISTEMIC STATE HYPOTHESIS ≠ AUTHORIZATION REJECTED.
+- **C1 confound question:** If INSUFFICIENT scope feedback is not actionable, C1 may be testing reaction to oracle limitations rather than engineering evidence. Open question.
+- **C1 readiness:** REQUIRES HUMAN AUTHORIZATION — confound question to be monitored during C1.
 - **Protocol compliance:** All 30 sections verified. No deviations.
-- **Documentation:** `research/implementation/EGER-C0-REVIEW-001.md`
+- **Overclaims corrected:** Original R0 overclaimed conclusions; R1 corrected (oracle "validates" → "executed successfully"; "5/6 correct" → "task-level plausibility ≠ deterministic validation"; "NOT a confounder" → "not established as confounder, not proven absent").
+- **Documentation:** `research/implementation/EGER-C0-REVIEW-001-R1.md` (R0: `EGER-C0-REVIEW-001.md` superseded)
 
 ## Next authorized step
 
-C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). C0 **REVIEWED** — INSUFFICIENT scope not a confounder. GitHub **PUSHED** (`0c4eccc`). **Repository PRIVATE.** Benchmark exposure contained. **C1 is READY for human authorization.** Do not proceed automatically.
+C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). C0 **REVIEWED (R1)** — valid baseline with documented limitations; confound status open. GitHub **PUSHED** (`0c4eccc`). **Repository PRIVATE.** Benchmark exposure contained. **C1 REQUIRES HUMAN AUTHORIZATION.** Do not proceed automatically.
 
 ## C0 Verification (EGER-AUTH-001)
 
@@ -183,7 +187,8 @@ C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). C
 - `research/implementation/EGER-GIT-001.md` (C0 provenance checkpoint)
 - `research/implementation/EGER-GITHUB-001.md` (GitHub release — evaluator-only exposure)
 - `research/implementation/EGER-GITHUB-002.md` (benchmark exposure remediation)
-- `research/implementation/EGER-C0-REVIEW-001.md` (C0 scientific review — read-only)
+- `research/implementation/EGER-C0-REVIEW-001.md` (C0 scientific review — read-only, SUPERSEDED by R1)
+- `research/implementation/EGER-C0-REVIEW-001-R1.md` (C0 scientific review R1 — revised, conservative conclusions)
 - `research/experiments/EGER-EXP-001/formal/` (6 manifests + RUN_INDEX + raw artifacts, formal=true)
 
 ## Verification (P011)

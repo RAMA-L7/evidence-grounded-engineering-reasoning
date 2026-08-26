@@ -422,18 +422,34 @@ Literature synthesis that preceded the contract is recorded in
 | ID / Date | EGER-C0-REVIEW-001 · 2026-08-26 |
 | Type / Purpose | Read-only scientific review — answer: does C0 measure what EGER claims, or is INSUFFICIENT scope a confounder? |
 | Central question | Does our C0 baseline actually measure what EGER claims to measure, or is the INSUFFICIENT oracle scope creating a confounder? |
-| Answer | **INSUFFICIENT scope is NOT a confounder.** It is a known, documented limitation that does not prevent C0 from measuring what it claims to measure. |
-| Evidence | (1) C0 measures LLM proposal quality, oracle error detection, and the INSUFFICIENT→FULL gap. All three are measured correctly. (2) Oracle detects SDC-005/006/007 correctly. (3) Adversarial case (BENCH2-006) correctly flagged SDC-007. (4) No capability leakage. (5) Protocol compliance verified across all sections. |
-| Findings | 6 findings, 0 BLOCKING, 0 MAJOR, 1 INFORMATIONAL (BENCH2-005 PARTIAL scope). |
-| C1 readiness | **READY** — INSUFFICIENT scope feedback is still feedback; C1 can test whether it helps. |
+| Answer | **⚠️ OVERCLAIMED — SUPERSEDED BY R1.** Original review stated "INSUFFICIENT scope is NOT a confounder." This was too strong for the evidence presented. |
+| Overclaims corrected | (1) "oracle successfully validates all 6 candidates" — misleading; oracle executed successfully but evidence scope was INSUFFICIENT/PARTIAL, not FULL. (2) "5/6 correct" — conflates task-level plausibility with deterministic validation. (3) "NOT a confounder" — not established by C0 alone; C1 confound question remains open. |
 | Artifacts reviewed | All 6 raw_model_output.txt, all 6 candidate.json, all 6 evidence.json, all 6 raw_evidence.json, formal_runner_c0.py, model.py task-aware mapping, EXP-001 protocol, BENCH-002 task descriptions, evaluator-only expected answers. |
-| Documentation | research/implementation/EGER-C0-REVIEW-001.md |
+| Documentation | research/implementation/EGER-C0-REVIEW-001.md (SUPERSEDED by R1) |
+| Revision | EGER-C0-REVIEW-001-R1 |
+| Status | **SUPERSEDED BY R1 — overclaimed conclusions corrected** |
+
+## 5r. EGER-C0-REVIEW-001-R1 — Revised Scientific Review
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-C0-REVIEW-001-R1 · 2026-08-26 |
+| Type / Purpose | Revised read-only scientific review — corrected overclaims from original EGER-C0-REVIEW-001 |
+| Revision reason | Original review overclaimed: (1) "oracle successfully validates" was misleading — oracle executed successfully but evidence scope was INSUFFICIENT/PARTIAL. (2) "5/6 correct" conflated task-level plausibility with deterministic validation. (3) "NOT a confounder" was too strong — C1 confound question remains open. |
+| Corrected claims | (1) Oracle executed successfully on all 6 candidates and produced deterministic findings; however, evidence scope was insufficient for full validation. (2) Task-level plausibility ≠ deterministic validation. (3) INSUFFICIENT scope is not established as a confounder, but also not proven absent as one. |
+| Key separation | ORACLE EXECUTION SUCCESS ≠ EVIDENCE SUFFICIENCY INSUFFICIENT ≠ EPISTEMIC STATE HYPOTHESIS ≠ AUTHORIZATION REJECTED |
+| C0 status | VALID BASELINE — with documented limitations |
+| Oracle scope | ACCEPTABLE WITH DOCUMENTED LIMITATION |
+| Confound status | NOT ESTABLISHED AS A CONFOUNDER / NOT PROVEN ABSENT AS A CONFOUNDER |
+| C1 readiness | REQUIRES HUMAN AUTHORIZATION — confound question to be monitored during C1 |
+| C1 confound question | If INSUFFICIENT scope feedback is not actionable, C1 may be testing reaction to oracle limitations rather than engineering evidence. Open question. |
+| Documentation | research/implementation/EGER-C0-REVIEW-001-R1.md |
 | Deletion of code | NONE — strictly read-only |
 | Modification of benchmarks | NONE |
 | Modification of model | NONE |
 | C1 execution | NONE |
 | Ṛta modification | NONE |
-| Status | **COMPLETE — C0 IS A VALID BASELINE — READY FOR C1** |
+| Status | **COMPLETE — C0 IS A VALID BASELINE WITH DOCUMENTED LIMITATIONS — C1 REQUIRES HUMAN AUTHORIZATION** |
 
 ## 6. Standing rules for future entries
 
