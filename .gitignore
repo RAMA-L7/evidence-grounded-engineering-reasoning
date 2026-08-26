@@ -1,3 +1,18 @@
 # Ṛta boundary — external read-only research subject.
 # MUST NOT enter the EGER repository (EGER-P005, EGER-ORACLE-001).
 rta-constraint-intelligence/
+
+# Python build artifacts
+__pycache__/
+*.pyc
+*.pyo
+
+# Runtime scratch (oracle probe outputs — research evidence, not committed)
+research/oracle/runtime/
+
+# Testing caches
+.pytest_cache/
+
+# Temporary files
+temporary/
+tmp/
