@@ -371,6 +371,30 @@ Literature synthesis that preceded the contract is recorded in
 | GitHub | PUSHED = NO (no remote configured; no push attempted) |
 | Status | **CHECKPOINT COMMITTED LOCALLY — PUSH NOT AUTHORIZED** |
 
+## 5o. EGER-GITHUB-001 — Public GitHub Release
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-GITHUB-001 · 2026-08-26 |
+| Type / Purpose | Public GitHub release — push EGER to public repository |
+| Authorization | HUMAN AUTHORIZED — explicit GitHub push authorization |
+| Repository | https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning |
+| Visibility | PUBLIC |
+| Remote | origin → https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning.git |
+| Branch | main |
+| Local HEAD | cd826fc |
+| Remote HEAD | cd826fc (verified) |
+| Commits pushed | All 13 commits on main (6be2314 through cd826fc) |
+| CRITICAL ISSUE | **Evaluator-only benchmark answers (6 files) exposed to public repository.** `gh repo create --push` executed push automatically before evaluator-only audit could gate the push. BENCH-002 held-out expected answers are now public. |
+| Remediation | NOT YET APPLIED — requires separate explicit authorization (make repo private, filter history, or accept exposure) |
+| Public-safe files | Research canon, architecture, oracle docs, schemas, implementation records, EGER code, tests, benchmark inputs, experiment protocol, C0 aggregate results |
+| Private-research (exposed) | C0 raw evidence (18 files — model outputs, evidence, raw evidence), evaluator-only answers (6 files — benchmark expected answers) |
+| Excluded | 15 literature PDFs (untracked), __pycache__ (gitignore), research/oracle/runtime/ (gitignore), Ṛta (gitignore) |
+| Secret scan | No secrets found (grep false positives in documentation) |
+| Ṛta boundary | INTACT — HEAD 3b5c2f2 main 19 before/after; 0 paths in git ls-files |
+| Documentation | research/implementation/EGER-GITHUB-001.md |
+| Status | **PUSHED — EVALUATOR-ONLY EXPOSURE REQUIRES REMEDIATION DECISION** |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.
