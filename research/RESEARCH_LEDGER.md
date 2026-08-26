@@ -195,6 +195,21 @@ Literature synthesis that preceded the contract is recorded in
 | Relationship | ORACLE-001 preserved (static); ORACLE-002 extends it (runtime). ARCH-002 unchanged. DEC-006 unweakened (`rta_generate` not invoked). |
 | Status | COMPLETE within authorization scope; no adapter/implementation/contract change |
 
+## 5d. EGER-P007 — EvidenceOracle Contract & Typed Schema Freeze
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P007 · 2026-08-26 |
+| Type | Prompt / controlled research specification (contract freeze) |
+| Purpose | Freeze the conceptual EvidenceOracle boundary and typed artifact schemas before any implementation, using only ORACLE-001/002 evidence — no new Ṛta runs |
+| Inputs | EGER v0.2 · ARCH-002 (DEC-005/006/007) · ORACLE-001 (static) · ORACLE-002 (runtime, byte-identical determinism + live trust scope + MCP handshake) |
+| Ṛta interaction | None new (strictly read-only; no files created inside Ṛta; no execution beyond P006 evidence) |
+| Decisions | Minimal interface frozen: REQUIRED `validate` + `capabilities` + declarative `evidence_schema`; OPTIONAL `analyze_enriched`/snapshot/diff; REJECTED lint-fix/convert/corners/web. FROZEN normalization rules A–L (§12 of contract), P6 scope-preservation enum FULL/PARTIAL/INSUFFICIENT/UNSUPPORTED, OracleFailure vs engineering-finding distinction, RawEvidence+EvidenceArtifact dual retention, hash trio + timestamp-as-provenance policy |
+| Resulting artifacts | **EGER-ORACLE-CONTRACT-001** (`research/oracle/EGER-EVIDENCE-ORACLE-CONTRACT.md`) · **EGER-SCHEMA-001** (`research/schemas/EGER-ARTIFACT-SCHEMAS.md`) |
+| Unknowns preserved | Exit 2/3 runtime-trigger gap stays PROVISIONAL; finding_identity emission contexts; netlist-aware mode; canonical-json ordering choice for evidence_hash |
+| Implementation boundary | No *.py/*.ts, no adapter, no agents, no gates, no experiments authorized or created |
+| Status | COMPLETE within authorization scope; contract v0.2 NOT modified |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

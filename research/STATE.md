@@ -1,11 +1,11 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P006)
+Last updated: 2026-08-26 (EGER-P007)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
-| Current phase | Phase 0 closing: traceability foundation + version-controlled baseline + **Ṛta runtime characterization complete**. Phase 1 preparation. |
+| Current phase | Phase 0 closing: traceability foundation + version-controlled baseline + **Ṛta runtime characterization + EvidenceOracle contract & schema freeze complete**. Phase 1 preparation. |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
 | Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
@@ -18,8 +18,11 @@ Last updated: 2026-08-26 (EGER-P006)
 | Subagent status | Not implemented |
 | Experiment status | Not started |
 | Benchmark status | Not frozen (does not exist yet) |
-| Research ledger | Established by EGER-P004; version-controlled since P005; P006 recorded |
+| Research ledger | Established by EGER-P004; version-controlled since P005; P006–P007 recorded |
 | Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded |
+| EvidenceOracle contract | **EGER-ORACLE-CONTRACT-001** FROZEN/PROVISIONAL per matrix (see §20 of contract doc) |
+| Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — additive extensions provisional |
+| Provenance / determinism | Hash trio (input/raw/evidence) + timestamp-as-provenance FROZEN; byte-identical determinism observed (EVID-005) |
 
 ## Two memories — explicit separation
 
@@ -61,8 +64,8 @@ Last updated: 2026-08-26 (EGER-P006)
 
 ## Next authorized step
 
-Await external review of EGER-ORACLE-002 and updated STATE. The single
-recommended next action after review: authorize implementation-phase prompt to
-freeze typed-artifact schemas and design the deterministic EvidenceOracle
-adapter boundary against now-verified runtime behavior — the last prerequisites
-before any C0–C5 machinery is built.
+Await external review of EGER-ORACLE-CONTRACT-001 and EGER-SCHEMA-001.
+The single recommended next action after review: authorize the first
+implementation prompt — a deterministic EvidenceOracle adapter skeleton
+(with no epistemic/gate logic yet) validated only against the frozen
+schemas and the pinned Ṛta runtime — as the implementation gate to C0–C5.
