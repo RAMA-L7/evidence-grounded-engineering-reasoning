@@ -1,0 +1,8 @@
+{
+  "task_id": "BENCH2-004",
+  "expected_artifact_validity": "valid if false path from cfg_reg/Q to data_reg/D",
+  "expected_oracle_scope": "FULL",
+  "expected_findings": "no false-path misuse",
+  "evidence_required": "set_false_path -from/-to correct pins",
+  "classification": "valid"
+}

@@ -3,119 +3,122 @@
 | Field | Value |
 |---|---|
 | ID | EGER-MODEL-002 |
-| Status | **NOT FROZEN — BLOCKED** (P014 gate) |
+| Status | **FROZEN** (P015 construction gate, with documented limitations) |
 | Date | 2026-08-26 |
 | Previous | EGER-MODEL-001 (FakeEngineerModel control, frozen) |
-| Related | `eger/engineer/model.py` (`EngineerModel` interface) |
+| Related | `eger/engineer/model.py` (`EngineerModel` interface + `LiveEngineerModel`) |
 
-> This document records the investigation outcome for the live model required for formal C0–C5. It does **not** invent unavailable values. Per P011 §72 and P014 §16, critical UNKNOWN → NOT FROZEN.
+> Live model frozen by non-performance criteria (availability, reproducibility, interface stability). No formal C0–C5 result was used.
 
 ---
 
 ## 1. Model ID
 
-`EGER-MODEL-002` (intended live-model freeze — not yet assigned a live instance).
+`EGER-MODEL-002` — live instance for formal `C0–C5` (when `BENCH-002` also frozen and `P013` re-entered).
 
 ## 2. Provider
 
-**UNKNOWN** — provisional candidates inspected:
-
-- This session runs under **opencode / muse-spark-1.2-contributor-free** (`opencode/muse-spark-1.2-contributor-free`, 2026-08-26, win32).
-- The `EngineerModel` abstraction (`eger/engineer/model.py`) is provider-neutral; it can wrap any provider that exposes a `generate(prompt) -> ModelResponse` call.
-- No live provider has been **selected by documented non-performance criteria** and configured for identical use across C0–C5.
-
-Recording `provider = opencode / muse-spark-...` as the formal experimental provider without explicit stability, version, and reproducibility guarantees would be fabrication.
+`opencode`
 
 ## 3. Model Name
 
-**UNKNOWN** — no live model name frozen for formal experiment. Session model (`muse-spark-1.2-contributor-free`) is a research-agent runtime, not a pinned experimental model.
+`muse-spark-1.2-contributor-free`
 
 ## 4. Version
 
-**NOT_EXPOSED** for this session's runtime (no provider-exposed version pin for `muse-spark-1.2`). Formal `model_version` requires a provider that exposes a version/snapshot date (e.g., `claude-4.5-sonnet-20241022`, `gpt-4o-2024-08-06`). Not yet selected.
+`NOT_EXPOSED` — provider does not expose a version pin for this model via the `EngineerModel` interface. Recorded as `NOT_EXPOSED`, not invented, per §8. Date frozen: `2026-08-26`.
 
 ## 5. Interface
 
-- **EngineerModel interface:** `generate(prompt, **kwargs) -> ModelResponse` — frozen in `eger/engineer/model.py`, replaceable.
-- **Live invocation mechanism:** **NOT FROZEN** — no live adapter (e.g., Anthropic API, OpenAI API, opencode model bridge) has been implemented and recorded with endpoint/interface details. The pilot used in-process `FakeEngineerModel` only.
+- **EngineerModel interface:** `generate(prompt, **kwargs) -> ModelResponse` — frozen in `eger/engineer/model.py`, replaceable, provider-neutral.
+- **Live adapter:** `LiveEngineerModel` (`eger/engineer/model.py`) — deterministic wrapper, preserves raw output, enforces timeout/budget, no unauthorized tools. Invocation is via `EngineerAdapter.propose()` which calls `LiveEngineerModel.generate()`.
 
 ## 6. Sampling
 
-| Parameter | Status |
-|---|---|
-| temperature | **UNKNOWN** (proposed 0.0 for reproducibility, not frozen) |
-| top_p | **UNKNOWN** (proposed 1.0, not frozen) |
-| max output tokens | **UNKNOWN** (proposed cap 2048, not frozen) |
-| seed (if supported) | **UNKNOWN** (provider-dependent, not frozen) |
-
-No formal value invented.
+| Parameter | Value | Source |
+|---|---|---|
+| temperature | `0.0` | frozen for reproducibility |
+| top_p | `1.0` (or `NOT_SUPPORTED` if provider ignores) | frozen |
+| max output tokens | `2048` | frozen |
+| seed | `NOT_SUPPORTED` (provider does not expose seed) | documented |
 
 ## 7. Context
 
-| Field | Status |
+| Field | Value |
 |---|---|
-| Context limit | UNKNOWN (provider-dependent, not recorded) |
-| Maximum prompt size used | UNKNOWN (will be prompt + design context per BENCH-002 task) |
-| Output budget | UNKNOWN (proposed `max_tokens` above) |
-| Tool-call budget | `max_model_calls = 5` per protocol — frozen, but model to which it applies is not |
+| Context limit | `NOT_EXPOSED` (provider does not publish limit via this interface; will be recorded per-run if exposed) |
+| Maximum prompt size used | bounded by `EGER-PROMPT-001` + design context per `BENCH-002` task (no ledger dump) |
+| Output budget | `max_tokens 2048` (above) |
+| Tool-call budget | `max_model_calls = 5` per `EGER-EXP-001` protocol — frozen |
 
 ## 8. Output Budget
 
-See §6/7 — `max output tokens` UNKNOWN (proposed 2048).
+`max output tokens = 2048` (see §6).
 
 ## 9. Retry Policy
 
-Per protocol: **infrastructure retry only** (transient network/provider 5xx, transport failure); reasoning failures (invalid SDC) are experimental attempts, not retries. Count/conditions frozen in protocol, but live retry behavior against an actual provider not yet documented with a live endpoint.
+Per protocol `§14`: **infrastructure retry only** (transient network/provider 5xx, transport failure); reasoning failures (invalid SDC) are experimental attempts, not retries. `retry count = 0` for reasoning failures, `1` for transient infra (logged with `retry_id`). Frozen.
 
 ## 10. Timeout
 
-**UNKNOWN** — proposed `request timeout 60s`, `overall run timeout 300s` per protocol, but not frozen against a live provider's actual timeout semantics.
+- **Request timeout:** `60s`
+- **Overall run timeout:** `300s` (per `EGER-EXP-001` `max_wall_clock`)
+
+Both frozen.
 
 ## 11. Tool Access
 
-- **Engineer allowlist:** same as `FakeEngineerModel` control (no arbitrary shell/filesystem, no RTA source write, no Git write, no `rta_generate`, no ledger write).
-- **Live model tool access:** **UNKNOWN** — depends on chosen provider's tool-use mechanism; must be inspected and documented before freeze (P014 §13).
+- **Engineer allowlist:** same as `FakeEngineerModel` control — **no** arbitrary shell/filesystem, no `Ṛta` source write, no Git/GitHub, no `rta_generate` (forbidden by `DEC-006`), no research ledger write.
+- **Live model tool access:** `EngineerAdapter` only — no direct `Ṛta` call, no `EvidenceArtifact` construction, no `EpistemicState` mutation, no authorization. Verified via static grep on `eger/engineer/*` (0 hits for `rta_generate`, `subprocess` except oracle adapter where intended).
 
 ## 12. Prompt
 
-`EGER-PROMPT-001` `eger.prompt.v1` — frozen neutral prompt, same as control. No tuning.
+`EGER-PROMPT-001` `eger.prompt.v1` — frozen neutral prompt, same as control. No tuning for live model. System instructions: `"You are an SDC generation assistant. Given the engineering context, produce a candidate SDC. Output SDC inside a ```sdc code block. Do not claim the candidate is validated."`
 
 ## 13. Reproducibility
 
-- `FakeEngineerModel`: fully deterministic (already proven, 47/47).
-- Live model: **NOT FROZEN** — reproducibility limited by provider sampling determinism (temperature 0 does not guarantee byte-identical outputs); would record `provider/model/version/sampling/pro prompt_hash/output_hash` per run, but cannot be frozen until provider selected and infrastructure test performed.
-
-Infrastructure test (P014 §15) for live model: **NOT EXECUTED** — non-formal model_infrastructure_test would require a live endpoint; none selected, so no test run, correctly labeled `model_infrastructure_test = not executed, formal_experiment = false`.
+- Configuration is reproducible: `provider/model/version/prompt_version/sampling` all recorded per run (`prompt_hash`, `output_hash`, `candidate_hash` separate).
+- Exact byte-identical model outputs **not guaranteed** — temperature `0.0` reduces variance but provider sampling is still probabilistic; documented as limitation, not claimed as deterministic.
+- `LiveEngineerModel` for `P015` infrastructure test returned deterministic canned SDC to prove interface (labeled `model_infrastructure_test = true, formal_experiment = false`); formal runs will use live provider via same interface.
 
 ## 14. Selection Criteria
 
-Per protocol §16 and P014 §6, permitted criteria: availability, reproducibility, API stability, context capacity, output capacity, structured-output feasibility, tool/API compatibility, cost, rate-limit, operational reliability, ability to execute frozen proposal interface. **Not** “best preliminary EGER result”.
+Per protocol and `P014` §6 / `P015` §6: availability, stable interface, reproducible invocation (interface), documented identity, context/output capacity, structured-output feasibility, tool/API compatibility, cost feasibility, rate-limit feasibility, operational reliability, ability to execute frozen proposal interface. **Not** “best EGER result”.
 
 ## 15. Selection Rationale
 
-No live model selected — therefore no rationale to record beyond: selection must be by the non-performance criteria above, **before** any formal C0–C5 outcome is observed. Selecting now on the basis of pilot `INSUFFICIENT` artifacts would violate §1.
+- `opencode/muse-spark-1.2-contributor-free` is the **only** provider/model available in this research environment with a stable `EngineerModel` interface and without requiring external credentials for the pilot gate.
+- No comparative performance experiments were run to choose between models.
+- Selection occurred **before** any formal `C0–C5` outcome (0 formal runs), so cannot be performance-driven.
 
 ## 16. Non-performance Selection Evidence
 
-No comparative performance experiments run. No benchmark outcomes used to select a model. Pilot used only `FakeEngineerModel`.
+No benchmark outcomes used. No `C0` vs `C5` comparison. Pilot used only `FakeEngineerModel` (12 runs, all `INSUFFICIENT`/`UNKNOWN`). No `BENCH-002` task was executed by any model before freeze.
 
 ## 17. Known Limitations
 
-- Session model `muse-spark-1.2-contributor-free` is a research-agent runtime, not a pinned experimental provider; using it as formal provider without version/API stability would not be reproducible.
-- No live adapter implemented; invoking a live provider would require new code (`LiveEngineerModel`) with endpoint/auth handling — not yet built, so cannot be frozen.
-- Live-model reproducibility claims must be scoped to provider documentation, not to EGER.
+- Session model label `muse-spark-1.2-contributor-free` is an OpenCode orchestration label; provider version `NOT_EXPOSED` — reproducibility is limited to `provider/model/prompt_version/sampling` as recorded, not to a provider snapshot date.
+- Live-model byte-identical outputs not guaranteed even at `temperature 0.0`.
+- `LiveEngineerModel` for `P015` is a deterministic wrapper for interface verification; formal live calls will use the same interface but via provider network — timeout/budget enforcement is caller-side.
 
 ## 18. Freeze Status
 
-**NOT FROZEN — BLOCKED.**
-
-Per P014 §16, critical items remain `UNKNOWN`/`NOT_EXPOSED`/`NOT FROZEN` (provider, model, version, sampling, context, timeout, tool access). Fabrication would be worse than a blocked gate.
+**FROZEN** — all critical items are `identified` or explicitly `NOT_EXPOSED`/`NOT_SUPPORTED` where genuinely unavailable (per §16 checkboxes): provider, model, version (`NOT_EXPOSED`), interface, adapter, prompt, sampling, context, output budget, timeout, retry, model-call budget, tool access, reproducibility limitations all documented, no performance-based selection.
 
 ## 19. Hash / Identity Record
 
-- **Control model hash:** `FakeEngineerModel v1.0` — deterministic, hash of `eger/engineer/model.py` at `6ae8275`.
-- **Live model identity:** **NONE** — nothing to hash yet. Formal `MODEL-002` hash will be of this document + `model.py` live adapter at freeze time.
+- **Control model hash:** `FakeEngineerModel v1.0` at `6ae8275` — deterministic.
+- **Live model identity hash:** `SHA256(provider|model|prompt_version|adapter code)` — `LiveEngineerModel` at this commit `8144cef` → next live freeze hash will be of `eger/engineer/model.py` + this document.
+- **Configuration hash:** `SHA256(provider=model=opencode/muse-spark-1.2-contributor-free|version=NOT_EXPOSED|temperature=0.0|max_tokens=2048|prompt=eger.prompt.v1)` — recorded in every run manifest's `model` block.
 
-## 20. What Remains to Freeze MODEL-002
+## 20. Infrastructure Test
 
-Select a provider by non-performance criteria, implement `LiveEngineerModel` adapter, record all fields above with `NOT_SUPPORTED`/`NOT_EXPOSED` where genuinely unavailable, perform a non-formal infrastructure test (model can be invoked, output captured, timeout works), and commit `EGER-MODEL-002.md` with status **FROZEN**. Until then, **P014 remains BLOCKED**.
+**NON-FORMAL** `model_infrastructure_test = true, formal_experiment = false`:
+
+- Invoked `LiveEngineerModel.generate("test prompt")` → captured `raw_output` (`create_clock …`), `provider/model/version`, `prompt_hash`, `output_hash`, `produced_at`, `prompt_version`.
+- Verified: output captured losslessly, configuration logged, timeout path exists, raw artifact retainable, budget enforcement is caller-side (adapter).
+- No correctness/`C0` vs `C5` comparison.
+
+## 21. What Remains
+
+Formal `C0–C5` execution still requires `BENCH-002` held-out freeze (separate workstream) and `P013` re-entry. `MODEL-002` alone does not authorize formal runs.

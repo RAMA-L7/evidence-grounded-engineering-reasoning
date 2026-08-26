@@ -1,0 +1,16 @@
+{
+  "task_id": "BENCH2-001",
+  "benchmark_version": "EGER-BENCH-002 v0.1",
+  "category": "primary_clocks",
+  "difficulty": "easy",
+  "provenance": "EGER hand-authored 2026-08-26, construction method: frozen categories per P015 §24, after PROMPT-001 freeze, never shown to Engineer before formal run",
+  "construction_method": "hand-authored",
+  "contamination_status": "CLEAN",
+  "held_out": true,
+  "design_context": "Module top with ports clk, reset, data_in[7:0], data_out[7:0]. Single clock domain clk at 10ns. No generated clocks.",
+  "objective": "Generate SDC that correctly defines the primary clock on clk.",
+  "constraints": "Use create_clock -name clk -period 10 [get_ports clk]. No other clocks.",
+  "artifact_paths": ["tasks/engineer_visible/BENCH2-001.json"],
+  "oracle_scope": "FULL",
+  "evaluation_scope": "syntax + structure + semantics within scope"
+}

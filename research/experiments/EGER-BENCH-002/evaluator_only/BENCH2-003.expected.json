@@ -1,0 +1,8 @@
+{
+  "task_id": "BENCH2-003",
+  "expected_artifact_validity": "valid if input/output delays present",
+  "expected_oracle_scope": "FULL",
+  "expected_findings": "no SDC-005/006 missing delays if delays present",
+  "evidence_required": "set_input_delay + set_output_delay",
+  "classification": "valid"
+}

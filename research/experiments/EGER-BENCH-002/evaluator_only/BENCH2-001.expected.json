@@ -1,0 +1,8 @@
+{
+  "task_id": "BENCH2-001",
+  "expected_artifact_validity": "valid if create_clock on clk with period 10 and no clock on data",
+  "expected_oracle_scope": "FULL",
+  "expected_findings": "no SDC-007, no duplicate clock",
+  "evidence_required": "create_clock present",
+  "classification": "valid"
+}

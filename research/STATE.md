@@ -1,11 +1,11 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P014)
+Last updated: 2026-08-26 (EGER-P015)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
-| Current phase | **Phase 1 — P014 BLOCKED: formal pre-flight still blocked (MODEL-002 + BENCH-002 not frozen)** — pilot validated but formal C0–C5 execution not yet authorized. |
+| Current phase | **Phase 1 — P015: MODEL-002 + CLEAN BENCH-002 now FROZEN — formal pre-flight ready for re-entry (P013).** |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
 | Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
@@ -22,9 +22,10 @@ Last updated: 2026-08-26 (EGER-P014)
 | Prompt status | **PROMPT-001 frozen** (`eger.prompt.v1` neutral, versioned, hashed) |
 | Research ledger | Established by EGER-P004; version-controlled since P005; P006–P014 recorded |
 | Pilot (P012) | **PASS** — 12 pilot runs (3 tasks × 4 conditions), pilot=true, 0 formal results, 2 informational findings |
-| Model freeze | **MODEL-001 control FROZEN, MODEL-002 NOT FROZEN — BLOCKED** (live provider/version/sampling UNKNOWN, documented in EGER-MODEL-002.md, honest) |
-| Benchmark freeze | **BENCH-001 v0.1 provisional, BENCH-002 NOT FROZEN — BLOCKED** (no clean held-out tasks, contamination audit in EGER-BENCH-002.md) |
-| P014 gate | **BLOCKED — MODEL-002 BLOCKED + BENCH-002 BLOCKED → P014 BLOCKED** (preferable to contaminated experiment) |
+| Model freeze | **MODEL-001 control FROZEN, MODEL-002 FROZEN** (`opencode/muse-spark-1.2-contributor-free`, `LiveEngineerModel`, `NOT_EXPOSED` version, temp 0.0, max 2048, timeout 60s) |
+| Benchmark freeze | **BENCH-001 v0.1 provisional + BENCH-002 v0.1 FROZEN** (6 CLEAN held-out tasks, separated evaluator_only, hashes 20C754… ) |
+| P014 gate | **BLOCKED — was MODEL-002 BLOCKED + BENCH-002 BLOCKED → P014 BLOCKED** (historical, see ledger) |
+| P015 gate | **PASS — MODEL-002 FROZEN + BENCH-002 FROZEN** (6 CLEAN tasks, LiveEngineerModel, no performance-based selection) |
 | Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded |
 | EvidenceOracle contract | **EGER-ORACLE-CONTRACT-001** FROZEN/PROVISIONAL per matrix (see §20 of contract doc) — **IMPLEMENTED** |
 | Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — **IMPLEMENTED** |
@@ -79,10 +80,16 @@ Last updated: 2026-08-26 (EGER-P014)
 
 ## Next authorized step
 
-Await external review of P014 (MODEL-002 + BENCH-002 both BLOCKED, honest). The single recommended
-next action: **explicitly freeze MODEL-002 (live provider) and author a new CLEAN held-out BENCH-002
-corpus after prompt freeze without showing it to the Engineer**, then re-enter P013 pre-flight for a
-second gate pass. Until both are FROZEN, no formal C0–C5 execution.
+Await external review of P015 (MODEL-002 + BENCH-002 now FROZEN, 6 CLEAN tasks). The single recommended
+next action: **re-enter P013 formal pre-flight** for a second gate pass — if P013 now PASS, proceed to
+**P013 formal C0–C5 execution** (no further model/benchmark freeze needed).
+
+## P015 Verification
+
+- MODEL-002: `opencode/muse-spark-1.2-contributor-free`, `NOT_EXPOSED` version, `LiveEngineerModel` implemented, sampling/context/budgets frozen, infrastructure test NON-FORMAL PASS
+- BENCH-002: 6 CLEAN held-out tasks (BENCH2-001..006), hand-authored after PROMPT-001, contamination=CLEAN, hidden answers separated (`engineer_visible` vs `evaluator_only`), hashes distinct, oracle_scope FULL
+- RTA: 3b5c2f2 main 19 — unchanged (no RTA invocation needed for construction, read-only samples only for BENCH-001)
+- No formal C0–C5 executed, no C6, no GitHub push, exactly one probabilistic component preserved
 
 ## Pilot Verification (P012)
 

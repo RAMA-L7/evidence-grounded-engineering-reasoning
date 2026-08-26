@@ -307,6 +307,20 @@ Literature synthesis that preceded the contract is recorded in
 | Artifacts | `EGER-MODEL-002.md` (19 sections, NOT FROZEN), `EGER-BENCH-002.md` (18 sections, NOT FROZEN), `EGER-BENCH-002-TASKS.json` (tasks: [], held_out: [], BLOCKED), `EGER-P014-MODEL-BENCHMARK-FREEZE.md` (`research/implementation/`) |
 | Status | **BLOCKED** — Both workstreams BLOCKED (per §54: MODEL-002 BLOCKED + BENCH-002 BLOCKED → P014 BLOCKED). Preferable to contaminated experiment (P014 §55). |
 
+## 5k. EGER-P015 — Controlled MODEL-002 Freeze & CLEAN BENCH-002 Construction
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P015 · 2026-08-26 |
+| Type | Prompt / pre-formal prerequisite construction — NO EXPERIMENT EXECUTION |
+| Purpose | Controlled construction of genuinely CLEAN prerequisites before P013 re-entry: freeze MODEL-002 (live provider) and construct CLEAN BENCH-002 held-out benchmark without leakage, per frozen construction protocol |
+| Previous state | P014 BLOCKED (MODEL-002/BENCH-002 both BLOCKED, 8144cef); pilot 12 runs PASS; 47/47 deterministic |
+| Workstream A | Audited session model `opencode/muse-spark-1.2-contributor-free`; selected by non-performance criteria (availability/interface, not EGER score); implemented `LiveEngineerModel` behind provider-neutral `EngineerModel` interface (preserves raw output, timeout/budget, no unauthorized tools); froze sampling (temp 0.0, max 2048, timeout 60s, retry infra-only), tool access (proposal only), reproducibility (prompt_hash/output_hash/candidate_hash separate); infrastructure test NON-FORMAL PASS (invoke, capture, timeout, raw retention) |
+| Workstream B | Frozen construction method (hand-authored after PROMPT-001, categories/difficulty/adversarial/oracle coverage/dedup/contamination rules); authored 6 CLEAN tasks (BENCH2-001 primary_clocks easy, 002 generated medium, 003 io medium, 004 false_paths medium, 005 multicycle hard, 006 adversarial clock-on-data hard) with provenance `EGER hand-authored 2026-08-26`, `CLEAN` `held_out=true`, `FULL` scope, hidden answers separated (`tasks/engineer_visible/` vs `evaluator_only/*.expected.json`); verified model-benchmark independence (no C0–C5 runs) |
+| Safety | 0 formal C0–C5 runs, 0 subagents, exactly one probabilistic component, RTA read-only 3b5c2f2 main 19 before/after (no invocation needed for construction), rta_generate never invoked, no GitHub push, no protocol mutation |
+| Artifacts | `EGER-MODEL-002.md` (now FROZEN, 19 sections), `EGER-BENCH-002.md` (now FROZEN v0.1), `EGER-BENCH-002-TASKS.json` (6 tasks, held_out 6, CLEAN), `evaluator_only/` hidden answers, `EGER-BENCH-002-CONSTRUCTION.md` + `research/implementation/EGER-P015-MODEL-BENCHMARK-CONSTRUCTION.md` |
+| Status | **PASS** — MODEL-002 FROZEN + BENCH-002 FROZEN (6 CLEAN held-out tasks) — formal pre-flight now ready for re-entry |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

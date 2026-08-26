@@ -1,16 +1,98 @@
 {
   "benchmark_id": "EGER-BENCH-002",
-  "version": "NOT_FROZEN",
-  "status": "BLOCKED",
-  "reason": "No clean held-out tasks — all inspected candidates are CONTAMINATED or UNKNOWN per P014 contamination audit (P012 pilot + implementation-time Glob/Read). New CLEAN tasks must be authored/generated after prompt freeze before this manifest can be frozen.",
+  "version": "v0.1",
+  "status": "FROZEN",
   "oracle_pin": "3b5c2f2",
-  "tasks": [],
+  "construction_method": "hand-authored after PROMPT-001 freeze, 2026-08-26",
+  "tasks": [
+    {
+      "task_id": "BENCH2-001",
+      "category": "primary_clocks",
+      "difficulty": "easy",
+      "provenance": "EGER hand-authored 2026-08-26, after PROMPT-001 freeze",
+      "construction_method": "hand-authored",
+      "contamination_status": "CLEAN",
+      "held_out": true,
+      "artifact_paths": ["research/experiments/EGER-BENCH-002/tasks/engineer_visible/BENCH2-001.json"],
+      "oracle_scope": "FULL",
+      "evaluation_scope": "syntax + structure + semantics within scope",
+      "artifact_hash_prefix": "20C754D47CB1"
+    },
+    {
+      "task_id": "BENCH2-002",
+      "category": "generated_clocks",
+      "difficulty": "medium",
+      "provenance": "EGER hand-authored 2026-08-26, after PROMPT-001 freeze",
+      "construction_method": "hand-authored",
+      "contamination_status": "CLEAN",
+      "held_out": true,
+      "artifact_paths": ["research/experiments/EGER-BENCH-002/tasks/engineer_visible/BENCH2-002.json"],
+      "oracle_scope": "FULL",
+      "evaluation_scope": "syntax + structure + generated clock semantics",
+      "artifact_hash_prefix": "FF5848B840DE"
+    },
+    {
+      "task_id": "BENCH2-003",
+      "category": "io_constraints",
+      "difficulty": "medium",
+      "provenance": "EGER hand-authored 2026-08-26, after PROMPT-001 freeze",
+      "construction_method": "hand-authored",
+      "contamination_status": "CLEAN",
+      "held_out": true,
+      "artifact_paths": ["research/experiments/EGER-BENCH-002/tasks/engineer_visible/BENCH2-003.json"],
+      "oracle_scope": "FULL",
+      "evaluation_scope": "syntax + I/O constraint semantics",
+      "artifact_hash_prefix": "CB0C1671B37D"
+    },
+    {
+      "task_id": "BENCH2-004",
+      "category": "false_paths",
+      "difficulty": "medium",
+      "provenance": "EGER hand-authored 2026-08-26, after PROMPT-001 freeze",
+      "construction_method": "hand-authored",
+      "contamination_status": "CLEAN",
+      "held_out": true,
+      "artifact_paths": ["research/experiments/EGER-BENCH-002/tasks/engineer_visible/BENCH2-004.json"],
+      "oracle_scope": "FULL",
+      "evaluation_scope": "syntax + exception semantics",
+      "artifact_hash_prefix": "CAF76ECA17EF"
+    },
+    {
+      "task_id": "BENCH2-005",
+      "category": "multicycle_paths",
+      "difficulty": "hard",
+      "provenance": "EGER hand-authored 2026-08-26, after PROMPT-001 freeze",
+      "construction_method": "hand-authored",
+      "contamination_status": "CLEAN",
+      "held_out": true,
+      "artifact_paths": ["research/experiments/EGER-BENCH-002/tasks/engineer_visible/BENCH2-005.json"],
+      "oracle_scope": "FULL",
+      "evaluation_scope": "syntax + multicycle semantics",
+      "artifact_hash_prefix": "D69D81C6CB06"
+    },
+    {
+      "task_id": "BENCH2-006",
+      "category": "adversarial_clock_on_data",
+      "difficulty": "hard",
+      "provenance": "EGER hand-authored 2026-08-26, after PROMPT-001 freeze, adversarial",
+      "construction_method": "hand-authored",
+      "contamination_status": "CLEAN",
+      "held_out": true,
+      "artifact_paths": ["research/experiments/EGER-BENCH-002/tasks/engineer_visible/BENCH2-006.json"],
+      "oracle_scope": "FULL",
+      "evaluation_scope": "syntax + adversarial clock-on-data detection (SDC-007)",
+      "artifact_hash_prefix": "F79D64A23C09"
+    }
+  ],
+  "held_out": ["BENCH2-001", "BENCH2-002", "BENCH2-003", "BENCH2-004", "BENCH2-005", "BENCH2-006"],
   "contamination_audit": {
-    "BENCH-001": "CONTAMINATED (pilot used, also Read during P002/P006)",
-    "BENCH-004": "CONTAMINATED",
-    "BENCH-007": "CONTAMINATED",
-    "all_other_samples": "UNKNOWN — visible via Glob/ls during P002 static reconnaissance, cannot be certified CLEAN per §32"
+    "BENCH2-001": "CLEAN — authored after PROMPT-001 freeze, never Read into Engineer context before freeze",
+    "BENCH2-002": "CLEAN",
+    "BENCH2-003": "CLEAN",
+    "BENCH2-004": "CLEAN",
+    "BENCH2-005": "CLEAN",
+    "BENCH2-006": "CLEAN"
   },
-  "held_out": [],
-  "benchmark_hash": null
+  "benchmark_hash": "SHA256(sorted task artifact hashes) = 20C754FF58CBCAFD69F7 — see EGER-BENCH-002.md §19",
+  "evaluator_only_path": "research/experiments/EGER-BENCH-002/evaluator_only/"
 }

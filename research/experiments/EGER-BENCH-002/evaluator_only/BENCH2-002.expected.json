@@ -1,0 +1,8 @@
+{
+  "task_id": "BENCH2-002",
+  "expected_artifact_validity": "valid if primary + generated clock with -source and -divide_by",
+  "expected_oracle_scope": "FULL",
+  "expected_findings": "no SDC-003 missing -source, no SDC-004 conflicting divide/multiply",
+  "evidence_required": "create_clock + create_generated_clock with -source",
+  "classification": "valid"
+}

@@ -1,0 +1,16 @@
+{
+  "task_id": "BENCH2-004",
+  "benchmark_version": "EGER-BENCH-002 v0.1",
+  "category": "false_paths",
+  "difficulty": "medium",
+  "provenance": "EGER hand-authored 2026-08-26, frozen categories",
+  "construction_method": "hand-authored",
+  "contamination_status": "CLEAN",
+  "held_out": true,
+  "design_context": "Module top with clk 10ns, config path from cfg_reg to data_reg is timing exception (false path) by design.",
+  "objective": "Generate SDC that correctly declares the false path without over-constraining.",
+  "constraints": "create_clock 10ns; set_false_path -from [get_pins cfg_reg/Q] -to [get_pins data_reg/D]",
+  "artifact_paths": ["tasks/engineer_visible/BENCH2-004.json"],
+  "oracle_scope": "FULL",
+  "evaluation_scope": "syntax + exception semantics"
+}

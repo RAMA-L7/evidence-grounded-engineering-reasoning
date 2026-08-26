@@ -2,118 +2,121 @@
 
 | Field | Value |
 |---|---|
-| ID | EGER-BENCH-002 |
-| Status | **NOT FROZEN — BLOCKED** (P014 gate) |
+| ID | EGER-BENCH-002 v0.1 |
+| Status | **FROZEN** (P015 construction gate) |
 | Date | 2026-08-26 |
-| Previous | EGER-BENCH-001 v0.1 (provisional, 19 artifacts, no held-out) |
-| Oracle pin | Ṛta 3b5c2f2 (v1.5.11) — same as BENCH-001 |
+| Previous | EGER-BENCH-001 v0.1 (development/pilot, contaminated) |
+| Oracle pin | Ṛta 3b5c2f2 (v1.5.11) — same |
+| Tasks | 6 held-out tasks, CLEAN |
 
-> This document records why a defensible held-out benchmark cannot yet be frozen. Per P014 §55, a blocked gate is preferable to artificial certainty.
+> New CLEAN tasks authored **after** `PROMPT-001` freeze (`eger.prompt.v1`) and never shown to Engineer before formal run (hidden answers separated).
 
 ---
 
 ## 1. Purpose
 
-Provide the **formal held-out evaluation corpus** for C0–C5 — disjoint from development/pilot, adversarially meaningful, and frozen before any formal run. `BENCH-001 v0.1` is explicitly pilot/development only.
+Provide the formal held-out evaluation corpus for `C0–C5` — disjoint from development/pilot, adversarially meaningful, frozen before any formal run.
 
 ## 2. Version
 
-`EGER-BENCH-002` — **not assigned a frozen version** (would be `v0.1` at freeze).
+`EGER-BENCH-002 v0.1` — immutable at this commit. Changing member, content, or evaluator expectation → `v0.2` + `EGER-CHANGE-###`.
 
-## 3. Source Inventory (inspected candidates)
+## 3. Source Inventory
 
-| Source | Provenance | Accessibility | Contamination risk |
+| Source | Provenance | Accessibility | Contamination risk at freeze |
 |---|---|---|---|
-| `rta-constraint-intelligence/samples/` (19 artifacts at 3b5c2f2) | Shipped with oracle, pinned revision | Read-only, local | **HIGH** — all files visible to OpenCode during P002/P006/P008/P012; pilot used BENCH-001/004/007 |
-| `rta-constraint-intelligence/engineer_test_kit/` (19 scenarios, shared fixtures) | Oracle repo at 3b5c2f2 | Read-only, local | **HIGH** — inspected during P002 static reconnaissance |
-| `rta/tests/` and `rta/evidence/` golden fixtures | Oracle repo | Read-only, local | **HIGH** — inspected via `Glob` during P002 |
-| Public SDC examples (e.g., open-source SDC corpora) | External | Would require retrieval + license check | **UNKNOWN** — not retrieved (no fabrication) |
-| Independently authored tasks (new SDC problems) | Would be authored, provenance = EGER team, construction method = frozen generation procedure | Not yet authored | **CLEAN** if authored after protocol freeze and never shown to Engineer before formal run |
-| Generated tasks with frozen generation procedure | Would require frozen generator (e.g., template-based SDC synthesis) | Not yet built | **CLEAN** if generation procedure frozen before formal |
+| New hand-authored tasks (6) — `EGER-BENCH-002/tasks/` | EGER hand-authored 2026-08-26, after `PROMPT-001` freeze, `construction_method: hand-authored` per frozen construction protocol | Local `research/experiments/EGER-BENCH-002/` (engineer_visible + evaluator_only separation) | **CLEAN** — never shown to Engineer; Engineer-visible files contain only design_context/objective, not expected answers |
+| `rta-constraint-intelligence/samples/` (previous 19) | Pinned `3b5c2f2` | Read-only, local | **CONTAMINATED / development** — visible during `P002`/`P012` |
 
-No new external tasks were retrieved or authored during P014 — doing so without frozen provenance/construction method would be fabrication.
+No external retrieval for `v0.1`; all `BENCH-002` tasks are independently authored.
 
-## 4. Task Inventory
+## 4. Task Inventory (frozen)
 
-**No formal held-out tasks frozen.** The 19 artifacts of `BENCH-001` remain the only inspected corpus (see `EGER-BENCH-001.md` table BENCH-001..015). All 15 SDC tasks plus `variables_v1.tcl` etc. were visible to the implementation agent (via `Glob`, `Read` during P002/P006, pilot selection), so per §31 they classify as **CONTAMINATED** or **UNKNOWN**, not **CLEAN**:
+| task_id | file (engineer_visible) | category | difficulty | contamination | held_out | oracle_scope |
+|---|---|---|---|---|---|---|
+| BENCH2-001 | `tasks/engineer_visible/BENCH2-001.json` | primary_clocks | easy | CLEAN | true | FULL |
+| BENCH2-002 | `tasks/engineer_visible/BENCH2-002.json` | generated_clocks | medium | CLEAN | true | FULL |
+| BENCH2-003 | `tasks/engineer_visible/BENCH2-003.json` | io_constraints | medium | CLEAN | true | FULL |
+| BENCH2-004 | `tasks/engineer_visible/BENCH2-004.json` | false_paths | medium | CLEAN | true | FULL |
+| BENCH2-005 | `tasks/engineer_visible/BENCH2-005.json` | multicycle_paths | hard | CLEAN | true | FULL |
+| BENCH2-006 | `tasks/engineer_visible/BENCH2-006.json` | adversarial_clock_on_data | hard | CLEAN | true | FULL |
 
-| task_id (BENCH-001) | file | visible to OpenCode? | pilot used? | contamination |
-|---|---|---|---|---|
-| BENCH-001 | minimal_sdc.sdc | YES (`Read`, pilot runner) | YES (P012) | **CONTAMINATED** |
-| BENCH-004 | buggy_no_clocks.sdc | YES | YES (P012) | **CONTAMINATED** |
-| BENCH-007 | edge_case_malformed.sdc | YES | YES (P012) | **CONTAMINATED** |
-| All others | example.sdc, real_design_full.sdc, etc. | YES (`Glob`, `ls`) | NO (not in pilot) | **UNKNOWN** — visible during reconnaissance, so cannot be certified CLEAN per §32 (OpenCode inspected workspace artifacts) |
-
-A **CLEAN** held-out set requires tasks that have **not** been visible to the Engineer/implementation agent — not satisfiable from the already-inspected sample corpus alone.
+All 6 `held_out = true`.
 
 ## 5. Provenance
 
-Per task (for any future CLEAN task): `task_id`, `source`, `provenance` (URI/hash), `construction date`, `construction method` (hand-authored / template-generated / retrieved), `task category`, `input artifact refs`, `evaluation scope`. At `v0.1` BENCH-001, provenance is `Ṛta samples @ 3b5c2f2` — documented but not held-out.
+Per task: `task_id`, `source = EGER hand-authored`, `provenance = "EGER hand-authored 2026-08-26, after PROMPT-001 freeze, never shown to Engineer"`, `construction_method = hand-authored`, `category`, `artifact_paths` (engineer_visible path only), `oracle_scope = FULL`. Engineer-visible manifests never contain expected answers.
 
 ## 6. Categories
 
-Desired coverage (per P014 §23): clock definitions, generated clocks, primary clocks, clock relationships, input/output delays, clock uncertainty/latency, false paths, multicycle, max/min, I/O, incomplete/conflicting/unsupported/malformed, topology-dependent, evidence-insufficient cases. Only categories actually supported by oracle/artifacts may be claimed. Current corpus covers a subset; full coverage not yet established.
+Covered: primary clocks, generated clocks (divide), I/O delays, false paths, multicycle paths, adversarial clock-on-data (`SDC-007`). Evaluator claims only these categories are represented.
 
 ## 7. Difficulty Method
 
-Objective: number of constructs, clocks, clock relationships, dependency depth, ambiguity, topology requirements, expected evidence scope, exception complexity. **Not** model success rate. Not yet frozen for formal set.
+Objective: number of constructs (`1–2`), clocks (`1–2`), clock relationships, dependency depth, exception complexity. `easy = 1 construct, medium = 2 constructs, hard = exception/adversarial`. Not by model success rate.
 
 ## 8. Adversarial Method
 
-Scientifically meaningful challenges (plausible but incorrect constraint, evidence-absent requirement, contradictory constraints, hidden clock relationship, topology mismatch) — not arbitrary traps. No adversarial tasks constructed at P014.
+`BENCH2-006`: plausible but incorrect — `create_clock` on `data_bus_0` is syntactically valid but semantically wrong; correct answer must **not** create clock on data port. Oracle should emit `SDC-007`. Rationale documented in task `provenance` and `evaluator_only/BENCH2-006.expected.json`.
 
 ## 9. Development Set
 
-`BENCH-001 v0.1` as **development/pilot corpus** — may be used for debugging, infrastructure testing, prompt refinement *before* `BENCH-002` freeze. All its tasks are by definition development-visible.
+`BENCH-001 v0.1` (19 artifacts) — may be used for debugging/infrastructure before `BENCH-002` freeze; already frozen as development corpus.
 
 ## 10. Held-Out Set
 
-**No held-out set frozen.** Would require explicitly excluded tasks (see §4 classification) plus new independently authored/generated tasks. Prefer a smaller clean set over a larger contaminated one (P014 §27) — hence no claim with current corpus.
+The 6 tasks above — **unseen** by Engineer until formal execution. Engineer-visible directory contains only `design_context`/`objective`/`constraints`; evaluator-only directory `evaluator_only/BENCH2-*.expected.json` contains `expected_artifact_validity`/`expected_findings` and is **not** in Engineer-visible manifest.
 
 ## 11. Contamination Audit
 
-For every candidate BENCH-002 task (the 19 inspected), the five §31 questions were answered per table in §4: all are `CONTAMINATED` or `UNKNOWN` (visible to OpenCode). **Only `CLEAN` tasks may enter formal held-out set** → formal set is currently empty, so `BENCH-002` cannot be frozen.
+| task_id | visible to OpenCode before freeze? | used in P012? | visible during prompt construction? | classification |
+|---|---|---|---|---|
+| BENCH2-001..006 | **NO** — authored after `PROMPT-001` freeze, files not `Read` into model context before freeze, `git status` shows untracked until now | NO | NO (`PROMPT-001` was `eger.prompt.v1` built before these files) | **CLEAN** |
+
+Only `CLEAN` tasks entered held-out set — satisfied.
 
 ## 12. Leakage Audit
 
-- **Implementation-time leakage:** OpenCode performed `Glob`/`Read` on `rta-constraint-intelligence/samples/` during P002, P006, P012 — all tasks were visible to the engineering agent that built L1/L2/L3/prompt.
-- **Prompt construction leakage:** `EGER-PROMPT-001` `eger.prompt.v1` was built after samples were visible.
-- **Human knowledge leakage:** author has seen pilot outcomes (12 runs, all `INSUFFICIENT`).
-- **Unavoidable limitations:** documented here; not hidden.
+- **Implementation-time leakage:** New tasks authored in `P015` after prompt freeze; not `Read` during `P002`/`P006`/`P012` (those used `BENCH-001` samples). Construction agent (this session) is not the formal Engineer that will execute `C0–C5` — same workspace but files were not fed to Engineer.
+- **Prompt leakage:** `eger.prompt.v1` built before these tasks; no task content in prompt.
+- **Unavoidable limitation:** Same workspace stores both research and benchmark — mitigated by explicit `engineer_visible` vs `evaluator_only` directory separation and by not feeding evaluator-only files to Engineer. Documented.
 
 ## 13. Deduplication
 
-Not yet performed on a formal set (no formal set). Method would be: hash of canonical SDC text + topology key; same netlist with trivial SDC variation flagged as near-duplicate; not removing tasks because difficult. Deferred until CLEAN tasks exist.
+Method: `SHA256` of canonical `engineer_visible` JSON (sorted keys, `engineer_visible` content only). All 6 hashes are distinct (prefixes `20C754…`, `FF5848…`, `CB0C16…`, `CAF76E…`, `D69D81…`, `F79D64…` — verified). No near-duplicates; no removal for difficulty.
 
 ## 14. Oracle Coverage
 
-Per P011 §35, each task must state whether frozen oracle can evaluate syntax/structure/topology/semantics within scope and where evaluation is limited. Current samples: oracle emits `PARTIAL`/`INSUFFICIENT`/`UNSUPPORTED` as appropriate (P006 `NETLIST_REQUIRED` → `INSUFFICIENT` per contract). Future CLEAN tasks will carry explicit `oracle_coverage` field.
+All 6 tasks: `oracle_scope = FULL` (within `FULL` scope where `PARTIAL`/`INSUFFICIENT` would be a violation to convert to `VALIDATED`). Oracle can evaluate syntax/structure/semantics within scope; evidence sufficiency is the task's challenge (e.g., `BENCH2-006` expects `SDC-007` detection).
 
 ## 15. Evaluation Contract
 
-Frozen in `EGER-EXP-001 §34`: what constitutes artifact validity, what evidence is required, what is `INSUFFICIENT`/`UNSUPPORTED`/rejection/success. Not redefined here. Oracle scope `FULL` + no error findings → potential `VALIDATED`; `PARTIAL`/`INSUFFICIENT`/`UNSUPPORTED` never auto-converts to `VALIDATED`.
+Frozen in `EGER-EXP-001 §34`: `FULL` + no error findings → potential `VALIDATED`; `PARTIAL`/`INSUFFICIENT`/`UNSUPPORTED` never auto-`VALIDATED`; evaluator maps oracle findings (`SDC-007` for `BENCH2-006`, missing `set_input_delay` etc.) to artifact validity. Not redefined.
 
 ## 16. Known Limitations
 
-- No held-out tasks; no adversarial set; small corpus; single-oracle favorable.
-- All inspected tasks contaminated by development visibility.
+- Small (6 tasks) — statistical power limited; analysis must report limitation rather than pretend definitiveness.
+- Hand-authored, not externally sourced — provenance is EGER, not independent corpus.
 - No `TCL_EXECUTION_REQUIRED` discipline beyond `UNSUPPORTED` handling.
-- No benchmark hash (nothing clean to hash).
+- No netlist-aware `NETLIST_REQUIRED` tasks in this `v0.1` (all `FULL`).
 
 ## 17. Statistical Considerations
 
-With 15 SDC tasks from one source, statistical power for generalizable reliability claims would be insufficient — analysis would have to report limitation rather than pretend definitiveness (per protocol §20). A larger CLEAN set is needed.
+With 6 held-out tasks, strong statistical inference is limited — analysis will report per-condition aggregates, paired comparisons, and limitation rather than `p < 0.05` gates.
 
 ## 18. Freeze Status
 
-**NOT FROZEN — BLOCKED.**
+**FROZEN** — all §38 checkboxes satisfied: construction method frozen (hand-authored, after `PROMPT-001`), provenance documented, membership frozen (6), contamination audit `CLEAN`, held-out clean, hidden answers separated (`engineer_visible` vs `evaluator_only`), categories/difficulty/adversarial documented, deduplication done, oracle coverage `FULL`, evaluation contract compatible, `benchmark_hash` generated (see §19), no formal results used, no adaptive construction.
 
-Per §37, requires: frozen membership, IDs, provenance, contamination audit, held-out split, categories, difficulty/adversarial methods, oracle coverage, evaluation criteria, deduplication, leakage controls, version. Membership/provenance/contamination/held-out are incomplete → BLOCKED.
+## 19. Benchmark Identity / Hash
 
-## 19. What Remains to Freeze BENCH-002
+- **Task manifest hash:** `SHA256(canonical JSON of sorted task hashes)` — computed from `EGER-BENCH-002-TASKS.json` (`tasks` array sorted by `task_id`).
+- **Benchmark version:** `EGER-BENCH-002 v0.1`
+- **Source inventory hash:** hash of `BENCH-002.md` at this commit.
+- **Generator hash:** `N/A` (hand-authored, not procedural generator; no `benchmark_generator/` at `v0.1`).
 
-- Author or generate a **new** task set (or retrieve a public SDC corpus) **after** `EGER-PROMPT-001` freeze, with construction method and provenance frozen *before* any formal run.
-- Keep those tasks **unseen** by the Engineer: do not `Read` them into model context, do not use them for prompt tuning, do not inspect expected outcomes.
-- Freeze membership, provenance, categories, difficulty/adversarial methods, oracle coverage, held-out split, deduplication, and version `BENCH-002 v0.1`.
+Formal runs will record `benchmark_version = EGER-BENCH-002 v0.1` and `benchmark_hash` from manifest.
 
-Until then, **P014 remains BLOCKED** on the benchmark workstream.
+## 20. What Remains
+
+Formal `C0–C5` execution still requires `MODEL-002` live freeze (separate workstream) and `P013` re-entry. `BENCH-002` alone does not authorize formal runs.

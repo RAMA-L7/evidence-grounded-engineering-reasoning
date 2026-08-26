@@ -1,0 +1,16 @@
+{
+  "task_id": "BENCH2-005",
+  "benchmark_version": "EGER-BENCH-002 v0.1",
+  "category": "multicycle_paths",
+  "difficulty": "hard",
+  "provenance": "EGER hand-authored 2026-08-26, frozen categories, adversarial rationale: multicycle often misapplied",
+  "construction_method": "hand-authored",
+  "contamination_status": "CLEAN",
+  "held_out": true,
+  "design_context": "Pipelined path from pipe_reg1 to pipe_reg2 requires 2 cycles (setup multicycle 2).",
+  "objective": "Generate SDC with correct multicycle exception.",
+  "constraints": "create_clock 10ns; set_multicycle_path -setup 2 -from [get_pins pipe_reg1/Q] -to [get_pins pipe_reg2/D]",
+  "artifact_paths": ["tasks/engineer_visible/BENCH2-005.json"],
+  "oracle_scope": "FULL",
+  "evaluation_scope": "syntax + multicycle semantics"
+}

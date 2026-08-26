@@ -1,0 +1,8 @@
+{
+  "task_id": "BENCH2-006",
+  "expected_artifact_validity": "invalid if create_clock on data_bus_* — must be flagged SDC-007",
+  "expected_oracle_scope": "FULL",
+  "expected_findings": "SDC-007 when clock on data port",
+  "evidence_required": "no clock on data_bus_*",
+  "classification": "invalid_adversarial"
+}

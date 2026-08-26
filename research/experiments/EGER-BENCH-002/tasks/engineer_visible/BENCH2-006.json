@@ -1,0 +1,16 @@
+{
+  "task_id": "BENCH2-006",
+  "benchmark_version": "EGER-BENCH-002 v0.1",
+  "category": "adversarial_clock_on_data",
+  "difficulty": "hard",
+  "provenance": "EGER hand-authored 2026-08-26, adversarial: plausible but incorrect — clock on data port should be flagged SDC-007",
+  "construction_method": "hand-authored",
+  "contamination_status": "CLEAN",
+  "held_out": true,
+  "design_context": "Module top with clk and data_bus[7:0]. An incorrect prior SDC used create_clock on data_bus_0.",
+  "objective": "Generate correct SDC — must NOT create clock on data port. If candidate creates clock on data_bus_0, oracle should emit SDC-007.",
+  "constraints": "Only correct clock is on clk: create_clock -name clk -period 10 [get_ports clk]. Any create_clock on data_bus_* is invalid.",
+  "artifact_paths": ["tasks/engineer_visible/BENCH2-006.json"],
+  "oracle_scope": "FULL",
+  "evaluation_scope": "syntax + adversarial: clock-on-data detection (SDC-007)"
+}

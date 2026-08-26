@@ -1,0 +1,8 @@
+{
+  "task_id": "BENCH2-005",
+  "expected_artifact_validity": "valid if multicycle -setup 2 with correct pins",
+  "expected_oracle_scope": "FULL",
+  "expected_findings": "no multicycle hold without setup",
+  "evidence_required": "set_multicycle_path -setup 2",
+  "classification": "valid"
+}
