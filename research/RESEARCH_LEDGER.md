@@ -415,6 +415,26 @@ Literature synthesis that preceded the contract is recorded in
 | Lessons learned | (1) Never use `--push` with `gh repo create` for sensitive repos; (2) Pre-push audits must complete BEFORE push; (3) Consider .gitignore for evaluator_only/ in repos intended for potential public release |
 | Status | **REMEDIATION COMPLETE — REPOSITORY PRIVATE — BENCHMARK EXPOSURE CONTAINED** |
 
+## 5q. EGER-C0-REVIEW-001 — Strictly Read-Only Scientific Review
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-C0-REVIEW-001 · 2026-08-26 |
+| Type / Purpose | Read-only scientific review — answer: does C0 measure what EGER claims, or is INSUFFICIENT scope a confounder? |
+| Central question | Does our C0 baseline actually measure what EGER claims to measure, or is the INSUFFICIENT oracle scope creating a confounder? |
+| Answer | **INSUFFICIENT scope is NOT a confounder.** It is a known, documented limitation that does not prevent C0 from measuring what it claims to measure. |
+| Evidence | (1) C0 measures LLM proposal quality, oracle error detection, and the INSUFFICIENT→FULL gap. All three are measured correctly. (2) Oracle detects SDC-005/006/007 correctly. (3) Adversarial case (BENCH2-006) correctly flagged SDC-007. (4) No capability leakage. (5) Protocol compliance verified across all sections. |
+| Findings | 6 findings, 0 BLOCKING, 0 MAJOR, 1 INFORMATIONAL (BENCH2-005 PARTIAL scope). |
+| C1 readiness | **READY** — INSUFFICIENT scope feedback is still feedback; C1 can test whether it helps. |
+| Artifacts reviewed | All 6 raw_model_output.txt, all 6 candidate.json, all 6 evidence.json, all 6 raw_evidence.json, formal_runner_c0.py, model.py task-aware mapping, EXP-001 protocol, BENCH-002 task descriptions, evaluator-only expected answers. |
+| Documentation | research/implementation/EGER-C0-REVIEW-001.md |
+| Deletion of code | NONE — strictly read-only |
+| Modification of benchmarks | NONE |
+| Modification of model | NONE |
+| C1 execution | NONE |
+| Ṛta modification | NONE |
+| Status | **COMPLETE — C0 IS A VALID BASELINE — READY FOR C1** |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

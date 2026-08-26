@@ -1,6 +1,6 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-GITHUB-002 benchmark exposure remediation)
+Last updated: 2026-08-26 (EGER-C0-REVIEW-001 scientific review)
 
 | Item | Status |
 |---|---|
@@ -97,16 +97,24 @@ Last updated: 2026-08-26 (EGER-GITHUB-002 benchmark exposure remediation)
 C0                    ✓ COMPLETE
 C0 evidence           ✓ PRESERVED
 C0 checkpoint         ✓ PRESERVED
+C0 review             ✓ COMPLETE (INSUFFICIENT scope NOT a confounder)
 GitHub                ✓ PUSHED (PRIVATE)
 Benchmark exposure    ⚠ COMPROMISED (remediated to PRIVATE)
-C0 review             ⏸ PAUSED
-C1                    ⏸ NOT AUTHORIZED
+C1                    ⏸ READY FOR HUMAN AUTHORIZATION
 Ṛta                   ✓ UNTOUCHED
 ```
 
+## C0 Review (EGER-C0-REVIEW-001)
+
+- **Central question answered:** INSUFFICIENT oracle scope is NOT a confounder. C0 correctly measures LLM proposal quality, oracle error detection, and the INSUFFICIENT→FULL gap.
+- **6 findings:** 0 BLOCKING, 0 MAJOR, 1 INFORMATIONAL (BENCH2-005 PARTIAL scope).
+- **C1 readiness:** READY — INSUFFICIENT scope feedback is still feedback; C1 can test whether it helps.
+- **Protocol compliance:** All 30 sections verified. No deviations.
+- **Documentation:** `research/implementation/EGER-C0-REVIEW-001.md`
+
 ## Next authorized step
 
-C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). GitHub **PUSHED** (`0c4eccc`). **Repository PRIVATE.** Benchmark exposure contained. Next research activity: EGER-C0-REVIEW-001 (separate step). Do not proceed automatically.
+C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). C0 **REVIEWED** — INSUFFICIENT scope not a confounder. GitHub **PUSHED** (`0c4eccc`). **Repository PRIVATE.** Benchmark exposure contained. **C1 is READY for human authorization.** Do not proceed automatically.
 
 ## C0 Verification (EGER-AUTH-001)
 
@@ -175,6 +183,7 @@ C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). G
 - `research/implementation/EGER-GIT-001.md` (C0 provenance checkpoint)
 - `research/implementation/EGER-GITHUB-001.md` (GitHub release — evaluator-only exposure)
 - `research/implementation/EGER-GITHUB-002.md` (benchmark exposure remediation)
+- `research/implementation/EGER-C0-REVIEW-001.md` (C0 scientific review — read-only)
 - `research/experiments/EGER-EXP-001/formal/` (6 manifests + RUN_INDEX + raw artifacts, formal=true)
 
 ## Verification (P011)
