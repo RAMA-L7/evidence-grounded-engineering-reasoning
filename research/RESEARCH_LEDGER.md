@@ -352,6 +352,25 @@ Literature synthesis that preceded the contract is recorded in
 | Safety | Single model across all 6 tasks, budget 5/5/300s identical, same oracle/schema, task isolation (fresh context), raw artifacts retained, no post-hoc modification |
 | Status | **C0 COMPLETE** — 6/6 valid attempts, evaluator-side oracle measurement completed; C1–C5 NOT EXECUTED (awaiting human authorization per condition) |
 
+## 5n. EGER-GIT-001 — C0 Research Checkpoint (provenance)
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-GIT-001 · 2026-08-26 |
+| Type / Purpose | Provenance checkpoint — preserve exact post-C0 state before any review, reinterpretation, or C1 execution |
+| Pre-commit state | EGER HEAD `ee608b9` (main), clean tracked files, no remote, RTA 3b5c2f2 main 19 dirty |
+| .gitignore update | Added `__pycache__/`, `*.pyc`, `*.pyo`, `research/oracle/runtime/`, `.pytest_cache/`, `temporary/`, `tmp/` patterns (15 insertions) |
+| Staged files | `.gitignore` only — all C0 evidence already committed in ee608b9 |
+| Excluded from commit | 15 literature PDFs (untracked by policy), 6 `__pycache__/` dirs (build artifacts), `research/oracle/runtime/` (18 files — runtime scratch from earlier oracle investigation) |
+| Publication-sensitive | `evaluator_only/*.expected.json`, `formal/raw/*/raw_model_output.txt` — preserved locally, not pushed |
+| Secret scan | No secrets found (grep false positives: documentation mentions of "secret" in protocol context) |
+| Ṛta boundary | INTACT — HEAD 3b5c2f2 main 19 before/after; 0 paths in `git ls-files` |
+| C0 artifact integrity | All 6 runs preserved (manifests + raw artifacts + RUN_INDEX); model.py task-aware mapping verified (BENCH2-001..006 only) |
+| Commit | `6f24ad1` — `experiment: checkpoint EGER after C0 formal execution` — 1 file, 15 insertions |
+| Documentation | `research/implementation/EGER-GIT-001.md` |
+| GitHub | PUSHED = NO (no remote configured; no push attempted) |
+| Status | **CHECKPOINT COMMITTED LOCALLY — PUSH NOT AUTHORIZED** |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

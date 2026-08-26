@@ -1,13 +1,13 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-AUTH-001 C0)
+Last updated: 2026-08-26 (EGER-GIT-001 C0 checkpoint)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
 | Current phase | **Phase 1 — C0 COMPLETE (6/6 tasks, LLM ONLY, 47+6 formal manifests) — awaiting human authorization for C1.** |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
-| Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
+| Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore`; C0 checkpoint `6f24ad1` committed locally |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
 | Current architecture | **EGER-ARCH-002** (recommended; pending formal implementation authorization) |
 | Primary experiment | **C0 COMPLETE (6/6, LLM ONLY), C1–C5 NOT EXECUTED** — controlled ablation, frozen `EXP-001 v0.1` |
@@ -26,7 +26,7 @@ Last updated: 2026-08-26 (EGER-AUTH-001 C0)
 | Benchmark freeze | **BENCH-001 v0.1 provisional + BENCH-002 v0.1 FROZEN** (6 CLEAN held-out tasks, separated evaluator_only, hashes 20C754… ) |
 | P014 gate | **BLOCKED — was MODEL-002 BLOCKED + BENCH-002 BLOCKED → P014 BLOCKED** (historical, see ledger) |
 | P015 gate | **PASS — MODEL-002 FROZEN + BENCH-002 FROZEN** (6 CLEAN tasks, LiveEngineerModel, no performance-based selection) |
-| Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded |
+| Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded; C0 checkpoint `6f24ad1` committed locally; GitHub PUSHED = NO |
 | EvidenceOracle contract | **EGER-ORACLE-CONTRACT-001** FROZEN/PROVISIONAL per matrix (see §20 of contract doc) — **IMPLEMENTED** |
 | Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — **IMPLEMENTED** |
 | EvidenceOracle adapter | **IMPLEMENTED — PASS (14/14 tests)** (`eger/oracle/adapter.py`, `eger/oracle/schemas.py`; tests `tests/test_evidence_oracle.py`) |
@@ -69,7 +69,7 @@ Last updated: 2026-08-26 (EGER-AUTH-001 C0)
 5. Model/sampling-parameter freeze policy per condition sweep.
 6. Claim-registration enforcement mechanism (reject vs flag unstructured claims) — affects future EVR denominator.
 7. Adapter transport: subprocess-first chosen; revisit MCP at C6.
-8. Runtime artifact retention policy for `research/oracle/runtime/` outputs (evidence vs temp).
+8. ~~Runtime artifact retention policy for `research/oracle/runtime/` outputs (evidence vs temp).~~ RESOLVED: `research/oracle/runtime/` added to `.gitignore` as runtime scratch (EGER-GIT-001).
 
 ## Known risks
 
@@ -78,9 +78,17 @@ Last updated: 2026-08-26 (EGER-AUTH-001 C0)
 - All research history prior to P004 lives only in chat transcripts (backfilled now with retrospective IDs; marked as such).
 - Windows path/locale fragility around non-ASCII "Ṛta" characters in tooling.
 
+## C0 Checkpoint (EGER-GIT-001)
+
+- Commit `6f24ad1` on `main` — `.gitignore` updated with Python build artifact + runtime scratch exclusions
+- All C0 evidence preserved (6 runs, manifests, raw artifacts, RUN_INDEX, model.py, C0 report)
+- No remote configured; GitHub PUSHED = NO
+- No scientific reinterpretation or C0 review performed
+- Next research activity: EGER-C0-REVIEW-001 (separate step)
+
 ## Next authorized step
 
-C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged) — awaiting **human authorization for C1**. Do not proceed automatically.
+C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). Checkpoint **COMMITTED LOCALLY** (`6f24ad1`). Awaiting **human review of C0** before any C1 authorization. Do not proceed automatically.
 
 ## C0 Verification (EGER-AUTH-001)
 
@@ -146,6 +154,7 @@ C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged) �
 - `research/experiments/EGER-BENCH-002/tasks/engineer_visible/` (6)
 - `research/experiments/EGER-BENCH-002/evaluator_only/` (6 hidden)
 - `research/implementation/EGER-AUTH-001-C0.md` (C0 formal, 6 tasks)
+- `research/implementation/EGER-GIT-001.md` (C0 provenance checkpoint)
 - `research/experiments/EGER-EXP-001/formal/` (6 manifests + RUN_INDEX + raw artifacts, formal=true)
 
 ## Verification (P011)
