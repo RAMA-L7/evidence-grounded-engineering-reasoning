@@ -321,6 +321,19 @@ Literature synthesis that preceded the contract is recorded in
 | Artifacts | `EGER-MODEL-002.md` (now FROZEN, 19 sections), `EGER-BENCH-002.md` (now FROZEN v0.1), `EGER-BENCH-002-TASKS.json` (6 tasks, held_out 6, CLEAN), `evaluator_only/` hidden answers, `EGER-BENCH-002-CONSTRUCTION.md` + `research/implementation/EGER-P015-MODEL-BENCHMARK-CONSTRUCTION.md` |
 | Status | **PASS** — MODEL-002 FROZEN + BENCH-002 FROZEN (6 CLEAN held-out tasks) — formal pre-flight now ready for re-entry |
 
+## 5l. EGER-P013-R1 — Formal Pre-Flight Re-Entry
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P013-R1 · 2026-08-26 |
+| Type | Prompt / final pre-flight gate — NO EXPERIMENT EXECUTION |
+| Purpose | Re-enter P013 pre-flight now that MODEL-002 + BENCH-002 are FROZEN (P015 PASS); verify all 25 checks including critical information-boundary (evaluator_only inaccessible to LiveEngineerModel) before authorizing formal C0–C5 |
+| Previous state | P015 PASS (0b6efa5, MODEL-002 opencode/muse-spark-1.2 NOT_EXPOSED, BENCH-002 v0.1 6 CLEAN, 47/47 tests, RTA 3b5c2f2 main 19, pilot 12 runs) |
+| Checks | 25-check table: Contract, Architecture (ARCH-002, 1 LLM, 0 subagents), MODEL-002 identity/config, reproducibility (byte-identical NOT guaranteed, documented), BENCH-002 identity (6 tasks, hashes distinct, no formal-run mutation), contamination (all 6 CLEAN), information boundary (PASS via code inspection + sentinel file `_SENTINEL.txt` created/verified/removed — Engineer has no file-read, manifests 0 hits), evaluator separation (0 hits for evaluator_only in eger/engineer), RTA (3b5c2f2 main 19 → 19, no modification), rta_generate 0 hits, authorization (L3 hard), epistemic (HYPOTHESIS/VALIDATED/REFUTED/UNKNOWN, prohibited transitions blocked), conditions (C0..C5 frozen), control model, metrics, failure taxonomy, anti-gaming, traceability, isolation, benchmark immutability, research-memory protection, Git safety — all PASS or PASS WITH LIMITATION, 0 FAIL/UNKNOWN/NOT_PROVABLE on a critical item |
+| Safety | 0 formal C0–C5 executed (explicitly `C0–C5 = NOT EXECUTED`), 0 subagents, exactly one LiveEngineerModel/FakeEngineerModel via single interface, RTA read-only, no GitHub push, no protocol mutation |
+| Artifacts | `research/implementation/EGER-P013-R1-PREFLIGHT.md` (25-check table, sentinel test) |
+| Status | **READY FOR HUMAN AUTHORIZATION** — all critical checks PASS; per §31, output is READY only, human must explicitly authorize first formal run |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

@@ -1,11 +1,11 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P015)
+Last updated: 2026-08-26 (EGER-P013-R1)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
-| Current phase | **Phase 1 — P015: MODEL-002 + CLEAN BENCH-002 now FROZEN — formal pre-flight ready for re-entry (P013).** |
+| Current phase | **Phase 1 — P013-R1 READY FOR HUMAN AUTHORIZATION (25-check gate PASS, MODEL-002 + BENCH-002 FROZEN v0.1, RTA 3b5c2f2, 47/47 deterministic) — formal C0–C5 NOT YET EXECUTED.** |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
 | Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
@@ -80,9 +80,19 @@ Last updated: 2026-08-26 (EGER-P015)
 
 ## Next authorized step
 
-Await external review of P015 (MODEL-002 + BENCH-002 now FROZEN, 6 CLEAN tasks). The single recommended
-next action: **re-enter P013 formal pre-flight** for a second gate pass — if P013 now PASS, proceed to
-**P013 formal C0–C5 execution** (no further model/benchmark freeze needed).
+`P013-R1` is **READY FOR HUMAN AUTHORIZATION** (25-check gate PASS, MODEL-002 + BENCH-002 FROZEN v0.1, information boundary proven via sentinel).
+The single next step is **human authorization of the first formal C0–C5 run** — no further pre-flight needed.
+
+## Pre-Flight Verification (P013-R1)
+
+- 25-check gate: all PASS or PASS WITH LIMITATION, 0 FAIL on a critical item
+- MODEL-002: `opencode/muse-spark-1.2-contributor-free` `NOT_EXPOSED` version, `LiveEngineerModel` exists, sampling/context/budgets frozen
+- BENCH-002: 6 CLEAN held-out tasks (BENCH2-001..006), hashes distinct, no formal-run mutation, contamination=CLEAN
+- Information boundary: **PASS** — Engineer has no file-read, `evaluator_only` 0 hits in `eger/`, sentinel test (`_SENTINEL.txt`) verified not exposed and removed
+- Evaluator separation: **PASS** — no wildcard loading, `evaluator_only` only consumed by evaluator
+- RTA: 3b5c2f2 main 19 — unchanged; `rta_generate` 0 hits
+- No C6, no GitHub push, **C0–C5 = NOT EXECUTED** (PRE-FLIGHT ONLY)
+- **FINAL GATE: READY FOR HUMAN AUTHORIZATION**
 
 ## P015 Verification
 
@@ -108,16 +118,21 @@ next action: **re-enter P013 formal pre-flight** for a second gate pass — if P
 - `research/implementation/EGER-P010-LLM-PROPOSAL.md`
 - `research/implementation/EGER-P011-EXPERIMENT-FREEZE.md`
 - `research/implementation/EGER-P012-PILOT.md`
-- `research/implementation/EGER-P014-MODEL-BENCHMARK-FREEZE.md`
+- `research/implementation/EGER-P014-MODEL-BENCHMARK-FREEZE.md` (historical BLOCKED)
+- `research/implementation/EGER-P015-MODEL-BENCHMARK-CONSTRUCTION.md` (FROZEN)
+- `research/implementation/EGER-P013-R1-PREFLIGHT.md` (READY, 25-check gate)
 - `research/schemas/EGER-EPISTEMIC-SCHEMAS.md`
 - `research/schemas/EGER-ARTIFACT-SCHEMAS.md` (unchanged)
 - `research/experiments/EGER-EXP-001-PROTOCOL.md`
 - `research/experiments/EGER-BENCH-001.md`
 - `research/experiments/EGER-MODEL-001.md`
 - `research/experiments/EGER-PROMPT-001.md`
-- `research/experiments/EGER-MODEL-002.md` (NOT FROZEN — BLOCKED, 19 sections)
-- `research/experiments/EGER-BENCH-002.md` (NOT FROZEN — BLOCKED, 18 sections)
-- `research/experiments/EGER-BENCH-002-TASKS.json` (empty held-out, BLOCKED)
+- `research/experiments/EGER-MODEL-002.md` (**FROZEN**, `opencode/muse-spark-1.2`, `LiveEngineerModel`)
+- `research/experiments/EGER-BENCH-002.md` (**FROZEN v0.1**, 6 CLEAN)
+- `research/experiments/EGER-BENCH-002-TASKS.json` (**FROZEN**, 6 tasks, held_out 6)
+- `research/experiments/EGER-BENCH-002-CONSTRUCTION.md`
+- `research/experiments/EGER-BENCH-002/tasks/engineer_visible/` (6)
+- `research/experiments/EGER-BENCH-002/evaluator_only/` (6 hidden)
 
 ## Verification (P011)
 
