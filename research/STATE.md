@@ -1,6 +1,6 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P007)
+Last updated: 2026-08-26 (EGER-P008)
 
 | Item | Status |
 |---|---|
@@ -12,17 +12,19 @@ Last updated: 2026-08-26 (EGER-P007)
 | Current architecture | **EGER-ARCH-002** (recommended; pending formal implementation authorization) |
 | Primary experiment | C0–C5 controlled ablation — defined, not run |
 | Engineering extension | C6 specialized subagents — deferred until after C0–C5 evaluation |
-| Oracle | External deterministic Ṛta v1.5.11 (`rta-constraint-intelligence`), **runtime characterization complete** (EGER-ORACLE-002); CLI/MCP byte-determinism & scope live at runtime verified; adapter NOT built |
+| Oracle | External deterministic Ṛta v1.5.11 (`rta-constraint-intelligence`), **runtime characterization complete** (EGER-ORACLE-002); CLI/MCP byte-determinism & scope live at runtime verified; adapter **IMPLEMENTED (P008)** |
 | Oracle runtime evidence | Raw outputs at `research/oracle/runtime/` (untracked pending retention policy) |
-| Implementation status | **Not implemented** (no agents, no adapter, no epistemic runtime, no gate) |
+| Implementation status | **EvidenceOracle adapter IMPLEMENTED (P008)** — deterministic evidence layer only; epistemic/authorization/agents NOT implemented |
 | Subagent status | Not implemented |
 | Experiment status | Not started |
 | Benchmark status | Not frozen (does not exist yet) |
-| Research ledger | Established by EGER-P004; version-controlled since P005; P006–P007 recorded |
+| Research ledger | Established by EGER-P004; version-controlled since P005; P006–P008 recorded |
 | Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded |
-| EvidenceOracle contract | **EGER-ORACLE-CONTRACT-001** FROZEN/PROVISIONAL per matrix (see §20 of contract doc) |
-| Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — additive extensions provisional |
-| Provenance / determinism | Hash trio (input/raw/evidence) + timestamp-as-provenance FROZEN; byte-identical determinism observed (EVID-005) |
+| EvidenceOracle contract | **EGER-ORACLE-CONTRACT-001** FROZEN/PROVISIONAL per matrix (see §20 of contract doc) — **IMPLEMENTED** |
+| Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — **IMPLEMENTED** |
+| EvidenceOracle adapter | **IMPLEMENTED — PASS (14/14 tests)** (`eger/oracle/adapter.py`, `eger/oracle/schemas.py`; tests `tests/test_evidence_oracle.py`) |
+| Adapter tests | PASS (14/14); RTA integrity verified (3b5c2f2 main 19 unchanged) |
+| Provenance / determinism | Hash trio (input/raw/evidence) + timestamp-as-provenance FROZEN and implemented; deterministic file path `eger_oracle_<hash>/candidate.sdc` ensures byte-identical evidence |
 
 ## Two memories — explicit separation
 
@@ -64,8 +66,18 @@ Last updated: 2026-08-26 (EGER-P007)
 
 ## Next authorized step
 
-Await external review of EGER-ORACLE-CONTRACT-001 and EGER-SCHEMA-001.
-The single recommended next action after review: authorize the first
-implementation prompt — a deterministic EvidenceOracle adapter skeleton
-(with no epistemic/gate logic yet) validated only against the frozen
-schemas and the pinned Ṛta runtime — as the implementation gate to C0–C5.
+Await external review of EGER-P008 adapter implementation and 14/14 test gate.
+The single recommended next action after review: authorize P009 — deterministic
+epistemic state / authorization scaffolding (L2/L3) against the now-proven
+EvidenceOracle, still with no probabilistic component.
+
+## P008 Implementation Record
+
+See `research/implementation/EGER-P008-ADAPTER.md` for complete traceability.
+
+## Verification (P008)
+
+- RTA before: 3b5c2f2 main 19 dirty — after: 3b5c2f2 main 19 (no mutation)
+- Adapter: validate(), capabilities(), evidence_schema() implemented
+- No LLM, no epistemic state, no authorization, no agents, no C0–C5/C6
+- 14/14 adapter tests PASS; rta_generate unreachable verified

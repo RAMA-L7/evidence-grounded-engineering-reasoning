@@ -210,6 +210,22 @@ Literature synthesis that preceded the contract is recorded in
 | Implementation boundary | No *.py/*.ts, no adapter, no agents, no gates, no experiments authorized or created |
 | Status | COMPLETE within authorization scope; contract v0.2 NOT modified |
 
+## 5e. EGER-P008 — Deterministic EvidenceOracle Adapter (implementation gate)
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P008 · 2026-08-26 |
+| Type | Prompt / controlled implementation — evidence layer only |
+| Purpose | Implement deterministic EvidenceOracle adapter against frozen EGER-ORACLE-CONTRACT-001 + EGER-SCHEMA-001; prove behavior via T001–T012 before any probabilistic machinery |
+| Previous state | Contract/schema frozen (P007 caa0c39); RTA 3b5c2f2 main 19 dirty; no implementation |
+| Implementation | `eger/oracle/adapter.py` (EvidenceOracle: validate/capabilities/evidence_schema; deterministic invoker with cwd outside Ṛta + PYTHONDONTWRITEBYTECODE=1 + hash-based deterministic file path; scope mapping FROZEN; error model FROZEN; hash trio + timestamp-as-provenance FROZEN); `eger/oracle/schemas.py` declarative descriptor |
+| Tests | `tests/test_evidence_oracle.py` 14 tests: T001 valid input, T002 finding, T003 INSUFFICIENT, T004 oracle failure (injected missing binary → ORACLE_FAILURE), T005 determinism (byte+semantic identical), T006 hash stability, T007 provenance, T008 scope preservation, T009 generation unreachability (no rta_generate literal in Evidence path), T010 schema compliance, T011 raw retention, T012 timestamp/hash separation, +capabilities/+evidence_schema |
+| Results | 14/14 PASS (pytest). RTA integrity: HEAD 3b5c2f2 main 19 before and after (no files created/modified/deleted inside Ṛta). No LLM, no epistemic/authorization/agents/C0–C5/C6 implemented. |
+| Contract changes | NONE. No EGER-CHANGE required. No contract v0.2 modification. |
+| Safety | Ṛta modified NO, tracked NO; secrets NO; raw evidence retained outside Ṛta |
+| Artifacts | EGER-P008-ADAPTER.md (`research/implementation/`); EGER git commit feat: implement deterministic EvidenceOracle adapter |
+| Status | PASS — first executable EGER component established |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.
