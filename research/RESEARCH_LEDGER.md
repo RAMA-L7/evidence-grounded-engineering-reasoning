@@ -243,6 +243,24 @@ Literature synthesis that preceded the contract is recorded in
 | Artifacts | EGER-P009-EPISTEMIC-AUTHORIZATION.md (`research/implementation/`); EGER-EPISTEMIC-001 schemas; EGER git commit feat: implement deterministic epistemic and authorization layers |
 | Status | PASS |
 
+## 5g. EGER-P010 — Single Probabilistic LLM Engineer (proposal authority only)
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P010 · 2026-08-26 |
+| Type | Prompt / controlled implementation — proposal layer only |
+| Purpose | Introduce exactly one probabilistic component (EGER Engineer) strictly as Proposal Authority on top of proven L1/L2/L3 deterministic stack |
+| Previous state | P009 PASS (bb9025d, 31/31 tests, RTA 3b5c2f2 main 19, deterministic L1/L2/L3); no probabilistic component |
+| Architecture | Engineer (LLM, proposal only) → CandidateArtifact (unverified) → L1 EvidenceOracle → EvidenceArtifact → L2 EpistemicEngine → EpistemicState → L3 AuthorizationGate; no direct Engineer→L2/L3/Ṛta/ledger paths |
+| Implementation | `eger/engineer/model.py` (EngineerModel abstract + FakeEngineerModel deterministic fake), `eger/engineer/candidate.py` (CandidateArtifact `eger.candidate.v1`, deterministic extraction, `verified:false`), `eger/engineer/adapter.py` (EngineerAdapter: prompt `eger.prompt.v1` + model invocation + extraction + provenance `prompt_hash/output_hash/candidate_hash` + failures as `PROPOSAL_FAILURE`) |
+| Design decisions | Model replaceable without touching L1/L2/L3; prompt minimal (system + design_context + existing_sdc + objective + read-only evidence/epistemic); output discipline (LLM text ≠ EvidenceArtifact); deterministic extraction (code fence → keyword scan → fallback); failure types TIMEOUT/PROVIDER_ERROR/MODEL_UNAVAILABLE/MALFORMED_OUTPUT distinct from evidence failures |
+| Tests | `tests/test_llm_proposal.py` 16 tests: T-P010-001 candidate typed, -002 unverified, -003 no evidence authority, -004 no epistemic, -005 no authorization, -006 correct pipeline, -007 deterministic extraction, -008 malformed rejected, -009 failures as PROPOSAL_FAILURE, -010 generation unreachable, -011 layer immutability, -012 two-memories, -013 provenance, -014 hash separation, -015 P008 regression 14/14, -016 P009 regression 17/17 |
+| Results | 16/16 P010 PASS + 31/31 regression = 47/47 overall (all deterministic layers untouched). No subagents, no multi-agent orchestration; exactly one FakeEngineerModel per test |
+| Model freeze | NO — provider-neutral interface; FakeEngineerModel is scientific control, not experimental model; live-model path exists but not required for gate (optional, not an experimental result) |
+| Safety | Two-memories verified, `rta_generate` unreachable (0 hits in `eger/engineer/*`), LLM cannot declare VALIDATED/APPROVED, no RTA modification (3b5c2f2 main 19), contract unchanged, no C0–C5/C6 |
+| Artifacts | EGER-P010-LLM-PROPOSAL.md (`research/implementation/`); EGER git commit `feat: add single LLM proposal authority` |
+| Status | PASS — deterministic reference system (L1/L2/L3) now topped by exactly one proposal authority |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.
