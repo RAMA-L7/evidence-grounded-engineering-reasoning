@@ -1,23 +1,24 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P005)
+Last updated: 2026-08-26 (EGER-P006)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
-| Current phase | Phase 0 closing: traceability foundation + version-controlled baseline established. Phase 1 preparation. |
+| Current phase | Phase 0 closing: traceability foundation + version-controlled baseline + **Ṛta runtime characterization complete**. Phase 1 preparation. |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
 | Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
 | Current architecture | **EGER-ARCH-002** (recommended; pending formal implementation authorization) |
 | Primary experiment | C0–C5 controlled ablation — defined, not run |
 | Engineering extension | C6 specialized subagents — deferred until after C0–C5 evaluation |
-| Oracle | External deterministic Ṛta v1.5.11 (`rta-constraint-intelligence`), read-only copy in workspace; adapter NOT built |
-| Implementation status | **Not implemented** (no agents, no adapter, no runtime, no gate) |
+| Oracle | External deterministic Ṛta v1.5.11 (`rta-constraint-intelligence`), **runtime characterization complete** (EGER-ORACLE-002); CLI/MCP byte-determinism & scope live at runtime verified; adapter NOT built |
+| Oracle runtime evidence | Raw outputs at `research/oracle/runtime/` (untracked pending retention policy) |
+| Implementation status | **Not implemented** (no agents, no adapter, no epistemic runtime, no gate) |
 | Subagent status | Not implemented |
 | Experiment status | Not started |
 | Benchmark status | Not frozen (does not exist yet) |
-| Research ledger | Established by EGER-P004; version-controlled since P005 |
+| Research ledger | Established by EGER-P004; version-controlled since P005; P006 recorded |
 | Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded |
 
 ## Two memories — explicit separation
@@ -44,12 +45,12 @@ Last updated: 2026-08-26 (EGER-P005)
 
 1. Formal confirmation that contract v0.2 is accepted/frozen.
 2. Ṛta pinned-commit hygiene: P002 observed a dirty working tree; confirm inspected bytes == intended baseline before any series.
-3. Runtime verification of Ṛta CLI/MCP behavior still outstanding (ORACLE-001 §17).
+3. Runtime verification — **core unknowns now RESOLVED** (CLI formats, byte determinism, trust scope, exit 0/1, MCP handshake per ORACLE-002); remaining: exit codes 2/3 paths, finding-identity emission contexts, netlist-aware mode, baseline/gate E2E, large-design perf.
 4. Benchmark corpus selection and freezing.
 5. Model/sampling-parameter freeze policy per condition sweep.
 6. Claim-registration enforcement mechanism (reject vs flag unstructured claims) — affects future EVR denominator.
 7. Adapter transport: subprocess-first chosen; revisit MCP at C6.
-8. Git initialization authorization.
+8. Runtime artifact retention policy for `research/oracle/runtime/` outputs (evidence vs temp).
 
 ## Known risks
 
@@ -60,7 +61,8 @@ Last updated: 2026-08-26 (EGER-P005)
 
 ## Next authorized step
 
-Await external review of the version-controlled baseline. The single
-recommended next action after review: authorize the first implementation-phase
-prompt (runtime verification of Ṛta CLI + typed-artifact schema freeze), which
-are the two remaining prerequisites before any C0–C5 machinery is built.
+Await external review of EGER-ORACLE-002 and updated STATE. The single
+recommended next action after review: authorize implementation-phase prompt to
+freeze typed-artifact schemas and design the deterministic EvidenceOracle
+adapter boundary against now-verified runtime behavior — the last prerequisites
+before any C0–C5 machinery is built.

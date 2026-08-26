@@ -179,6 +179,22 @@ Literature synthesis that preceded the contract is recorded in
 | Important distinction | **Version control established for research provenance. NOT EGER implementation completed.** No runtime exists. |
 | Status | COMPLETE within authorization scope |
 
+## 5c. EGER-P006 — Ṛta Runtime Characterization (controlled, non-mutating)
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P006 · 2026-08-26 |
+| Type | Prompt / controlled runtime inspection of Ṛta |
+| Purpose | Reduce ORACLE-001 UNKNOWNs via non-mutating execution; characterize CLI/MCP/evidence/exit-code/determinism without implementing EGER adapter |
+| Pre-run state verified | EGER_ROOT `D:\Research on EGER` (EGER git `main` @ 11542b1); RTA_ROOT `rta-constraint-intelligence/`; RTA HEAD `3b5c2f2`, branch `main`, dirty 19 — match P005 baseline. All runs with cwd OUTSIDE Ṛta + `PYTHONDONTWRITEBYTECODE=1`. |
+| Runtime outputs location | `research/oracle/runtime/` (outside Ṛta; untracked pending retention policy; see ORACLE-002 recommendation) |
+| Tests executed | T1/T2 CLI help+version (exit 0, 13 subcommands); T3 minimal analyze `check --json` & `analyze all --json`; T4 structured evidence keys; T5 exit 0 (valid) / 1 (malformed); T6 byte-identical determinism (SHA256 A==B); T7 mutation verification; T10 trust scope `NETLIST_REQUIRED`; T11 MCP initialize/ping/tools-list. See EGER-ORACLE-002 §Test table (EVID-002…008). |
+| Mutation verification | git HEAD/branch/dirty checked before/after every operation and at end: **unchanged** (`3b5c2f2`/`main`/19); no files created inside Ṛta |
+| Observed vs documented | CLI, JSON evidence, exit 0/1, byte-determinism, scope statuses, MCP handshake all move from DOCUMENTED/INFERRED → **OBSERVED RUNTIME** (EVID-002…008). FindingIdentity `identity` field not emitted on inspected CLI path → remains OBSERVED STATIC. Exit 2/3 not triggered → UNKNOWN (runtime). |
+| Artifact | **EGER-ORACLE-002** (`research/oracle/EGER-ORACLE-002.md`) + raw outputs in `research/oracle/runtime/` |
+| Relationship | ORACLE-001 preserved (static); ORACLE-002 extends it (runtime). ARCH-002 unchanged. DEC-006 unweakened (`rta_generate` not invoked). |
+| Status | COMPLETE within authorization scope; no adapter/implementation/contract change |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.
