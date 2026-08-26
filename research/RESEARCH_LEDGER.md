@@ -291,6 +291,22 @@ Literature synthesis that preceded the contract is recorded in
 | Artifacts | EGER-P012-PILOT.md (`research/implementation/`), pilot_runner.py + 12 manifests (`research/experiments/EGER-EXP-001/pilot/`); EGER git commit `test: validate EGER pilot execution path` (local only) |
 | Status | PASS |
 
+## 5j. EGER-P014 — Model & Benchmark Freeze Gate (pre-formal)
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P014 · 2026-08-26 |
+| Type | Prompt / pre-formal freeze gate — NO EXPERIMENT EXECUTION |
+| Purpose | Establish whether MODEL-002 (live provider/model/version/config) and BENCH-002 (held-out benchmark) can be scientifically frozen for EGER-EXP-001 v0.1 without fabrication/contamination |
+| Previous state | P013 BLOCKED (MODEL-002/BENCH-002 missing, 6868c47 protocol frozen, 47/47 deterministic + pilot PASS, RTA 3b5c2f2 main 19) |
+| Scope | Two independent workstreams: A) Model selection by non-performance criteria (availability/reproducibility/interface), B) Held-out benchmark construction (sources, provenance, contamination audit, held-out split) |
+| Workstream A | Inspected session model `opencode/muse-spark-1.2-contributor-free` (research-agent runtime, no version pin) + `EngineerModel` provider-neutral interface; no live provider selected by documented criteria, no LiveEngineerModel adapter built, live MODEL-002 remains UNKNOWN/NOT FROZEN — documented as honest BLOCKED |
+| Workstream B | Inspected 19 BENCH-001 v0.1 artifacts + engineer_test_kit + public-retrieval/independent-author paths; contamination audit: BENCH-001/004/007 CONTAMINATED (pilot + Read), all others UNKNOWN (visible via Glob/Read during P002/P012) → no CLEAN held-out set; no new CLEAN tasks authored/retrieved (would be fabrication) → BENCH-002 NOT FROZEN |
+| Independence audit | Model selection did not depend on benchmark outcomes; benchmark selection did not depend on model outcomes; neither selected by running C0–C5 |
+| Safety | 0 formal C0–C5 runs, 0 subagents, exactly one probabilistic component preserved, RTA read-only 3b5c2f2 main 19 before/after (no invocation), rta_generate never invoked, no GitHub push |
+| Artifacts | `EGER-MODEL-002.md` (19 sections, NOT FROZEN), `EGER-BENCH-002.md` (18 sections, NOT FROZEN), `EGER-BENCH-002-TASKS.json` (tasks: [], held_out: [], BLOCKED), `EGER-P014-MODEL-BENCHMARK-FREEZE.md` (`research/implementation/`) |
+| Status | **BLOCKED** — Both workstreams BLOCKED (per §54: MODEL-002 BLOCKED + BENCH-002 BLOCKED → P014 BLOCKED). Preferable to contaminated experiment (P014 §55). |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

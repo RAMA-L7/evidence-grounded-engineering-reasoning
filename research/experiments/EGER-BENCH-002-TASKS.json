@@ -1,0 +1,16 @@
+{
+  "benchmark_id": "EGER-BENCH-002",
+  "version": "NOT_FROZEN",
+  "status": "BLOCKED",
+  "reason": "No clean held-out tasks — all inspected candidates are CONTAMINATED or UNKNOWN per P014 contamination audit (P012 pilot + implementation-time Glob/Read). New CLEAN tasks must be authored/generated after prompt freeze before this manifest can be frozen.",
+  "oracle_pin": "3b5c2f2",
+  "tasks": [],
+  "contamination_audit": {
+    "BENCH-001": "CONTAMINATED (pilot used, also Read during P002/P006)",
+    "BENCH-004": "CONTAMINATED",
+    "BENCH-007": "CONTAMINATED",
+    "all_other_samples": "UNKNOWN — visible via Glob/ls during P002 static reconnaissance, cannot be certified CLEAN per §32"
+  },
+  "held_out": [],
+  "benchmark_hash": null
+}

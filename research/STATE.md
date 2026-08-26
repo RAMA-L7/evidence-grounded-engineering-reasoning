@@ -1,11 +1,11 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P012)
+Last updated: 2026-08-26 (EGER-P014)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
-| Current phase | **Phase 1 — Pilot validated (P012 PASS, 12 pilot runs, infrastructure proven)** — ready for formal C0–C5 execution (P013) after MODEL-002/BENCH-002 freeze. |
+| Current phase | **Phase 1 — P014 BLOCKED: formal pre-flight still blocked (MODEL-002 + BENCH-002 not frozen)** — pilot validated but formal C0–C5 execution not yet authorized. |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
 | Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
@@ -20,8 +20,11 @@ Last updated: 2026-08-26 (EGER-P012)
 | Benchmark status | **BENCH-001 v0.1 provisional freeze** (19 artifacts at 3b5c2f2, small, no held-out — formal BENCH-002 pending) |
 | Model status | **MODEL-001 control frozen** (FakeEngineerModel v1.0, deterministic); live MODEL-002 NOT frozen (documented limitation) |
 | Prompt status | **PROMPT-001 frozen** (`eger.prompt.v1` neutral, versioned, hashed) |
-| Research ledger | Established by EGER-P004; version-controlled since P005; P006–P012 recorded |
-| Pilot (P012) | **PASS** — 12 pilot runs (3 tasks × 4 conditions), pilot=true, 0 formal results, 2 informational findings, no blocking |
+| Research ledger | Established by EGER-P004; version-controlled since P005; P006–P014 recorded |
+| Pilot (P012) | **PASS** — 12 pilot runs (3 tasks × 4 conditions), pilot=true, 0 formal results, 2 informational findings |
+| Model freeze | **MODEL-001 control FROZEN, MODEL-002 NOT FROZEN — BLOCKED** (live provider/version/sampling UNKNOWN, documented in EGER-MODEL-002.md, honest) |
+| Benchmark freeze | **BENCH-001 v0.1 provisional, BENCH-002 NOT FROZEN — BLOCKED** (no clean held-out tasks, contamination audit in EGER-BENCH-002.md) |
+| P014 gate | **BLOCKED — MODEL-002 BLOCKED + BENCH-002 BLOCKED → P014 BLOCKED** (preferable to contaminated experiment) |
 | Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded |
 | EvidenceOracle contract | **EGER-ORACLE-CONTRACT-001** FROZEN/PROVISIONAL per matrix (see §20 of contract doc) — **IMPLEMENTED** |
 | Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — **IMPLEMENTED** |
@@ -76,9 +79,10 @@ Last updated: 2026-08-26 (EGER-P012)
 
 ## Next authorized step
 
-Await external review of P012 pilot (12 runs, PASS, RTA 3b5c2f2 main 19, no formal results).
-The single recommended next action after review: authorize **EGER-P013 — Formal C0–C5 Execution**
-(after freezing MODEL-002 live provider/version and BENCH-002 held-out as explicit version bumps).
+Await external review of P014 (MODEL-002 + BENCH-002 both BLOCKED, honest). The single recommended
+next action: **explicitly freeze MODEL-002 (live provider) and author a new CLEAN held-out BENCH-002
+corpus after prompt freeze without showing it to the Engineer**, then re-enter P013 pre-flight for a
+second gate pass. Until both are FROZEN, no formal C0–C5 execution.
 
 ## Pilot Verification (P012)
 
@@ -96,12 +100,17 @@ The single recommended next action after review: authorize **EGER-P013 — Forma
 - `research/implementation/EGER-P009-EPISTEMIC-AUTHORIZATION.md`
 - `research/implementation/EGER-P010-LLM-PROPOSAL.md`
 - `research/implementation/EGER-P011-EXPERIMENT-FREEZE.md`
+- `research/implementation/EGER-P012-PILOT.md`
+- `research/implementation/EGER-P014-MODEL-BENCHMARK-FREEZE.md`
 - `research/schemas/EGER-EPISTEMIC-SCHEMAS.md`
 - `research/schemas/EGER-ARTIFACT-SCHEMAS.md` (unchanged)
 - `research/experiments/EGER-EXP-001-PROTOCOL.md`
 - `research/experiments/EGER-BENCH-001.md`
 - `research/experiments/EGER-MODEL-001.md`
 - `research/experiments/EGER-PROMPT-001.md`
+- `research/experiments/EGER-MODEL-002.md` (NOT FROZEN — BLOCKED, 19 sections)
+- `research/experiments/EGER-BENCH-002.md` (NOT FROZEN — BLOCKED, 18 sections)
+- `research/experiments/EGER-BENCH-002-TASKS.json` (empty held-out, BLOCKED)
 
 ## Verification (P011)
 
