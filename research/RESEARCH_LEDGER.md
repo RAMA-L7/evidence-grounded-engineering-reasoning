@@ -261,6 +261,18 @@ Literature synthesis that preceded the contract is recorded in
 | Artifacts | EGER-P010-LLM-PROPOSAL.md (`research/implementation/`); EGER git commit `feat: add single LLM proposal authority` |
 | Status | PASS — deterministic reference system (L1/L2/L3) now topped by exactly one proposal authority |
 
+## 5h. EGER-P011 — Experimental Protocol, Benchmark, Metrics & C0–C5 Freeze
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P011 · 2026-08-26 |
+| Type | Prompt / scientific freeze gate — NO EXPERIMENT EXECUTION |
+| Purpose | Freeze the reproducible, auditable, falsifiable experimental protocol (EGER-EXP-001 v0.1) before any formal C0–C5 runs |
+| Previous state | P010 PASS (6ae8275, 47/47 tests, single LLM proposal + L1/L2/L3 deterministic); no protocol/benchmark/model freeze |
+| Inputs inspected | EGER v0.2, ARCH-002, P1–P8, ORACLE-CONTRACT-001, SCHEMA-001/EPISTEMIC-001, samples at 3b5c2f2, existing implementation state |
+| Decisions | Protocol `EGER-EXP-001 v0.1` (30 sections, hypothesis/null, C0–C5 capability matrix, metrics EVR/AVR + convergence/tool efficiency, failure taxonomy, run/manifest/retention, anti-gaming, versioning). Benchmark `EGER-BENCH-001 v0.1` provisional (19 artifacts at 3b5c2f2, BENCH-001..015, small, no held-out). Model `EGER-MODEL-001` control frozen (FakeEngineerModel v1.0, deterministic); live model NOT frozen (documented as MODEL-002 preparation). Prompt `EGER-PROMPT-001` `eger.prompt.v1` frozen (neutral system + deterministic templates + extraction). Independent variable: degree of authority-separated grounding (C0–C5); controls frozen; confound/unknown registers created. |
+| Status | **PASS WITH DOCUMENTED LIMITATIONS** — strongest reproducible freeze achievable with current engineering-validation benchmark and control model; formal publication requires MODEL-002 + BENCH-002 |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

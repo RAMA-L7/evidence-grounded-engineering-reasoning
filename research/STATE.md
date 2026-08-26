@@ -1,11 +1,11 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P010)
+Last updated: 2026-08-26 (EGER-P011)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
-| Current phase | **Phase 1 — Deterministic reference system (L1/L2/L3) + single LLM proposal layer complete** — ready for experimental freeze (P011) before C0–C5. |
+| Current phase | **Phase 1 — Protocol Frozen (EGER-EXP-001 v0.1, P011 PASS WITH DOCUMENTED LIMITATIONS)** — ready for controlled pilot (P012) before formal C0–C5. |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
 | Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
@@ -14,11 +14,13 @@ Last updated: 2026-08-26 (EGER-P010)
 | Engineering extension | C6 specialized subagents — deferred until after C0–C5 evaluation |
 | Oracle | External deterministic Ṛta v1.5.11 (`rta-constraint-intelligence`), **runtime characterization complete** (EGER-ORACLE-002); CLI/MCP byte-determinism & scope live at runtime verified; adapter **IMPLEMENTED (P008)** |
 | Oracle runtime evidence | Raw outputs at `research/oracle/runtime/` (untracked pending retention policy) |
-| Implementation status | **L1/L2/L3 + single LLM proposal layer IMPLEMENTED** (P008+P009+P010); no C0–C5/C6 yet |
+| Implementation status | **L1/L2/L3 + single LLM proposal layer IMPLEMENTED** (P008+P009+P010, 47/47 PASS); no C0–C5/C6 yet |
 | Subagent status | Not implemented — single Engineer only (fake), C6 deferred |
-| Experiment status | Not started (awaiting P011 benchmark + manifest freeze) |
-| Benchmark status | Not frozen (does not exist yet) |
-| Research ledger | Established by EGER-P004; version-controlled since P005; P006–P010 recorded |
+| Experiment status | **Protocol frozen (EXP-001 v0.1)** — no formal C0–C5 runs executed (P011 gate, 0 runs) |
+| Benchmark status | **BENCH-001 v0.1 provisional freeze** (19 artifacts at 3b5c2f2, small, no held-out — formal BENCH-002 pending) |
+| Model status | **MODEL-001 control frozen** (FakeEngineerModel v1.0, deterministic); live MODEL-002 NOT frozen (documented limitation) |
+| Prompt status | **PROMPT-001 frozen** (`eger.prompt.v1` neutral, versioned, hashed) |
+| Research ledger | Established by EGER-P004; version-controlled since P005; P006–P011 recorded |
 | Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded |
 | EvidenceOracle contract | **EGER-ORACLE-CONTRACT-001** FROZEN/PROVISIONAL per matrix (see §20 of contract doc) — **IMPLEMENTED** |
 | Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — **IMPLEMENTED** |
@@ -73,24 +75,33 @@ Last updated: 2026-08-26 (EGER-P010)
 
 ## Next authorized step
 
-Await external review of EGER-P010 (full L1/L2/L3 + single LLM proposal layer, 47/47 PASS).
-The single recommended next action after review: authorize P011 — benchmark + run-manifest freeze
-(model/sampling/benchmark/oracle pinning) as the experimental preparation gate before C0–C5 execution.
+Await external review of P011 protocol freeze (EXP-001 v0.1, PASS WITH DOCUMENTED LIMITATIONS).
+The single recommended next action after review: authorize **EGER-P012 — Controlled Pilot / Dry Run**
+(small, explicitly pilot-labeled, no formal results, pilot contamination controlled) as the last gate before formal C0–C5 execution.
 
 ## Implementation Records
 
 - `research/implementation/EGER-P008-ADAPTER.md`
 - `research/implementation/EGER-P009-EPISTEMIC-AUTHORIZATION.md`
 - `research/implementation/EGER-P010-LLM-PROPOSAL.md`
+- `research/implementation/EGER-P011-EXPERIMENT-FREEZE.md`
 - `research/schemas/EGER-EPISTEMIC-SCHEMAS.md`
 - `research/schemas/EGER-ARTIFACT-SCHEMAS.md` (unchanged)
+- `research/experiments/EGER-EXP-001-PROTOCOL.md`
+- `research/experiments/EGER-BENCH-001.md`
+- `research/experiments/EGER-MODEL-001.md`
+- `research/experiments/EGER-PROMPT-001.md`
 
-## Verification (P010)
+## Verification (P011)
 
-- RTA before: 3b5c2f2 main 19 dirty — after: 3b5c2f2 main 19 (no mutation)
-- EvidenceOracle: validate(), capabilities(), evidence_schema() — NOT MODIFIED (git diff empty, 14/14 still PASS)
-- L2: EpistemicState + deterministic transitions + immutable baseline + EVR — 17/17 PASS
-- L3: Authorization gate (hard, no prompts) — 17/17 PASS
-- LLM Engineer: proposal authority only (FakeEngineerModel + EngineerAdapter + CandidateArtifact) — 16/16 PASS
-- Overall: 47/47 PASS; no agents/subagents, no C0–C5/C6, no rta_generate
-- Two memories verified separate (ledger ≠ engine; T-P010-012)
+- RTA before: 3b5c2f2 main 19 dirty — after: 3b5c2f2 main 19 (no mutation, no runtime invocation needed)
+- EvidenceOracle/L2/L3/Engineer: not modified; 47/47 still PASS (no experiment execution — 0 C0–C5 runs)
+- Protocol: EXP-001 v0.1 frozen (30 sections) + BENCH-001 v0.1 provisional + MODEL-001 control frozen + PROMPT-001 frozen
+- No GitHub push (never run)
+- P011: PASS WITH DOCUMENTED LIMITATIONS (live MODEL-002 + BENCH-002 deferred — honest, not hidden)
+
+## Verification (P010, preserved)
+
+- RTA 3b5c2f2 main 19 — unchanged
+- L1/L2/L3/Engineer 47/47 PASS; no C0–C5/C6, no rta_generate
+- Two memories verified separate (T-P010-012)
