@@ -226,6 +226,23 @@ Literature synthesis that preceded the contract is recorded in
 | Artifacts | EGER-P008-ADAPTER.md (`research/implementation/`); EGER git commit feat: implement deterministic EvidenceOracle adapter |
 | Status | PASS — first executable EGER component established |
 
+## 5f. EGER-P009 — Deterministic Epistemic State & Authorization
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P009 · 2026-08-26 |
+| Type | Prompt / controlled implementation — L2/L3 deterministic only |
+| Purpose | Implement deterministic reference architecture for epistemic state transitions + engineering-state authorization before introducing probabilistic engineer in P010 |
+| Previous state | P008 adapter IMPLEMENTED (b4dffc3, 14/14 PASS, RTA 3b5c2f2 main 19); no L2/L3 |
+| Implementation | `eger/epistemic/state.py` (EpistemicClaim/Transition/Violation, HYPOTHESIS/VALIDATED/REFUTED/UNKNOWN, immutable baseline hash), `eger/epistemic/transitions.py` (deterministic engine: predicates FULL+no-errors→VALIDATED, FULL/PARTIAL+errors→REFUTED, INSUFFICIENT/UNSUPPORTED/ORACLE_FAILURE→UNKNOWN, REFUTED→VALIDATED requires new evidence, baseline immutability), `eger/authorization/gate.py` (hard gate: VALIDATED+FULL+SUCCESS+evidence linkage → APPROVED else REJECTED) |
+| Schemas | EGER-EPISTEMIC-001 (`research/schemas/EGER-EPISTEMIC-SCHEMAS.md`): `eger.epistemic.v1`, `eger.transition.v1`, `eger.authorization.*` — EGER-SCHEMA-001 unchanged |
+| Tests | `tests/test_epistemic_authorization.py` 17 tests: T-E001 hypothesis, T-E002 validated, T-E003 refuted, T-E004 insufficient→UNKNOWN, T-E005 oracle failure, T-E006 unsupported, T-E007 missing evidence, T-E008 refuted→validated new-evidence, T-E009 baseline immutability, T-E010 determinism, T-E011 approved, T-E012 rejected, T-E013 no-overrides, T-E014 two-memories, T-E015 schema, T-E016 violation+EVR, +real oracle integration |
+| Results | 17/17 PASS (P009) + 14/14 P008 regression = 31/31 overall. RTA integrity: 3b5c2f2 main 19 before/after (no mutation). EvidenceOracle not modified (git diff empty). No LLM/agents/C0–C5/C6. |
+| Metrics | `EpistemicEngine.evr()` → {attempted, violations, evr, by_type} PROVISIONAL; `AuthorizationGate.violation_stats()` → {attempted_authorizations, auth_violations, rate} separate |
+| Safety | Two-memories verified (ledger ≠ engine), DEC-006 upheld, NO LLM/probabilistic logic, no RTA modification, contract unchanged |
+| Artifacts | EGER-P009-EPISTEMIC-AUTHORIZATION.md (`research/implementation/`); EGER-EPISTEMIC-001 schemas; EGER git commit feat: implement deterministic epistemic and authorization layers |
+| Status | PASS |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

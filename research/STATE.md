@@ -1,6 +1,6 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P008)
+Last updated: 2026-08-26 (EGER-P009)
 
 | Item | Status |
 |---|---|
@@ -24,7 +24,12 @@ Last updated: 2026-08-26 (EGER-P008)
 | Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — **IMPLEMENTED** |
 | EvidenceOracle adapter | **IMPLEMENTED — PASS (14/14 tests)** (`eger/oracle/adapter.py`, `eger/oracle/schemas.py`; tests `tests/test_evidence_oracle.py`) |
 | Adapter tests | PASS (14/14); RTA integrity verified (3b5c2f2 main 19 unchanged) |
-| Provenance / determinism | Hash trio (input/raw/evidence) + timestamp-as-provenance FROZEN and implemented; deterministic file path `eger_oracle_<hash>/candidate.sdc` ensures byte-identical evidence |
+| Epistemic state (L2) | **IMPLEMENTED — PASS (17/17 tests)** (`eger/epistemic/state.py`, `eger/epistemic/transitions.py`; deterministic engine, immutable baseline, EVR raw counts) |
+| Authorization (L3) | **IMPLEMENTED — PASS (17/17 tests)** (`eger/authorization/gate.py`; hard gate VALIDATED+FULL+SUCCESS) |
+| L2/L3 schemas | **EGER-EPISTEMIC-001** FROZEN (`eger.epistemic.v1`, `eger.transition.v1`, `eger.authorization.*`) — EGER-SCHEMA-001 unchanged |
+| L2/L3 tests | PASS (17/17) + regression 14/14 = 31/31 overall; RTA 3b5c2f2 main 19 unchanged; EvidenceOracle not modified |
+| Violation metrics | `EpistemicEngine.evr()` + `AuthorizationGate.violation_stats()` PROVISIONAL — machine-readable |
+| Provenance / determinism | Hash trio (input/raw/evidence) + timestamp-as-provenance FROZEN and implemented; deterministic file path `eger_oracle_<hash>/candidate.sdc` ensures byte-identical evidence; transitions deterministic |
 
 ## Two memories — explicit separation
 
@@ -66,18 +71,22 @@ Last updated: 2026-08-26 (EGER-P008)
 
 ## Next authorized step
 
-Await external review of EGER-P008 adapter implementation and 14/14 test gate.
-The single recommended next action after review: authorize P009 — deterministic
-epistemic state / authorization scaffolding (L2/L3) against the now-proven
-EvidenceOracle, still with no probabilistic component.
+Await external review of EGER-P009 (L2/L3) 17/17 + regression 31/31 gate.
+The single recommended next action after review: authorize P010 — single
+deterministic LLM engineer (proposal authority only) against the now-proven
+L1/L2/L3 deterministic reference system, as the experimental gate to C0–C5.
 
-## P008 Implementation Record
+## Implementation Records
 
-See `research/implementation/EGER-P008-ADAPTER.md` for complete traceability.
+- `research/implementation/EGER-P008-ADAPTER.md`
+- `research/implementation/EGER-P009-EPISTEMIC-AUTHORIZATION.md`
+- `research/schemas/EGER-EPISTEMIC-SCHEMAS.md`
 
-## Verification (P008)
+## Verification (P009)
 
 - RTA before: 3b5c2f2 main 19 dirty — after: 3b5c2f2 main 19 (no mutation)
-- Adapter: validate(), capabilities(), evidence_schema() implemented
-- No LLM, no epistemic state, no authorization, no agents, no C0–C5/C6
-- 14/14 adapter tests PASS; rta_generate unreachable verified
+- EvidenceOracle: validate(), capabilities(), evidence_schema() — NOT MODIFIED (git diff empty, 14/14 still PASS)
+- L2: EpistemicState + deterministic transitions + immutable baseline + EVR — 17/17 PASS
+- L3: Authorization gate (hard, no prompts) — 17/17 PASS
+- Overall: 31/31 PASS; no LLM, no agents, no C0–C5/C6
+- Two memories verified separate (ledger ≠ engine)
