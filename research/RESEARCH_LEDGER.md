@@ -161,6 +161,24 @@ Literature synthesis that preceded the contract is recorded in
 
 ---
 
+## 5b. EGER-P005 — Version-Controlled Research Baseline
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P005 · 2026-08-26 19:12 IST |
+| Type | Prompt / controlled repository initialization |
+| Purpose | Establish first version-controlled research baseline; protect repo from Ṛta contamination |
+| Pre-operation state | EGER_ROOT not a git repo; no `.gitignore`; research canon existed untracked; RTA_ROOT (`rta-constraint-intelligence/`) had own git repo (branch main @ 3b5c2f2, dirty) — untouched |
+| Git initialization | `git init -b main` executed ONLY at EGER_ROOT after roots were identified |
+| Boundary | `.gitignore` created with rule `rta-constraint-intelligence/` (exact discovered path); staged set verified free of any Ṛta path before commit |
+| Secret check | One keyword hit verified false positive ("token & tool-call budgets" in ARCH-002); no secrets staged |
+| Baseline commit | `6be23141785dce7c4a6b8bce0f390bad99b13c87` — "research: establish EGER v0.2 traceability baseline" — 11 files, 803 insertions |
+| Files included | .gitignore; both contract DOCX (canonical authority, version-controlled); full research/ canon (5 canonical + ARCH-001 + ARCH-002 + ORACLE-001) |
+| Files excluded | Entire Ṛta tree incl. its .git (ignored); 15 literature PDFs (untracked by design decision — sources not yet bibliographically verified; revisit under LIT work) |
+| Safety verification | Ṛta modified NO · contract modified NO · implementation created NO · secrets committed NO · Ṛta tracked NO |
+| Important distinction | **Version control established for research provenance. NOT EGER implementation completed.** No runtime exists. |
+| Status | COMPLETE within authorization scope |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

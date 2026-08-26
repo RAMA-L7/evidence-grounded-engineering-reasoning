@@ -1,11 +1,14 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-P004)
+Last updated: 2026-08-26 (EGER-P005)
 
 | Item | Status |
 |---|---|
-| Current contract | EGER Research Contract v0.2 (canonical docx; freeze acceptance still to be formally confirmed — see Open Questions) |
-| Current phase | Phase 0 closing: research architecture + traceability foundation established. Phase 1 preparation. |
+| Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
+| Current phase | Phase 0 closing: traceability foundation + version-controlled baseline established. Phase 1 preparation. |
+| Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
+| Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore` |
+| Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
 | Current architecture | **EGER-ARCH-002** (recommended; pending formal implementation authorization) |
 | Primary experiment | C0–C5 controlled ablation — defined, not run |
 | Engineering extension | C6 specialized subagents — deferred until after C0–C5 evaluation |
@@ -14,8 +17,8 @@ Last updated: 2026-08-26 (EGER-P004)
 | Subagent status | Not implemented |
 | Experiment status | Not started |
 | Benchmark status | Not frozen (does not exist yet) |
-| Research ledger | Established by EGER-P004 |
-| Git / version control | **EGER workspace is NOT a git repository** — initialization not authorized by P004; required before implementation |
+| Research ledger | Established by EGER-P004; version-controlled since P005 |
+| Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded |
 
 ## Two memories — explicit separation
 
@@ -57,7 +60,7 @@ Last updated: 2026-08-26 (EGER-P004)
 
 ## Next authorized step
 
-Await external review of the traceability foundation and EGER-ARCH-002.
-Implementation of any runtime component requires a NEW prompt. The single
-recommended next action after review: authorize git initialization + benchmark
-definition preparation (Phase 1 prerequisites).
+Await external review of the version-controlled baseline. The single
+recommended next action after review: authorize the first implementation-phase
+prompt (runtime verification of Ṛta CLI + typed-artifact schema freeze), which
+are the two remaining prerequisites before any C0–C5 machinery is built.
