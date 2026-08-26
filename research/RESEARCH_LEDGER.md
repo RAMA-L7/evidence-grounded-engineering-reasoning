@@ -395,6 +395,26 @@ Literature synthesis that preceded the contract is recorded in
 | Documentation | research/implementation/EGER-GITHUB-001.md |
 | Status | **PUSHED — EVALUATOR-ONLY EXPOSURE REQUIRES REMEDIATION DECISION** |
 
+## 5p. EGER-GITHUB-002 — Benchmark Exposure Remediation
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-GITHUB-002 · 2026-08-26 |
+| Type / Purpose | Incident remediation — make repository PRIVATE after evaluator-only exposure |
+| Incident | EGER-GITHUB-001 `gh repo create --push` pushed all committed files (including evaluator-only) to PUBLIC repository before audit could gate push |
+| Exposure duration | ~8 minutes (public window) |
+| Remediation action | `gh repo edit --visibility private --accept-visibility-change-consequences` |
+| Result | Repository confirmed PRIVATE (`"visibility":"private"` via API) |
+| Local files | Preserved — no evaluator files deleted or modified locally |
+| Git history | Preserved — no `git filter-repo`, `git reset`, or force push |
+| Ṛta boundary | INTACT — HEAD 3b5c2f2 main 19 unchanged, 0 paths |
+| Secret scan | No secrets found (same as EGER-GITHUB-001) |
+| Benchmark impact | BENCH-002 held-out answers in git history (private); compromised for public use but available for private research |
+| Research impact | C0 results INTACT — publication incident orthogonal to experimental results |
+| Documentation | research/implementation/EGER-GITHUB-002.md |
+| Lessons learned | (1) Never use `--push` with `gh repo create` for sensitive repos; (2) Pre-push audits must complete BEFORE push; (3) Consider .gitignore for evaluator_only/ in repos intended for potential public release |
+| Status | **REMEDIATION COMPLETE — REPOSITORY PRIVATE — BENCHMARK EXPOSURE CONTAINED** |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.
