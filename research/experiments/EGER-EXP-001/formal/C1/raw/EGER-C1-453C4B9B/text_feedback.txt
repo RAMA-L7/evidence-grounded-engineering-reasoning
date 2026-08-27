@@ -1,0 +1,36 @@
+ORACLE RESULT
+─────────────
+Oracle execution: SUCCESS
+
+EVIDENCE SCOPE
+──────────────
+Scope: INSUFFICIENT
+Scope limitation: Netlist-dependent checks could not be evaluated without design context.
+
+FINDINGS
+────────
+[ERROR] SDC-005: No set_input_delay — all input ports are unconstrained. (Line: N/A)
+[ERROR] SDC-006: No set_output_delay — all output ports are unconstrained. (Line: N/A)
+[WARNING] SDC-020: set_false_path from [get_pins cfg_reg/Q] to [get_pins data_reg/D] — confirm this is a genuine false path. (Line: 2)
+[WARNING] SDC-030: No set_propagated_clock — ideal clock model is over-optimistic for post-layout correlation. (Line: N/A)
+[WARNING] SDC-150: set_false_path without an explanatory comment — an undocumented timing exception can hide a real violation. Add a comment above the line or inline (e.g. '# async CDC — two-flop synchronizer, no timing path'). (Line: 2)
+[INFO] SDC-100: No sdc_version declaration. Add 'set sdc_version 2.2' at the top. (Line: N/A)
+[INFO] SDC-101: No set_units — add 'set_units -time ns -capacitance pF' to avoid unit mismatches. (Line: N/A)
+[INFO] SDC-102: No set_max_fanout — consider set_max_fanout 20 [all_inputs]. (Line: N/A)
+[INFO] SDC-103: No set_max_transition — add set_max_transition 0.2 [all_nets]. (Line: N/A)
+[INFO] SDC-104: No set_max_capacitance. (Line: N/A)
+[INFO] SDC-105: No set_load on outputs. (Line: N/A)
+[INFO] SDC-106: No set_driving_cell / set_input_transition / set_drive — input slew is ideal. (Line: N/A)
+[INFO] SDC-107: No set_clock_latency — model insertion delay with set_clock_latency -source before CTS. (Line: N/A)
+[INFO] SDC-108: No set_clock_transition — constrain clock slew with set_clock_transition 0.1 [all_clocks]. (Line: N/A)
+[INFO] SDC-109: No set_case_analysis — use for scan_en, test_mode to prevent DFT paths dominating timing. (Line: N/A)
+[INFO] SDC-110: No set_ideal_network — mark reset/scan_en as ideal. (Line: N/A)
+[INFO] SDC-113: No set_dont_use — consider excluding weak/problematic cells. (Line: N/A)
+[INFO] SDC-114: No set_operating_conditions — specify PVT corner explicitly. (Line: N/A)
+[INFO] SDC-115: No set_timing_derate — needed for AOCV/POCVM advanced signoff. (Line: N/A)
+[INFO] SDC-116: No set_clock_jitter — model random jitter separately from uncertainty. (Line: N/A)
+[INFO] SDC-117: No group_path — improves synthesis optimization focus on critical interfaces. (Line: N/A)
+[INFO] SDC-118: No set_clock_gating_check — needed if design uses clock gating cells. (Line: N/A)
+[INFO] SDC-121: No wire load constraints — needed for flows without extracted RC. (Line: N/A)
+[INFO] SDC-122: No set_max_area — add area target for synthesis. (Line: N/A)
+[INFO] SDC-123: No power constraints. (Line: N/A)

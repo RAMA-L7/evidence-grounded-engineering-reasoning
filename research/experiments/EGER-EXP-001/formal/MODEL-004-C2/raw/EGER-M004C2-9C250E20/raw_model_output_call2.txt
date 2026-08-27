@@ -1,0 +1,15 @@
+```sdc
+set sdc_version 2.2
+set_units -time ns -capacitance pF
+
+create_clock -name clk -period 10.0 [get_ports clk]
+set_clock_latency -source 0.5 [get_clocks clk]
+set_clock_transition 0.1 [get_clocks clk]
+
+# [BENCH2-005] Pipelined path from pipe_reg1 to pipe_reg2 requires 2 cycles (setup multicycle 2)
+set_multicycle_path -setup -from [get_pins pipe_reg1/CLK] -to [get_pins pipe_reg2/D] 2
+
+set_max_fanout 20 [all_inputs]
+set_max_transition 0.2 [all_nets]
+set_operating_conditions -library typical
+```

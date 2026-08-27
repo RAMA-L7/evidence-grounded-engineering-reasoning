@@ -1,0 +1,22 @@
+{
+  "EGER-C2L-7F4E5469": {
+    "condition": "C2",
+    "task_id": "BENCH2-001",
+    "status": "COMPLETED"
+  },
+  "EGER-C2L-847DE45B": {
+    "condition": "C2",
+    "task_id": "BENCH2-003",
+    "status": "COMPLETED"
+  },
+  "EGER-C2L-73FA7807": {
+    "condition": "C2",
+    "task_id": "BENCH2-004",
+    "status": "COMPLETED"
+  },
+  "EGER-C2L-15B7D869": {
+    "condition": "C2",
+    "task_id": "BENCH2-005",
+    "status": "COMPLETED"
+  }
+}

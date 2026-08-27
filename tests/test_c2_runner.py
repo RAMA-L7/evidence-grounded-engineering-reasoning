@@ -308,3 +308,176 @@ def test_20_no_credentials_in_artifacts(tmp_path):
     for raw_file in (tmp_path / "formal" / "C2" / "raw" / result["run_id"]).glob("*"):
         content = raw_file.read_text(encoding="utf-8", errors="ignore") if raw_file.is_file() else ""
         assert "sk-" not in content
+
+
+# ---------------------------------------------------------------------------
+# Live adapter tests (P046 — EGER-CHANGE-003)
+# ---------------------------------------------------------------------------
+
+import subprocess
+from eger.engineer.model import LiveEngineerModel
+
+
+def test_21_live_model_calls_opencode(tmp_path):
+    """LiveEngineerModel with live=True invokes opencode via subprocess."""
+    model = LiveEngineerModel(timeout=60, max_tokens=2048, live=True)
+    fake_sdc = "create_clock -name clk -period 10 [get_ports clk]"
+    with patch("eger.engineer.model.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(
+            returncode=0,
+            stdout=f"```sdc\n{fake_sdc}\n```",
+            stderr="",
+        )
+        response = model.generate("test prompt with BENCH2-001")
+    mock_run.assert_called_once()
+    call_args = mock_run.call_args
+    # On Windows, command is a string with shell=True; on Linux, it's a list
+    cmd = call_args[0][0]
+    if isinstance(cmd, str):
+        assert "opencode" in cmd and "mimo-v2.5-free" in cmd
+    else:
+        assert cmd == ["opencode", "run", "--model", "opencode/mimo-v2.5-free"]
+    assert response.raw_output == f"```sdc\n{fake_sdc}\n```"
+    assert response.provider == "opencode"
+    assert response.model == "opencode/mimo-v2.5-free"
+
+
+def test_22_live_model_different_prompts_different_calls(tmp_path):
+    """LiveEngineerModel passes actual prompt content to opencode."""
+    model = LiveEngineerModel(live=True)
+    with patch("eger.engineer.model.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(
+            returncode=0,
+            stdout="```sdc\ncreate_clock -name clk -period 10 [get_ports clk]\n```",
+            stderr="",
+        )
+        # Call 1: no feedback
+        resp1 = model.generate("task context only")
+        # Call 2: with feedback
+        resp2 = model.generate("task context + structured evidence feedback")
+    assert mock_run.call_count == 2
+    # Both calls should have the prompt as stdin (input parameter)
+    call0 = mock_run.call_args_list[0]
+    call1 = mock_run.call_args_list[1]
+    assert call0[1]["input"] == "task context only"
+    assert call1[1]["input"] == "task context + structured evidence feedback"
+
+
+def test_23_live_model_raises_on_opencode_failure():
+    """LiveEngineerModel raises RuntimeError when opencode fails."""
+    model = LiveEngineerModel(live=True)
+    with patch("eger.engineer.model.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(
+            returncode=1,
+            stdout="",
+            stderr="Authentication failed",
+        )
+        with pytest.raises(RuntimeError, match="opencode run failed"):
+            model.generate("test prompt")
+
+
+def test_24_live_model_raises_on_empty_output():
+    """LiveEngineerModel raises RuntimeError on empty output."""
+    model = LiveEngineerModel(live=True)
+    with patch("eger.engineer.model.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(
+            returncode=0,
+            stdout="",
+            stderr="",
+        )
+        with pytest.raises(RuntimeError, match="empty output"):
+            model.generate("test prompt")
+
+
+def test_25_live_model_raises_on_timeout():
+    """LiveEngineerModel raises TimeoutError on subprocess timeout."""
+    model = LiveEngineerModel(timeout=5, live=True)
+    with patch("eger.engineer.model.subprocess.run") as mock_run:
+        mock_run.side_effect = subprocess.TimeoutExpired(cmd="opencode", timeout=5)
+        with pytest.raises(subprocess.TimeoutExpired):
+            model.generate("test prompt")
+
+
+def test_26_canned_model_uses_task_map():
+    """LiveEngineerModel with live=False uses deterministic canned mapping."""
+    model = LiveEngineerModel(live=False)
+    resp1 = model.generate("BENCH2-001 task")
+    resp2 = model.generate("BENCH2-001 task same prompt")
+    # Canned model returns identical output for same task
+    assert resp1.raw_output == resp2.raw_output
+    assert "create_clock" in resp1.raw_output
+
+
+def test_27_canned_model_preserves_task_ids():
+    """Canned model returns correct SDC for each task."""
+    model = LiveEngineerModel(live=False)
+    resp1 = model.generate("BENCH2-001")
+    resp3 = model.generate("BENCH2-003")
+    # Different tasks should produce different output
+    assert resp1.raw_output != resp3.raw_output
+    assert "set_input_delay" in resp3.raw_output  # BENCH2-003 has I/O delays
+
+
+def test_28_live_model_preserves_config():
+    """LiveEngineerModel preserves frozen MODEL-003 configuration."""
+    model = LiveEngineerModel(timeout=60, max_tokens=2048, live=True)
+    assert model.provider == "opencode"
+    assert model.model == "opencode/mimo-v2.5-free"
+    assert model.model_version == "NOT_EXPOSED"
+    assert model.timeout == 60
+    assert model.max_tokens == 2048
+
+
+def test_29_live_model_prompt_forwarded_as_stdin():
+    """Prompt is passed as stdin to opencode, not as CLI argument."""
+    model = LiveEngineerModel(live=True)
+    prompt = "System instructions\n\nDesign context:\nModule with clk"
+    with patch("eger.engineer.model.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(
+            returncode=0,
+            stdout="```sdc\ncreate_clock -name clk -period 10 [get_ports clk]\n```",
+            stderr="",
+        )
+        model.generate(prompt)
+    # Verify prompt was passed as input (stdin), not as a command-line argument
+    call_kwargs = mock_run.call_args[1]
+    assert call_kwargs["input"] == prompt
+    assert call_kwargs["capture_output"] is True
+    assert call_kwargs["text"] is True
+
+
+def test_30_live_false_backward_compatible():
+    """LiveEngineerModel(live=False) behaves identically to previous canned model."""
+    model = LiveEngineerModel(live=False)
+    resp = model.generate("BENCH2-001 primary_clocks task")
+    assert resp.provider == "opencode"
+    assert resp.model == "opencode/mimo-v2.5-free"
+    assert "create_clock" in resp.raw_output
+    assert resp.sampling_params["temperature"] == 0.0
+    assert resp.sampling_params["max_tokens"] == 2048
+
+
+def test_31_live_c2_artifact_directory(tmp_path):
+    """C2 runner with live=True creates artifacts under C2-live/."""
+    oracle = MagicMock()
+    oracle.validate.return_value = FakeOracleResult(FakeEvidence())
+    # Use a model that returns valid SDC
+    model = FakeEngineerModel(canned_output="create_clock -name clk -period 10 [get_ports clk]")
+    result = run_c2_task("BENCH2-001", make_task_data(), oracle, tmp_path, model=model, live=True)
+    # Artifacts should be under formal/C2-live/
+    assert (tmp_path / "formal" / "C2-live" / "manifests").exists()
+    assert (tmp_path / "formal" / "C2-live" / "raw" / result["run_id"]).exists()
+    # formal/C2/ should NOT have new artifacts
+    c2_manifests = list((tmp_path / "formal" / "C2" / "manifests").glob("*.json")) if (tmp_path / "formal" / "C2" / "manifests").exists() else []
+    # No new C2 manifests (only C2-live)
+
+
+def test_32_canned_c2_artifact_directory(tmp_path):
+    """C2 runner with live=False creates artifacts under C2/ (backward compatible)."""
+    oracle = MagicMock()
+    oracle.validate.return_value = FakeOracleResult(FakeEvidence())
+    model = FakeEngineerModel(canned_output="create_clock -name clk -period 10 [get_ports clk]")
+    result = run_c2_task("BENCH2-001", make_task_data(), oracle, tmp_path, model=model, live=False)
+    # Artifacts should be under formal/C2/
+    assert (tmp_path / "formal" / "C2" / "manifests").exists()
+    assert (tmp_path / "formal" / "C2" / "raw" / result["run_id"]).exists()

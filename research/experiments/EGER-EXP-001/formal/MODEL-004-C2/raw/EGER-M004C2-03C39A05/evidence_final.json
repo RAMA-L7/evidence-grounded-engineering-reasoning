@@ -1,0 +1,131 @@
+{
+  "evidence_scope": "PARTIAL",
+  "oracle_status": "SUCCESS",
+  "findings": [
+    {
+      "finding_id": "EGER-FIND-4bc93445-001",
+      "code": "SDC-044",
+      "severity": "warning",
+      "message": "Operating condition \"-max_library\" does not match common patterns (WORST/BEST/TYP/SSG/TT/FFG).",
+      "location": {
+        "line": 27,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-4bc93445-002",
+      "code": "SDC-150",
+      "severity": "warning",
+      "message": "set_case_analysis without an explanatory comment \u2014 an undocumented timing exception can hide a real violation. Add a comment above the line or inline (e.g. '# async CDC \u2014 two-flop synchronizer, no timing path').",
+      "location": {
+        "line": 31,
+        "col": null
+      },
+      "related_location": null,
+      "context": {
+        "command": "set_case_analysis",
+        "inline_comment": false,
+        "comment_within_proximity": false,
+        "proximity_lines_checked": 3,
+        "min_comment_chars_required": 10
+      },
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-4bc93445-003",
+      "code": "SDC-150",
+      "severity": "warning",
+      "message": "set_case_analysis without an explanatory comment \u2014 an undocumented timing exception can hide a real violation. Add a comment above the line or inline (e.g. '# async CDC \u2014 two-flop synchronizer, no timing path').",
+      "location": {
+        "line": 32,
+        "col": null
+      },
+      "related_location": null,
+      "context": {
+        "command": "set_case_analysis",
+        "inline_comment": false,
+        "comment_within_proximity": false,
+        "proximity_lines_checked": 3,
+        "min_comment_chars_required": 10
+      },
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-4bc93445-004",
+      "code": "SDC-117",
+      "severity": "info",
+      "message": "No group_path \u2014 improves synthesis optimization focus on critical interfaces.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-4bc93445-005",
+      "code": "SDC-118",
+      "severity": "info",
+      "message": "No set_clock_gating_check \u2014 needed if design uses clock gating cells.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-4bc93445-006",
+      "code": "SDC-121",
+      "severity": "info",
+      "message": "No wire load constraints \u2014 needed for flows without extracted RC.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-4bc93445-007",
+      "code": "SDC-123",
+      "severity": "info",
+      "message": "No power constraints.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-4bc93445-008",
+      "code": "SDC-130",
+      "severity": "info",
+      "message": "set_operating_conditions found but no corner/PVT context in comments \u2014 consider adding a corner label for clarity.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    }
+  ],
+  "evidence_hash": "c36119a15577f453bdaf70ee5a6418383af761cb5d4b9c52d2ae1be02136d051"
+}

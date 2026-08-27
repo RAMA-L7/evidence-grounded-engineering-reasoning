@@ -1,0 +1,33 @@
+{
+  "run_id": "EGER-C1-6F7B4AC0",
+  "experiment_version": "EGER-EXP-001 v0.2",
+  "benchmark_version": "EGER-BENCH-002 v0.1",
+  "model_id": "EGER-MODEL-002",
+  "condition": "C1",
+  "task_id": "BENCH2-001",
+  "prompt_version": "eger.prompt.v1",
+  "oracle_revision": "3b5c2f2",
+  "schema_versions": {
+    "candidate": "eger.candidate.v1",
+    "evidence": "eger.evidence.v1"
+  },
+  "start_timestamp": "2026-08-27T12:55:54.003703+00:00",
+  "end_timestamp": "2026-08-27T12:55:54.600244+00:00",
+  "iteration_limit": 5,
+  "model_call_limit": 2,
+  "oracle_call_limit": 2,
+  "model_calls": 2,
+  "oracle_calls": 2,
+  "initial_candidate_hash": "d57e79c5391abed1c1426075ab66e22eb50750bb8f836ca92b035ee9c31f3035",
+  "initial_oracle_evidence_hash": "b70475e7029ecfd817bb72fb57caae195aca48e92627de3b2d61cdc48abc4bac",
+  "text_feedback_hash": "6a111e1d57f463521a1a4ba522bd186b60bd36dc40d1d58af57d53f11ffa24ff",
+  "final_candidate_hash": "d57e79c5391abed1c1426075ab66e22eb50750bb8f836ca92b035ee9c31f3035",
+  "final_oracle_evidence_hash": "b70475e7029ecfd817bb72fb57caae195aca48e92627de3b2d61cdc48abc4bac",
+  "raw_output_hash_call1": "aacd08b810205befc458e1945a49be8011aa6f1ab667bf8b8ed93569400579dc",
+  "raw_output_hash_call2": "aacd08b810205befc458e1945a49be8011aa6f1ab667bf8b8ed93569400579dc",
+  "final_outcome": "INVALID_ARTIFACT",
+  "failure_class": "INVALID_ARTIFACT",
+  "completion_status": "COMPLETED",
+  "pilot": false,
+  "formal_experiment": true
+}

@@ -1,16 +1,16 @@
 # EGER Research STATE
 
-Last updated: 2026-08-26 (EGER-C0-REVIEW-001-R1 revised scientific review)
+Last updated: 2026-08-26 (EGER-P025 — C1 implementation)
 
 | Item | Status |
 |---|---|
 | Current contract | EGER Research Contract v0.2 (canonical docx; now version-controlled @ baseline `6be2314`; formal freeze acceptance still to be confirmed — see Open Questions) |
-| Current phase | **Phase 1 — C0 COMPLETE (6/6 tasks, LLM ONLY, 47+6 formal manifests) — awaiting human authorization for C1.** |
+| Current phase | **Phase 1 — C0 COMPLETE (6/6 tasks, LLM ONLY), C1 IMPLEMENTED (63/63 tests PASS), C1 NOT EXECUTED.** |
 | Research memory | **VERSION-CONTROLLED** (baseline commit `6be2314`, branch `main`) |
 | Git | **INITIALIZED** at `D:\Research on EGER` (EGER_ROOT); Ṛta excluded via `.gitignore`; pushed to `origin/main` (`0c4eccc`); repository **PRIVATE** |
 | Research baseline | **ESTABLISHED** (`6be23141785dce7c4a6b8bce0f390bad99b13c87`, 2026-08-26) |
 | Current architecture | **EGER-ARCH-002** (recommended; pending formal implementation authorization) |
-| Primary experiment | **C0 COMPLETE (6/6, LLM ONLY), C1–C5 NOT EXECUTED** — controlled ablation, frozen `EXP-001 v0.1` |
+| Primary experiment | **C0 COMPLETE (6/6, LLM ONLY), C1 DESIGN APPROVED (EXP-001 v0.2), C1 NOT EXECUTED** — controlled ablation |
 | Engineering extension | C6 specialized subagents — deferred until after C0–C5 evaluation (still deferred) |
 | Oracle | External deterministic Ṛta v1.5.11 (`rta-constraint-intelligence`), **runtime characterization complete** (EGER-ORACLE-002); CLI/MCP byte-determinism & scope live at runtime verified; adapter **IMPLEMENTED (P008)** |
 | Oracle runtime evidence | Raw outputs at `research/oracle/runtime/` (untracked pending retention policy) |
@@ -26,7 +26,10 @@ Last updated: 2026-08-26 (EGER-C0-REVIEW-001-R1 revised scientific review)
 | Benchmark freeze | **BENCH-001 v0.1 provisional + BENCH-002 v0.1 FROZEN** (6 CLEAN held-out tasks, separated evaluator_only, hashes 20C754… ) |
 | P014 gate | **BLOCKED — was MODEL-002 BLOCKED + BENCH-002 BLOCKED → P014 BLOCKED** (historical, see ledger) |
 | P015 gate | **PASS — MODEL-002 FROZEN + BENCH-002 FROZEN** (6 CLEAN tasks, LiveEngineerModel, no performance-based selection) |
-| Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded; **PUSHED to GitHub** (`origin/main` `0c4eccc`); repository **PRIVATE** |
+| Git / version control | INITIALIZED (EGER_ROOT, branch `main`, baseline `6be2314`); Ṛta explicitly excluded; **PUSHED to GitHub** (`origin/main` `bb07208`); repository **PRIVATE** |
+| C1 change control | **EGER-CHANGE-001 APPROVED** — C1 clarified as feedback-assisted revision (EXP-001 v0.2) |
+| C1 implementation | **IMPLEMENTED** — feedback renderer (`eger/engineer/feedback.py`), C1 runner (`formal_runner_c1.py`), 16 tests (`test_c1_feedback.py`); 63/63 total tests PASS |
+| C1 execution | **NOT AUTHORIZED** — requires human authorization after P026 readiness verification |
 | EvidenceOracle contract | **EGER-ORACLE-CONTRACT-001** FROZEN/PROVISIONAL per matrix (see §20 of contract doc) — **IMPLEMENTED** |
 | Typed artifact schemas | **EGER-SCHEMA-001** FROZEN v1 family (`eger.candidate.v1`/`raw.v1`/`evidence.v1`) — **IMPLEMENTED** |
 | EvidenceOracle adapter | **IMPLEMENTED — PASS (14/14 tests)** (`eger/oracle/adapter.py`, `eger/oracle/schemas.py`; tests `tests/test_evidence_oracle.py`) |
@@ -98,9 +101,14 @@ C0                    ✓ COMPLETE
 C0 evidence           ✓ PRESERVED
 C0 checkpoint         ✓ PRESERVED
 C0 review (R1)       ✓ COMPLETE (documented limitation, confound status open)
+C1 design             ✓ CHANGE CONTROL APPROVED (EGER-CHANGE-001, EXP-001 v0.2)
+C1 implementation     ✓ IMPLEMENTED (feedback renderer + runner + 16 tests)
+C1 tests              ✓ 16/16 PASS (63/63 total)
+C1 execution          ✗ NOT AUTHORIZED
 GitHub                ✓ PUSHED (PRIVATE)
 Benchmark exposure    ⚠ COMPROMISED (remediated to PRIVATE)
-C1                    ⏸ REQUIRES HUMAN AUTHORIZATION
+BENCH-002             ✓ FROZEN / UNCHANGED
+MODEL-002             ✓ FROZEN / UNCHANGED
 Ṛta                   ✓ UNTOUCHED
 ```
 
@@ -118,7 +126,7 @@ C1                    ⏸ REQUIRES HUMAN AUTHORIZATION
 
 ## Next authorized step
 
-C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). C0 **REVIEWED (R1)** — valid baseline with documented limitations; confound status open. GitHub **PUSHED** (`0c4eccc`). **Repository PRIVATE.** Benchmark exposure contained. **C1 REQUIRES HUMAN AUTHORIZATION.** Do not proceed automatically.
+C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). C0 **REVIEWED (R1)** — valid baseline with documented limitations; confound status open. **C1 DESIGN CHANGE CONTROL APPROVED** (EGER-CHANGE-001, EXP-001 v0.2) — C1 clarified as feedback-assisted revision. **C1 NOT YET IMPLEMENTED.** Next: C1 implementation readiness verification. GitHub **PUSHED** (`0c4eccc`). **Repository PRIVATE.** Benchmark exposure contained.
 
 ## C0 Verification (EGER-AUTH-001)
 
@@ -189,6 +197,17 @@ C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). C
 - `research/implementation/EGER-GITHUB-002.md` (benchmark exposure remediation)
 - `research/implementation/EGER-C0-REVIEW-001.md` (C0 scientific review — read-only, SUPERSEDED by R1)
 - `research/implementation/EGER-C0-REVIEW-001-R1.md` (C0 scientific review R1 — revised, conservative conclusions)
+- `research/implementation/EGER-C1-READINESS-001.md` (C1 readiness — READY WITH OPEN QUESTIONS)
+- `research/implementation/EGER-C1-TEXT-FEEDBACK-CONTRACT-001.md` (C1 text feedback contract — Option A proposed)
+- `research/implementation/EGER-C1-TEXT-FEEDBACK-CONTRACT-001-R1.md` (C1 text feedback contract R1 — ODQs resolved)
+- `research/implementation/EGER-C1-CAUSAL-MECHANISM-RECONCILIATION-001.md` (P020 — Interpretation B recommended)
+- `research/implementation/EGER-C1-PROTOCOL-CHANGE-ASSESSMENT-001.md` (P021 — EGER-CHANGE-### required)
+- `research/implementation/EGER-CHANGE-001.md` (C1 protocol change-control record — APPROVED)
+- `research/implementation/EGER-P024-C1-DECISION-RECORD.md` (C1 ODQ resolution + implementation authorization)
+- `research/experiments/EGER-EXP-001-PROTOCOL-v0.2.md` (EXP-001 v0.2 — C1 clarified as feedback-assisted revision)
+- `eger/engineer/feedback.py` (C1 deterministic text feedback renderer — IMPLEMENTED)
+- `research/experiments/EGER-EXP-001/formal_runner_c1.py` (C1 two-stage runner — IMPLEMENTED)
+- `tests/test_c1_feedback.py` (C1 tests — 16/16 PASS)
 - `research/experiments/EGER-EXP-001/formal/` (6 manifests + RUN_INDEX + raw artifacts, formal=true)
 
 ## Verification (P011)

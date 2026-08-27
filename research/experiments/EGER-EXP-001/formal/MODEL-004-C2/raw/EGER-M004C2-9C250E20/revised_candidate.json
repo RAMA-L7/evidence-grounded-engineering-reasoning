@@ -1,0 +1,24 @@
+{
+  "artifact_id": "EGER-CAND-4DDD86325FCF",
+  "schema_version": "eger.candidate.v1",
+  "sdc_text": "set sdc_version 2.2\nset_units -time ns -capacitance pF\n\ncreate_clock -name clk -period 10.0 [get_ports clk]\nset_clock_latency -source 0.5 [get_clocks clk]\nset_clock_transition 0.1 [get_clocks clk]\n\n# [BENCH2-005] Pipelined path from pipe_reg1 to pipe_reg2 requires 2 cycles (setup multicycle 2)\nset_multicycle_path -setup -from [get_pins pipe_reg1/CLK] -to [get_pins pipe_reg2/D] 2\n\nset_max_fanout 20 [all_inputs]\nset_max_transition 0.2 [all_nets]\nset_operating_conditions -library typical",
+  "input_hash": "4ddd86325fcfd3031f0bad7955415e2fef43c8900c0ab9172cda6f316febe865",
+  "candidate_hash": "4ddd86325fcfd3031f0bad7955415e2fef43c8900c0ab9172cda6f316febe865",
+  "verified": false,
+  "provision": {
+    "provider": "opencode",
+    "model": "opencode/nemotron-3-ultra-free",
+    "model_version": "NOT_EXPOSED",
+    "sampling_params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "timeout": 60
+    },
+    "request_id": null,
+    "prompt_hash": "f8aceb2679436c8c639a07e0ea22ca5fc68d89abcdda971d21afef744fe4ef5e",
+    "prompt_version": "eger.prompt.v1",
+    "output_hash": "1ef539d2053d64ca7d2af831889ef88f158b30e8351efb2448eed5357c411ecf",
+    "produced_at": "2026-08-27T17:01:34.438747+00:00"
+  },
+  "created_at": "2026-08-27T17:01:34.438747+00:00"
+}

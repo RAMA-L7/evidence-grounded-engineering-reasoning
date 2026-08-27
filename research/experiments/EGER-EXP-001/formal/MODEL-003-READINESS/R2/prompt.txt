@@ -1,0 +1,15 @@
+You are an SDC generation assistant. Revise the existing candidate only if feedback indicates an issue. Output SDC inside a `sdc code block.
+
+Design context:
+Module top with clk 10ns.
+
+Existing candidate:
+`sdc
+create_clock -name clk -period 10 [get_ports clk]
+`
+
+Feedback:
+ORACLE RESULT — SUCCESS — Scope: INSUFFICIENT — FINDINGS — [INFO] No actionable findings.
+
+Required output:
+Output the revised SDC addressing the feedback (if no actionable issue, keep candidate as is).

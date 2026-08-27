@@ -1,0 +1,17 @@
+{
+  "task_id": "BENCH2-002",
+  "metadata_version": "eger.design_metadata.v1",
+  "design_metadata": {
+    "ports": [
+      {"name": "clk", "direction": "input", "type": "clock", "bus": false},
+      {"name": "clk_div2", "direction": "input", "type": "clock", "bus": false}
+    ],
+    "clocks": [
+      {"name": "clk", "period_ns": 10, "port": "clk"},
+      {"name": "clk_div2", "period_ns": 20, "port": "clk_div2", "generated": true, "source_port": "clk", "divide_by": 2, "source_pin": "div_reg/Q"}
+    ],
+    "cells": [
+      {"name": "div_reg", "type": "register", "pins": ["Q", "D", "CK"]}
+    ]
+  }
+}

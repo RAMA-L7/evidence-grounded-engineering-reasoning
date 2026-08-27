@@ -1,0 +1,22 @@
+{
+  "run_id": "EGER-M004C2-EC73742C",
+  "experiment_version": "EGER-EXP-001 v0.3",
+  "model_id": "EGER-MODEL-004",
+  "condition": "C2",
+  "task_id": "BENCH2-001",
+  "prompt_version": "eger.prompt.v1",
+  "oracle_revision": "3b5c2f2",
+  "start_timestamp": "2026-08-27T16:57:08.238319+00:00",
+  "end_timestamp": "2026-08-27T16:57:53.036060+00:00",
+  "model_calls": 2,
+  "oracle_calls": 2,
+  "initial_candidate_hash": "6745a1b832a677dad2fae557567af1f5f8aefdc9f40aa658120bf77e1c8051e9",
+  "initial_oracle_evidence_hash": "ba36e3a00cef4530eee6943a4f9ad916bc5dfc608b5d7d8bc1b48a33e65f92e8",
+  "structured_feedback_hash": "474e63981fdca629422fca9e1cd650b3556598ca2922391ad17d6112038a77e1",
+  "final_candidate_hash": "0577343abd95b918e405245da27d6cff2f956f5e4c8a04690b4b0d86e9b49a93",
+  "final_oracle_evidence_hash": "4deb048d7b7d25abcba4a03a4f9b5a34723f70476708306d9efe316b1332a2bc",
+  "final_outcome": "VALID_ARTIFACT",
+  "completion_status": "COMPLETED",
+  "pilot": false,
+  "formal_experiment": true
+}

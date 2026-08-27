@@ -1,0 +1,24 @@
+{
+  "artifact_id": "EGER-CAND-4BC9344514DB",
+  "schema_version": "eger.candidate.v1",
+  "sdc_text": "set sdc_version 2.2\nset_units -time ns -capacitance pF\n\ncreate_clock -name clk -period 10.0 [get_ports clk]\ncreate_generated_clock -name clk_div2 -divide_by 2 -source [get_pins div_reg/Q] [get_ports clk_div2]\n\nset_clock_groups -asynchronous -group {clk} -group {clk_div2}\n\nset_clock_latency -source 0.5 [get_clocks clk]\nset_clock_transition 0.1 [get_clocks {clk clk_div2}]\nset_clock_jitter 0.05 [get_clocks {clk clk_div2}]\n\nset_input_delay -clock clk -max 2.0 [all_inputs]\nset_input_delay -clock clk -min 0.5 [all_inputs]\nset_input_transition 0.2 [all_inputs]\n\nset_output_delay -clock clk -max 3.0 [all_outputs]\nset_output_delay -clock clk -min 0.5 [all_outputs]\nset_load 10.0 [all_outputs]\n\nset_max_fanout 20 [all_inputs]\nset_max_transition 0.2 [all_nets]\nset_max_capacitance 50.0 [all_nets]\n\nset_driving_cell -lib_cell BUF_X1 [all_inputs]\n\nset_operating_conditions -max_library WCCOM -min_library BCCOM\nset_timing_derate -cell_delay -max 1.1 -min 0.9\nset_timing_derate -net_delay -max 1.1 -min 0.9\n\nset_case_analysis 0 [get_ports scan_en]\nset_case_analysis 0 [get_ports test_mode]\nset_ideal_network [get_ports {scan_en test_mode reset_n}]\n\nset_dont_use [get_cells -hier *WEAK*]\nset_max_area 100000\n\nset_propagated_clock [all_clocks]",
+  "input_hash": "4bc9344514db8847d8d1214813d1479c00e660408667175ddd82777f3e68fc24",
+  "candidate_hash": "4bc9344514db8847d8d1214813d1479c00e660408667175ddd82777f3e68fc24",
+  "verified": false,
+  "provision": {
+    "provider": "opencode",
+    "model": "opencode/nemotron-3-ultra-free",
+    "model_version": "NOT_EXPOSED",
+    "sampling_params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "timeout": 60
+    },
+    "request_id": null,
+    "prompt_hash": "2febbc78fd782c249acdbd56b9479082ecb7d000ffae6dd70722d641404de5f3",
+    "prompt_version": "eger.prompt.v1",
+    "output_hash": "c4eecfceec4df45326ebe0ea55aa2b3832525cf73255b49348372fdb2eb226e1",
+    "produced_at": "2026-08-27T16:58:47.671133+00:00"
+  },
+  "created_at": "2026-08-27T16:58:47.671133+00:00"
+}

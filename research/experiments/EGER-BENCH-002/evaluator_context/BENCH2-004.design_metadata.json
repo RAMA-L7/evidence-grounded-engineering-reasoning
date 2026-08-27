@@ -1,0 +1,16 @@
+{
+  "task_id": "BENCH2-004",
+  "metadata_version": "eger.design_metadata.v1",
+  "design_metadata": {
+    "ports": [
+      {"name": "clk", "direction": "input", "type": "clock", "bus": false}
+    ],
+    "clocks": [
+      {"name": "clk", "period_ns": 10, "port": "clk"}
+    ],
+    "cells": [
+      {"name": "cfg_reg", "type": "register", "pins": ["Q", "D", "CK"]},
+      {"name": "data_reg", "type": "register", "pins": ["Q", "D", "CK"]}
+    ]
+  }
+}

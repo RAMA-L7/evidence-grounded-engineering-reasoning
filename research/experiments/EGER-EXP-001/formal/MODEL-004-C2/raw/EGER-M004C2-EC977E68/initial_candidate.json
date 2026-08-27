@@ -1,0 +1,24 @@
+{
+  "artifact_id": "EGER-CAND-A697E7203AF4",
+  "schema_version": "eger.candidate.v1",
+  "sdc_text": "create_clock -name clk -period 10.0 [get_ports clk]\n\nset_false_path -from [get_pins cfg_reg/*] -to [get_pins data_reg/*]",
+  "input_hash": "a697e7203af4e678c71179bf51b46c73981fe5f45cba6b3f287a1284593c2223",
+  "candidate_hash": "a697e7203af4e678c71179bf51b46c73981fe5f45cba6b3f287a1284593c2223",
+  "verified": false,
+  "provision": {
+    "provider": "opencode",
+    "model": "opencode/nemotron-3-ultra-free",
+    "model_version": "NOT_EXPOSED",
+    "sampling_params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "timeout": 60
+    },
+    "request_id": null,
+    "prompt_hash": "f2a70dffd110cf3e213c986285ba9dd291d71ce05d0ed1df5346c0b44746d1b1",
+    "prompt_version": "eger.prompt.v1",
+    "output_hash": "0ac99b8b11fe3aecf732f2472ac0a5b179f71116bf16fcb47818d00fd69612ca",
+    "produced_at": "2026-08-27T17:00:34.222945+00:00"
+  },
+  "created_at": "2026-08-27T17:00:34.222945+00:00"
+}

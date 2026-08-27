@@ -1,0 +1,9 @@
+```sdc
+set sdc_version 2.2
+set_units -time ns -capacitance pF
+
+create_clock -name clk -period 10.0 [get_ports clk]
+
+# False path: cfg_reg to data_reg is a configuration path, not a timing path by design
+set_false_path -from [get_pins cfg_reg/*] -to [get_pins data_reg/*]
+```

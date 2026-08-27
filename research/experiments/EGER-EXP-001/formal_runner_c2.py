@@ -67,8 +67,14 @@ def run_c2_task(
     oracle: EvidenceOracle,
     base_dir: Path,
     model: Optional[Any] = None,
+    live: bool = False,
 ) -> Dict[str, Any]:
     """Execute the C2 pipeline for a single task.
+
+    Args:
+        live: If True, use live opencode invocation (MODEL-003).
+              If False (default), use deterministic canned mapping.
+              Formal live execution requires explicit human authorization.
 
     Returns a manifest dict. Uses MODEL-003 via EngineerModel abstraction.
     """
@@ -102,7 +108,8 @@ def run_c2_task(
     failure_class = None
 
     # Use provided model or default LiveEngineerModel (MODEL-003)
-    engine_adapter = EngineerAdapter(model or LiveEngineerModel(timeout=60, max_tokens=2048))
+    # live=True for formal live execution; live=False for canned/tests
+    engine_adapter = EngineerAdapter(model or LiveEngineerModel(timeout=60, max_tokens=2048, live=live))
 
     # Enforce tools = [] and temperature = 0.0 are preserved via adapter/model config
     # (LiveEngineerModel is configured with temperature 0.0, tools: [] at construction)
@@ -313,7 +320,9 @@ def run_c2_task(
     # ------------------------------------------------------------------
     # Save raw artifacts under formal/C2/
     # ------------------------------------------------------------------
-    raw_dir = base_dir / "formal" / "C2" / "raw" / run_id
+    # Artifact directory: C2-live/ for live execution, C2/ for canned
+    artifact_condition = "C2-live" if live else "C2"
+    raw_dir = base_dir / "formal" / artifact_condition / "raw" / run_id
     raw_dir.mkdir(parents=True, exist_ok=True)
 
     if raw_output_1:
@@ -370,7 +379,7 @@ def run_c2_task(
         raw_output_hash_2=raw_output_hash_2,
     )
 
-    manifest_dir = base_dir / "formal" / "C2" / "manifests"
+    manifest_dir = base_dir / "formal" / artifact_condition / "manifests"
     manifest_dir.mkdir(parents=True, exist_ok=True)
     (manifest_dir / f"{run_id}.json").write_text(
         json.dumps(manifest, indent=2), encoding="utf-8"
@@ -442,36 +451,47 @@ def _build_manifest(
 # Main entry point (for verification, NOT formal execution)
 # ---------------------------------------------------------------------------
 
-def run_c2():
-    """Run C2 pipeline for all tasks. For implementation verification only."""
+def run_c2(live: bool = False):
+    """Run C2 pipeline for all tasks.
+
+    Args:
+        live: If True, use live opencode (requires OPENCODE_API_KEY).
+              If False (default), use deterministic canned mapping.
+    """
     base = Path(__file__).parent
     tasks_dir = base.parent / "EGER-BENCH-002" / "tasks" / "engineer_visible"
     oracle = EvidenceOracle()
     manifests = []
 
+    artifact_condition = "C2-live" if live else "C2"
+
     for task_id in TASKS:
         task_file = tasks_dir / f"{task_id}.json"
         task_data = json.loads(task_file.read_text(encoding="utf-8"))
-        manifest = run_c2_task(task_id, task_data, oracle, base)
+        manifest = run_c2_task(task_id, task_data, oracle, base, live=live)
         manifests.append(manifest)
 
-    c2_dir = base / "formal" / "C2"
+    c2_dir = base / "formal" / artifact_condition
     c2_dir.mkdir(parents=True, exist_ok=True)
     index = {
         m["run_id"]: {
             "condition": m["condition"],
             "task_id": m["task_id"],
-            "manifest": f"formal/C2/manifests/{m['run_id']}.json",
+            "manifest": f"formal/{artifact_condition}/manifests/{m['run_id']}.json",
             "status": m["completion_status"],
         }
         for m in manifests
     }
     (c2_dir / "RUN_INDEX.json").write_text(json.dumps(index, indent=2), encoding="utf-8")
 
-    print(f"\nC2 runs: {len(manifests)}")
+    print(f"\nC2 runs: {len(manifests)} ({artifact_condition})")
     print("C2 RUN_INDEX written")
     return manifests
 
 
 if __name__ == "__main__":
-    manifests = run_c2()
+    import argparse
+    parser = argparse.ArgumentParser(description="C2 runner")
+    parser.add_argument("--live", action="store_true", help="Use live opencode")
+    args = parser.parse_args()
+    manifests = run_c2(live=args.live)

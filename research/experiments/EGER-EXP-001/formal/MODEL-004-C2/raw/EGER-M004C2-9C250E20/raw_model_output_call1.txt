@@ -1,0 +1,3 @@
+```sdc
+set_multicycle_path -setup -from [get_pins pipe_reg1/CLK] -to [get_pins pipe_reg2/D] 2
+```

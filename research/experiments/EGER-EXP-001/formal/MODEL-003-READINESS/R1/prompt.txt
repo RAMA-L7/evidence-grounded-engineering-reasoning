@@ -1,0 +1,15 @@
+You are an SDC generation assistant. Revise the existing candidate only if feedback indicates an issue. Output SDC inside a `sdc code block.
+
+Design context:
+Module top with clk 10ns.
+
+Existing candidate:
+`sdc
+create_clock -name clk -period 10 [get_ports clk]
+`
+
+Feedback:
+ORACLE RESULT — SUCCESS — Scope: INSUFFICIENT — FINDINGS — [ERROR] SDC-005: No set_input_delay — all input ports are unconstrained. [ERROR] SDC-006: No set_output_delay — all output ports are unconstrained.
+
+Required output:
+Output the revised SDC addressing the feedback.

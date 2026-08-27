@@ -1,0 +1,1 @@
+ORACLE RESULT — SUCCESS — Scope: INSUFFICIENT — FINDINGS — [INFO] No actionable findings.

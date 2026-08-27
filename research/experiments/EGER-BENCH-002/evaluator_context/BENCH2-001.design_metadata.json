@@ -1,0 +1,16 @@
+{
+  "task_id": "BENCH2-001",
+  "metadata_version": "eger.design_metadata.v1",
+  "design_metadata": {
+    "ports": [
+      {"name": "clk", "direction": "input", "type": "clock", "bus": false},
+      {"name": "reset", "direction": "input", "type": "reset", "bus": false},
+      {"name": "data_in", "direction": "input", "type": "data", "bus": true, "range": "[7:0]"},
+      {"name": "data_out", "direction": "output", "type": "data", "bus": true, "range": "[7:0]"}
+    ],
+    "clocks": [
+      {"name": "clk", "period_ns": 10, "port": "clk"}
+    ],
+    "cells": []
+  }
+}

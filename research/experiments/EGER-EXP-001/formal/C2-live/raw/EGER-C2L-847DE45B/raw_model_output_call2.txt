@@ -1,0 +1,42 @@
+```sdc
+set sdc_version 2.2
+set_units -time ns -capacitance pF
+
+create_clock -name clk -period 10.0 [get_ports clk]
+
+set_clock_latency -source 0.5 [get_clocks clk]
+set_clock_transition 0.1 [get_clocks clk]
+set_clock_jitter 0.05 [get_clocks clk]
+set_propagated_clock [get_clocks clk]
+
+set_input_delay -max 1.5 -clock clk [get_ports data_in]
+set_input_delay -min 0.5 -clock clk [get_ports data_in]
+set_output_delay -max 2.0 -clock clk [get_ports data_out]
+set_output_delay -min 0.5 -clock clk [get_ports data_out]
+
+set_driving_cell -lib_cell BUF_X1 [get_ports data_in]
+set_input_transition 0.2 [get_ports data_in]
+
+set_load 0.5 [get_ports data_out]
+set_drive 0.1 [get_ports data_out]
+
+set_max_fanout 20 [all_inputs]
+set_max_transition 0.2 [all_nets]
+set_max_capacitance 1.0 [all_nets]
+
+set_operating_conditions -library WCCOM
+set_timing_derate -cell_delay -rise 1.1 -fall 1.1
+set_clock_gating_check -setup 0.1 -hold 0.05 [get_clocks clk]
+
+set_case_analysis 0 [get_ports scan_en]
+set_case_analysis 0 [get_ports test_mode]
+set_ideal_network [get_ports {reset_n scan_en test_mode}]
+
+group_path -name data_path -from [get_ports data_in] -to [get_ports data_out]
+
+set_dont_use [get_cells -hierarchical *WEAK*]
+set_max_area 100000
+
+set_max_leakage 100
+set_max_dynamic_power 500
+```

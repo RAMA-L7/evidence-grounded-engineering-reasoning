@@ -29,6 +29,9 @@ from .schemas import (
     SCOPE_MAP,
     CAPABILITIES,
     evidence_schema as _evidence_schema_fn,
+    DesignMetadata,
+    PortDef,
+    ClockDef,
 )
 
 # ---------------------------------------------------------------------------
@@ -241,12 +244,14 @@ class EvidenceOracle:
         input_identity: str = "candidate",
         invocation_options: Optional[Dict[str, Any]] = None,
         evidence_store: Optional[Path] = None,
+        design_metadata: Optional[DesignMetadata] = None,
     ) -> OracleResult:
         """Validate one candidate SDC text.
 
         - Writes sdc_text to a temp file OUTSIDE Ṛta.
         - Invokes: python <RTA_CLI> check <file> --json  (cwd outside Ṛta, PYTHONDONTWRITEBYTECODE=1)
         - Captures RawEvidence and deterministically normalizes to EvidenceArtifact.
+        - Optionally enriches scope using evaluator-side design_metadata (P055).
         """
         invocation_options = invocation_options or {}
         input_h = _input_hash(sdc_text)
@@ -327,7 +332,7 @@ class EvidenceOracle:
 
         # -- classify exit code ------------------------------------------
         if exit_code in (0, 1):
-            return self._build_success(raw_evidence, input_h, artifact_id, produced_at, invocation)
+            return self._build_success(raw_evidence, input_h, artifact_id, produced_at, invocation, design_metadata=design_metadata, sdc_text=sdc_text)
         elif exit_code == 2:
             # Exit 2 is documented as INVALID_REQUEST, but only when the oracle
             # actually produced structured output. If raw output is not valid
@@ -410,7 +415,7 @@ class EvidenceOracle:
 
         return stdout, stderr, exit_code
 
-    def _build_success(self, raw_evidence: RawEvidence, input_h: str, artifact_id: str, produced_at: str, invocation: Dict[str, Any]) -> OracleResult:
+    def _build_success(self, raw_evidence: RawEvidence, input_h: str, artifact_id: str, produced_at: str, invocation: Dict[str, Any], design_metadata: Optional[DesignMetadata] = None, sdc_text: str = "") -> OracleResult:
         try:
             payload = json.loads(raw_evidence.raw_bytes.decode("utf-8"))
         except Exception as exc:
@@ -422,7 +427,17 @@ class EvidenceOracle:
 
         findings = _normalize_findings(payload, input_h)
         analysis_scope = _normalize_scope(payload.get("analysis_scope") or {})
-        evidence_scope = _map_scope(analysis_scope.get("status", "NOT_VALIDATED")) if analysis_scope else "UNSUPPORTED"
+        raw_scope_status = analysis_scope.get("status", "NOT_VALIDATED") if analysis_scope else "NOT_VALIDATED"
+        evidence_scope = _map_scope(raw_scope_status)
+
+        # P055: Enrich scope using evaluator-side design metadata
+        metadata_validation = None
+        if design_metadata is not None and raw_scope_status == "NETLIST_REQUIRED":
+            metadata_validation = _validate_with_metadata(sdc_text, design_metadata)
+            if metadata_validation["all_validated"]:
+                evidence_scope = "FULL"
+            elif metadata_validation["any_validated"]:
+                evidence_scope = "PARTIAL"
 
         # Build normalized evidence dict for hashing (excluding produced_at)
         evidence_dict_for_hash = {
@@ -435,6 +450,7 @@ class EvidenceOracle:
             "analysis_scope": analysis_scope,
             "raw_ref": {"raw_id": raw_evidence.raw_id, "raw_hash": raw_evidence.raw_hash},
             "input_hash": input_h,
+            "metadata_validation": metadata_validation,
         }
         evidence_hash = _sha256_hex(_canonical_json(evidence_dict_for_hash))
 
@@ -450,6 +466,7 @@ class EvidenceOracle:
             "evidence_hash": evidence_hash,
             "produced_at": produced_at,
             "raw_path": raw_evidence.raw_path,
+            "metadata_validation": metadata_validation,
         }
 
         artifact = EvidenceArtifact(
@@ -467,3 +484,110 @@ class EvidenceOracle:
         )
 
         return OracleResult(is_success=True, evidence=artifact, raw_evidence=raw_evidence)
+
+
+# ---------------------------------------------------------------------------
+# P055: Deterministic metadata validation
+# ---------------------------------------------------------------------------
+
+def _extract_sdc_references(sdc_text: str) -> Dict[str, List[str]]:
+    """Extract object references from SDC text for validation.
+
+    Returns dict with keys: ports, clocks, pins.
+    Each value is a list of referenced object names.
+    """
+    import re
+    ports = []
+    clocks = []
+    pins = []
+
+    # Match get_ports {name1 name2} (braces)
+    for m in re.finditer(r'get_ports\s+\{([^}]+)\}', sdc_text):
+        ports.extend(m.group(1).split())
+    # Match get_ports name] (bracket-terminated, no braces)
+    for m in re.finditer(r'get_ports\s+([\w/\[\]:]+?)\s*\]', sdc_text):
+        name = m.group(1).rstrip(']')
+        if '{' not in name:
+            ports.append(name)
+
+    # Match get_clocks {name1 name2} (braces)
+    for m in re.finditer(r'get_clocks\s+\{([^}]+)\}', sdc_text):
+        clocks.extend(m.group(1).split())
+    # Match get_clocks name] (bracket-terminated)
+    for m in re.finditer(r'get_clocks\s+([\w/\[\]:]+?)\s*\]', sdc_text):
+        name = m.group(1).rstrip(']')
+        if '{' not in name:
+            clocks.append(name)
+
+    # Match get_pins {name1 name2} (braces)
+    for m in re.finditer(r'get_pins\s+\{([^}]+)\}', sdc_text):
+        pins.extend(m.group(1).split())
+    # Match get_pins name] (bracket-terminated)
+    for m in re.finditer(r'get_pins\s+([\w/\[\]:]+?)\s*\]', sdc_text):
+        name = m.group(1).rstrip(']')
+        if '{' not in name:
+            pins.append(name)
+
+    return {"ports": list(set(ports)), "clocks": list(set(clocks)), "pins": list(set(pins))}
+
+
+def _validate_with_metadata(sdc_text: str, metadata: DesignMetadata) -> Dict[str, Any]:
+    """Validate SDC references against design metadata.
+
+    P054 §10: FULL = all supported constructs validated.
+    Returns validation result dict.
+    """
+    refs = _extract_sdc_references(sdc_text)
+
+    port_results = []
+    for port_name in refs["ports"]:
+        port = metadata.get_port(port_name)
+        port_results.append({
+            "reference": port_name,
+            "type": "port",
+            "valid": port is not None,
+            "direction": port.direction if port else None,
+            "port_type": port.port_type if port else None,
+        })
+
+    clock_results = []
+    for clock_name in refs["clocks"]:
+        clock = metadata.get_clock(clock_name)
+        clock_results.append({
+            "reference": clock_name,
+            "type": "clock",
+            "valid": clock is not None,
+            "period_ns": clock.period_ns if clock else None,
+        })
+
+    pin_results = []
+    for pin_ref in refs["pins"]:
+        # Extract cell name from pin reference (e.g., "div_reg/Q" -> "div_reg")
+        parts = pin_ref.split("/")
+        cell_name = parts[0] if parts else pin_ref
+        cell = metadata.get_cell(cell_name)
+        pin_results.append({
+            "reference": pin_ref,
+            "type": "pin",
+            "valid": cell is not None,
+            "cell_found": cell is not None,
+            "cell_type": cell.cell_type if cell else None,
+        })
+
+    all_results = port_results + clock_results + pin_results
+    all_valid = all(r["valid"] for r in all_results) if all_results else True
+    any_valid = any(r["valid"] for r in all_results) if all_results else False
+
+    return {
+        "metadata_version": metadata.metadata_version,
+        "task_id": metadata.task_id,
+        "port_references": port_results,
+        "clock_references": clock_results,
+        "pin_references": pin_results,
+        "total_references": len(all_results),
+        "valid_references": sum(1 for r in all_results if r["valid"]),
+        "invalid_references": sum(1 for r in all_results if not r["valid"]),
+        "all_validated": all_valid,
+        "any_validated": any_valid,
+        "constraint_validity_rate": sum(1 for r in all_results if r["valid"]) / len(all_results) if all_results else 1.0,
+    }

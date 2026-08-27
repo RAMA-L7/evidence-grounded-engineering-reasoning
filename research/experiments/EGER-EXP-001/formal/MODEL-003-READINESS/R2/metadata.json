@@ -1,0 +1,11 @@
+{
+  "model": "opencode/mimo-v2.5-free",
+  "provider": "opencode",
+  "temperature": 0.0,
+  "max_tokens": 2048,
+  "tools": [],
+  "prompt_hash": "029ec8b5cd73bb30319ddd48780e9cafd5d8123d03cf2d010f155ce8b4c90c4e",
+  "output_hash": "4151b3781c5fb5c9edf9ba0b15de3278b327dcc62a2040f9276c67a1c0014ecc",
+  "prompt_version": "eger.prompt.v1",
+  "task_id": "BENCH2-003-minimal"
+}

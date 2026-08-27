@@ -1,0 +1,38 @@
+{
+  "EGER-C1-6F7B4AC0": {
+    "condition": "C1",
+    "task_id": "BENCH2-001",
+    "manifest": "formal/C1/manifests/EGER-C1-6F7B4AC0.json",
+    "status": "COMPLETED"
+  },
+  "EGER-C1-6C5757F6": {
+    "condition": "C1",
+    "task_id": "BENCH2-002",
+    "manifest": "formal/C1/manifests/EGER-C1-6C5757F6.json",
+    "status": "COMPLETED"
+  },
+  "EGER-C1-789F4529": {
+    "condition": "C1",
+    "task_id": "BENCH2-003",
+    "manifest": "formal/C1/manifests/EGER-C1-789F4529.json",
+    "status": "COMPLETED"
+  },
+  "EGER-C1-453C4B9B": {
+    "condition": "C1",
+    "task_id": "BENCH2-004",
+    "manifest": "formal/C1/manifests/EGER-C1-453C4B9B.json",
+    "status": "COMPLETED"
+  },
+  "EGER-C1-B47CCD73": {
+    "condition": "C1",
+    "task_id": "BENCH2-005",
+    "manifest": "formal/C1/manifests/EGER-C1-B47CCD73.json",
+    "status": "COMPLETED"
+  },
+  "EGER-C1-444957C4": {
+    "condition": "C1",
+    "task_id": "BENCH2-006",
+    "manifest": "formal/C1/manifests/EGER-C1-444957C4.json",
+    "status": "COMPLETED"
+  }
+}

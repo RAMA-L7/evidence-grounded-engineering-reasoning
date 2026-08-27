@@ -1,0 +1,427 @@
+{
+  "version": "1.5.11",
+  "file": "C:\\Users\\91846\\AppData\\Local\\Temp\\eger_oracle_fa59a9382bf9\\candidate.sdc",
+  "errors": [
+    {
+      "code": "SDC-005",
+      "msg": "No set_input_delay \u2014 all input ports are unconstrained.",
+      "line": 0,
+      "line2": 0,
+      "context": null
+    },
+    {
+      "code": "SDC-006",
+      "msg": "No set_output_delay \u2014 all output ports are unconstrained.",
+      "line": 0,
+      "line2": 0,
+      "context": null
+    },
+    {
+      "code": "SDC-007",
+      "msg": "create_clock on likely data port \"data_bus_0\" \u2014 use dedicated clock ports only.",
+      "line": 2,
+      "line2": 0,
+      "context": null
+    }
+  ],
+  "warnings": [
+    {
+      "code": "SDC-024",
+      "msg": "2 clocks defined but no set_clock_groups \u2014 CDC paths may be analyzed as synchronous.",
+      "line": 0,
+      "line2": 0,
+      "context": null
+    },
+    {
+      "code": "SDC-030",
+      "msg": "No set_propagated_clock \u2014 ideal clock model is over-optimistic for post-layout correlation.",
+      "line": 0,
+      "line2": 0,
+      "context": null
+    }
+  ],
+  "info": [
+    {
+      "code": "SDC-062",
+      "msg": "1 clock pair(s) lack an explicit set_clock_groups declaration (e.g. clk/bad_clk \u2014 inferred asynchronous). See the Clock Relations tab / matrix for the full pair-by-pair breakdown.",
+      "line": 0
+    },
+    {
+      "code": "SDC-100",
+      "msg": "No sdc_version declaration. Add 'set sdc_version 2.2' at the top.",
+      "line": 0
+    },
+    {
+      "code": "SDC-101",
+      "msg": "No set_units \u2014 add 'set_units -time ns -capacitance pF' to avoid unit mismatches.",
+      "line": 0
+    },
+    {
+      "code": "SDC-102",
+      "msg": "No set_max_fanout \u2014 consider set_max_fanout 20 [all_inputs].",
+      "line": 0
+    },
+    {
+      "code": "SDC-103",
+      "msg": "No set_max_transition \u2014 add set_max_transition 0.2 [all_nets].",
+      "line": 0
+    },
+    {
+      "code": "SDC-104",
+      "msg": "No set_max_capacitance.",
+      "line": 0
+    },
+    {
+      "code": "SDC-105",
+      "msg": "No set_load on outputs.",
+      "line": 0
+    },
+    {
+      "code": "SDC-106",
+      "msg": "No set_driving_cell / set_input_transition / set_drive \u2014 input slew is ideal.",
+      "line": 0
+    },
+    {
+      "code": "SDC-107",
+      "msg": "No set_clock_latency \u2014 model insertion delay with set_clock_latency -source before CTS.",
+      "line": 0
+    },
+    {
+      "code": "SDC-108",
+      "msg": "No set_clock_transition \u2014 constrain clock slew with set_clock_transition 0.1 [all_clocks].",
+      "line": 0
+    },
+    {
+      "code": "SDC-109",
+      "msg": "No set_case_analysis \u2014 use for scan_en, test_mode to prevent DFT paths dominating timing.",
+      "line": 0
+    },
+    {
+      "code": "SDC-110",
+      "msg": "No set_ideal_network \u2014 mark reset/scan_en as ideal.",
+      "line": 0
+    },
+    {
+      "code": "SDC-113",
+      "msg": "No set_dont_use \u2014 consider excluding weak/problematic cells.",
+      "line": 0
+    },
+    {
+      "code": "SDC-114",
+      "msg": "No set_operating_conditions \u2014 specify PVT corner explicitly.",
+      "line": 0
+    },
+    {
+      "code": "SDC-115",
+      "msg": "No set_timing_derate \u2014 needed for AOCV/POCVM advanced signoff.",
+      "line": 0
+    },
+    {
+      "code": "SDC-116",
+      "msg": "No set_clock_jitter \u2014 model random jitter separately from uncertainty.",
+      "line": 0
+    },
+    {
+      "code": "SDC-117",
+      "msg": "No group_path \u2014 improves synthesis optimization focus on critical interfaces.",
+      "line": 0
+    },
+    {
+      "code": "SDC-118",
+      "msg": "No set_clock_gating_check \u2014 needed if design uses clock gating cells.",
+      "line": 0
+    },
+    {
+      "code": "SDC-121",
+      "msg": "No wire load constraints \u2014 needed for flows without extracted RC.",
+      "line": 0
+    },
+    {
+      "code": "SDC-122",
+      "msg": "No set_max_area \u2014 add area target for synthesis.",
+      "line": 0
+    },
+    {
+      "code": "SDC-123",
+      "msg": "No power constraints.",
+      "line": 0
+    }
+  ],
+  "stats": {
+    "Clocks": 2,
+    "Generated clocks": 0,
+    "Virtual clocks": 0,
+    "Input delays": 0,
+    "Output delays": 0,
+    "False paths": 0,
+    "Multicycle paths": 0,
+    "Clock groups": 0,
+    "Uncertainty": 0,
+    "Clk transition": 0,
+    "Clk jitter": 0,
+    "Max transition": 0,
+    "Max cap": 0,
+    "Case analysis": 0,
+    "Disable arcs": 0,
+    "Timing derate": 0,
+    "Oper conditions": 0,
+    "Group paths": 0,
+    "Propagated": 0
+  },
+  "summary": {
+    "errors": 3,
+    "warnings": 2,
+    "info": 21,
+    "clocks": 2
+  },
+  "analysis_scope": {
+    "status": "NETLIST_REQUIRED",
+    "commands_found": 2,
+    "fully_analyzed": 0,
+    "partially_analyzed": 0,
+    "netlist_required": 1,
+    "unsupported": 0,
+    "tcl_execution_required": 0,
+    "unknown_options": [],
+    "ignored_options": [],
+    "design": null,
+    "constructs": [
+      {
+        "command": "create_clock",
+        "level": "NETLIST_REQUIRED",
+        "count": 2,
+        "netlist_refs": 2,
+        "ignored_options": [],
+        "unknown_options": [],
+        "note": ""
+      }
+    ]
+  },
+  "constraint_coverage": {},
+  "constraint_interactions": {
+    "summary": {
+      "constraints_analyzed": 0,
+      "exact_duplicates": 0,
+      "semantic_duplicates": 0,
+      "redundant": 0,
+      "legal_multiples": 0,
+      "overrides": 0,
+      "definite_conflicts": 0,
+      "possible_conflicts": 0,
+      "ambiguous": 0,
+      "sta_required": 0,
+      "confidence_is_not_correctness": true
+    },
+    "findings": []
+  },
+  "constraint_readiness": {
+    "overall": "BLOCKED",
+    "mode": "SDC_ONLY",
+    "limited_design_verification": true,
+    "engine_failed": false,
+    "dimensions": {
+      "COVERAGE": {
+        "dimension": "COVERAGE",
+        "status": "NOT_APPLICABLE",
+        "summary": "coverage requires design context (SDC-only mode)",
+        "findings": []
+      },
+      "DESIGN_CONTEXT": {
+        "dimension": "DESIGN_CONTEXT",
+        "status": "INSUFFICIENT_CONTEXT",
+        "summary": "design context not supplied \u2014 object existence and coverage unverifiable (SDC-only mode)",
+        "findings": []
+      },
+      "CLOCKS": {
+        "dimension": "CLOCKS",
+        "status": "REVIEW_REQUIRED",
+        "summary": "1 finding(s)",
+        "findings": [
+          {
+            "code": "SDC-007",
+            "severity": "error",
+            "msg": "create_clock on likely data port \"data_bus_0\" \u2014 use dedicated clock ports only.",
+            "line": 2,
+            "line2": 0,
+            "tier": "REVIEW_REQUIRED",
+            "action": "FIX_CLOCK_DEFINITION",
+            "priority": "P0"
+          }
+        ]
+      },
+      "I/O": {
+        "dimension": "I/O",
+        "status": "BLOCKED",
+        "summary": "2 finding(s)",
+        "findings": [
+          {
+            "code": "SDC-005",
+            "severity": "error",
+            "msg": "No set_input_delay \u2014 all input ports are unconstrained.",
+            "line": 0,
+            "line2": 0,
+            "tier": "BLOCKED",
+            "action": "ADD_INPUT_CONSTRAINT",
+            "priority": "P1"
+          },
+          {
+            "code": "SDC-006",
+            "severity": "error",
+            "msg": "No set_output_delay \u2014 all output ports are unconstrained.",
+            "line": 0,
+            "line2": 0,
+            "tier": "BLOCKED",
+            "action": "ADD_OUTPUT_CONSTRAINT",
+            "priority": "P1"
+          }
+        ]
+      },
+      "EXCEPTIONS": {
+        "dimension": "EXCEPTIONS",
+        "status": "READY",
+        "summary": "",
+        "findings": []
+      },
+      "CONSISTENCY": {
+        "dimension": "CONSISTENCY",
+        "status": "READY",
+        "summary": "",
+        "findings": []
+      },
+      "ANALYSIS_TRUST": {
+        "dimension": "ANALYSIS_TRUST",
+        "status": "REVIEW_REQUIRED",
+        "summary": "2 finding(s)",
+        "findings": [
+          {
+            "code": "SDC-024",
+            "severity": "warning",
+            "msg": "2 clocks defined but no set_clock_groups \u2014 CDC paths may be analyzed as synchronous.",
+            "line": 0,
+            "line2": 0,
+            "tier": "REVIEW_REQUIRED",
+            "action": "DECLARE_CLOCK_GROUPS",
+            "priority": "P1"
+          },
+          {
+            "code": "SDC-030",
+            "severity": "warning",
+            "msg": "No set_propagated_clock \u2014 ideal clock model is over-optimistic for post-layout correlation.",
+            "line": 0,
+            "line2": 0,
+            "tier": "REVIEW_REQUIRED",
+            "action": "REVIEW_CLOCK_MODEL",
+            "priority": "P2"
+          }
+        ]
+      }
+    },
+    "blockers": [
+      {
+        "code": "SDC-005",
+        "severity": "error",
+        "msg": "No set_input_delay \u2014 all input ports are unconstrained.",
+        "line": 0,
+        "line2": 0,
+        "action": "ADD_INPUT_CONSTRAINT",
+        "priority": "P1",
+        "dimension": "I/O"
+      },
+      {
+        "code": "SDC-006",
+        "severity": "error",
+        "msg": "No set_output_delay \u2014 all output ports are unconstrained.",
+        "line": 0,
+        "line2": 0,
+        "action": "ADD_OUTPUT_CONSTRAINT",
+        "priority": "P1",
+        "dimension": "I/O"
+      }
+    ],
+    "review_items": [
+      {
+        "code": "SDC-007",
+        "severity": "error",
+        "msg": "create_clock on likely data port \"data_bus_0\" \u2014 use dedicated clock ports only.",
+        "line": 2,
+        "line2": 0,
+        "action": "FIX_CLOCK_DEFINITION",
+        "priority": "P0",
+        "dimension": "CLOCKS"
+      },
+      {
+        "code": "SDC-024",
+        "severity": "warning",
+        "msg": "2 clocks defined but no set_clock_groups \u2014 CDC paths may be analyzed as synchronous.",
+        "line": 0,
+        "line2": 0,
+        "action": "DECLARE_CLOCK_GROUPS",
+        "priority": "P1",
+        "dimension": "ANALYSIS_TRUST"
+      },
+      {
+        "code": "SDC-030",
+        "severity": "warning",
+        "msg": "No set_propagated_clock \u2014 ideal clock model is over-optimistic for post-layout correlation.",
+        "line": 0,
+        "line2": 0,
+        "action": "REVIEW_CLOCK_MODEL",
+        "priority": "P2",
+        "dimension": "ANALYSIS_TRUST"
+      }
+    ],
+    "advisories": [],
+    "actions": [
+      {
+        "category": "FIX_CLOCK_DEFINITION",
+        "priority": "P0",
+        "count": 1,
+        "evidence": [
+          "SDC-007 L2"
+        ],
+        "detail": ""
+      },
+      {
+        "category": "ADD_INPUT_CONSTRAINT",
+        "priority": "P1",
+        "count": 1,
+        "evidence": [
+          "SDC-005"
+        ],
+        "detail": ""
+      },
+      {
+        "category": "ADD_OUTPUT_CONSTRAINT",
+        "priority": "P1",
+        "count": 1,
+        "evidence": [
+          "SDC-006"
+        ],
+        "detail": ""
+      },
+      {
+        "category": "DECLARE_CLOCK_GROUPS",
+        "priority": "P1",
+        "count": 1,
+        "evidence": [
+          "SDC-024"
+        ],
+        "detail": ""
+      },
+      {
+        "category": "REVIEW_CLOCK_MODEL",
+        "priority": "P2",
+        "count": 1,
+        "evidence": [
+          "SDC-030"
+        ],
+        "detail": ""
+      }
+    ],
+    "notes": [
+      "SDC-only mode: object references (get_ports/get_pins/all_*) could not be verified against a design. Upload a netlist for design-aware readiness. This limitation does not by itself block readiness.",
+      "This is a constraint-readiness review, NOT an STA timing signoff. READY does not mean setup/hold timing passes."
+    ],
+    "not_timing_signoff": true
+  }
+}

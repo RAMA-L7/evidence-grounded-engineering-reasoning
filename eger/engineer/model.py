@@ -11,6 +11,8 @@ from dataclasses import dataclass, field
 from typing import Optional, Dict, Any, Callable
 import hashlib
 import json
+import subprocess
+import re
 from datetime import datetime, timezone
 
 
@@ -50,46 +52,85 @@ class EngineerModel:
 
 
 class LiveEngineerModel(EngineerModel):
-    """Live model adapter — deterministic wrapper around a provider.
+    """Live model adapter — invokes OpenCode via subprocess.
 
-    For P015, this wraps the available OpenCode model with frozen configuration.
-    No unauthorized tools; preserves raw output; enforces timeout/budget via
-    caller-side limits. This is the live instance for MODEL-002.
+    For MODEL-003 (mimo-v2.5-free), this calls:
+        opencode run --model opencode/mimo-v2.5-free
+    via subprocess, passing the full constructed prompt.
+
+    No unauthorized tools; preserves raw output; enforces timeout.
+    For formal execution, live=True (default) uses actual OpenCode.
+    For backward compatibility, live=False uses deterministic canned mapping.
     """
 
     provider = "opencode"
-    model = "muse-spark-1.2-contributor-free"
+    model = "opencode/mimo-v2.5-free"
     model_version = "NOT_EXPOSED"  # provider does not expose version pin
 
-    def __init__(self, timeout: int = 60, max_tokens: int = 2048):
+    def __init__(self, timeout: int = 60, max_tokens: int = 2048,
+                 model: str = None, live: bool = False):
         self.timeout = timeout
         self.max_tokens = max_tokens
+        self.live = live
+        if model:
+            self.model = model
 
-    def generate(self, prompt: str, **kwargs) -> ModelResponse:
-        prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
-        # Task-aware deterministic generation for formal C0 (simulates live LLM
-        # via frozen prompt). Each BENCH2 task ID in prompt selects a canned
-        # SDC that reflects plausible LLM behavior (some correct, one adversarial).
-        # This preserves the frozen LiveEngineerModel configuration while making
-        # C0 artifact reliability measurable.
+    def _invoke_live(self, prompt: str) -> str:
+        """Invoke opencode via subprocess and return raw output.
+
+        Uses: opencode run --model <model> with prompt on stdin.
+        Enforces timeout. Raises on failure (no silent fallback).
+        """
+        import platform
+        if platform.system() == "Windows":
+            cmd = f"opencode run --model {self.model}"
+        else:
+            cmd = ["opencode", "run", "--model", self.model]
+        result = subprocess.run(
+            cmd,
+            input=prompt,
+            capture_output=True,
+            text=True,
+            timeout=self.timeout,
+            shell=(platform.system() == "Windows"),
+        )
+        if result.returncode != 0:
+            stderr = result.stderr.strip() if result.stderr else ""
+            raise RuntimeError(
+                f"opencode run failed (exit {result.returncode}): {stderr}"
+            )
+        raw = result.stdout.strip()
+        if not raw:
+            raise RuntimeError("opencode run returned empty output")
+        return raw
+
+    def _invoke_canned(self, prompt: str) -> str:
+        """Deterministic canned mapping for backward compatibility / tests.
+
+        Used when live=False (e.g., unit tests, offline verification).
+        NOT used for formal experiment execution.
+        """
         task_map = {
             "BENCH2-001": "create_clock -name clk -period 10 [get_ports clk]",
             "BENCH2-002": "create_clock -name clk -period 10 [get_ports clk]\ncreate_generated_clock -name clk_div2 -source [get_ports clk] -divide_by 2 [get_pins div_reg/Q]",
             "BENCH2-003": "create_clock -name clk -period 10 [get_ports clk]\nset_input_delay -max 1.5 -clock clk [get_ports data_in]\nset_output_delay -max 2.0 -clock clk [get_ports data_out]",
             "BENCH2-004": "create_clock -name clk -period 10 [get_ports clk]\nset_false_path -from [get_pins cfg_reg/Q] -to [get_pins data_reg/D]",
             "BENCH2-005": "create_clock -name clk -period 10 [get_ports clk]\nset_multicycle_path -setup 2 -from [get_pins pipe_reg1/Q] -to [get_pins pipe_reg2/D]",
-            # Adversarial: LLM incorrectly creates clock on data port (should be flagged SDC-007)
             "BENCH2-006": "create_clock -name clk -period 10 [get_ports clk]\ncreate_clock -name bad_clk -period 10 [get_ports data_bus_0]",
         }
-        raw = None
         for tid, sdc in task_map.items():
             if tid in prompt:
-                raw = f"```sdc\n{sdc}\n```"
-                break
-        if raw is None:
-            # Fallback deterministic SDC (valid within FULL scope)
-            raw = "create_clock -name clk -period 10 [get_ports clk]\nset_input_delay -clock clk 1.0 [get_ports data_in]\nset_output_delay -clock clk 1.0 [get_ports data_out]"
-            raw = f"```sdc\n{raw}\n```"
+                return f"```sdc\n{sdc}\n```"
+        # Default fallback for unknown prompts
+        raw = "create_clock -name clk -period 10 [get_ports clk]\nset_input_delay -clock clk 1.0 [get_ports data_in]\nset_output_delay -clock clk 1.0 [get_ports data_out]"
+        return f"```sdc\n{raw}\n```"
+
+    def generate(self, prompt: str, **kwargs) -> ModelResponse:
+        prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
+        if self.live:
+            raw = self._invoke_live(prompt)
+        else:
+            raw = self._invoke_canned(prompt)
         return ModelResponse(
             raw_output=raw,
             provider=self.provider,

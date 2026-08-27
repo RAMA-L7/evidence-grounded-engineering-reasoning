@@ -1,0 +1,315 @@
+{
+  "evidence_scope": "INSUFFICIENT",
+  "oracle_status": "SUCCESS",
+  "findings": [
+    {
+      "finding_id": "EGER-FIND-b91da2b4-001",
+      "code": "SDC-005",
+      "severity": "error",
+      "message": "No set_input_delay \u2014 all input ports are unconstrained.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-002",
+      "code": "SDC-006",
+      "severity": "error",
+      "message": "No set_output_delay \u2014 all output ports are unconstrained.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-003",
+      "code": "SDC-020",
+      "severity": "warning",
+      "message": "set_false_path from [get_pins cfg_reg/*] to [get_pins data_reg/*] \u2014 confirm this is a genuine false path.",
+      "location": {
+        "line": 7,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-004",
+      "code": "SDC-030",
+      "severity": "warning",
+      "message": "No set_propagated_clock \u2014 ideal clock model is over-optimistic for post-layout correlation.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-005",
+      "code": "SDC-102",
+      "severity": "info",
+      "message": "No set_max_fanout \u2014 consider set_max_fanout 20 [all_inputs].",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-006",
+      "code": "SDC-103",
+      "severity": "info",
+      "message": "No set_max_transition \u2014 add set_max_transition 0.2 [all_nets].",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-007",
+      "code": "SDC-104",
+      "severity": "info",
+      "message": "No set_max_capacitance.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-008",
+      "code": "SDC-105",
+      "severity": "info",
+      "message": "No set_load on outputs.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-009",
+      "code": "SDC-106",
+      "severity": "info",
+      "message": "No set_driving_cell / set_input_transition / set_drive \u2014 input slew is ideal.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-010",
+      "code": "SDC-107",
+      "severity": "info",
+      "message": "No set_clock_latency \u2014 model insertion delay with set_clock_latency -source before CTS.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-011",
+      "code": "SDC-108",
+      "severity": "info",
+      "message": "No set_clock_transition \u2014 constrain clock slew with set_clock_transition 0.1 [all_clocks].",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-012",
+      "code": "SDC-109",
+      "severity": "info",
+      "message": "No set_case_analysis \u2014 use for scan_en, test_mode to prevent DFT paths dominating timing.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-013",
+      "code": "SDC-110",
+      "severity": "info",
+      "message": "No set_ideal_network \u2014 mark reset/scan_en as ideal.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-014",
+      "code": "SDC-113",
+      "severity": "info",
+      "message": "No set_dont_use \u2014 consider excluding weak/problematic cells.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-015",
+      "code": "SDC-114",
+      "severity": "info",
+      "message": "No set_operating_conditions \u2014 specify PVT corner explicitly.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-016",
+      "code": "SDC-115",
+      "severity": "info",
+      "message": "No set_timing_derate \u2014 needed for AOCV/POCVM advanced signoff.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-017",
+      "code": "SDC-116",
+      "severity": "info",
+      "message": "No set_clock_jitter \u2014 model random jitter separately from uncertainty.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-018",
+      "code": "SDC-117",
+      "severity": "info",
+      "message": "No group_path \u2014 improves synthesis optimization focus on critical interfaces.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-019",
+      "code": "SDC-118",
+      "severity": "info",
+      "message": "No set_clock_gating_check \u2014 needed if design uses clock gating cells.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-020",
+      "code": "SDC-121",
+      "severity": "info",
+      "message": "No wire load constraints \u2014 needed for flows without extracted RC.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-021",
+      "code": "SDC-122",
+      "severity": "info",
+      "message": "No set_max_area \u2014 add area target for synthesis.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-b91da2b4-022",
+      "code": "SDC-123",
+      "severity": "info",
+      "message": "No power constraints.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    }
+  ],
+  "evidence_hash": "737592ff85021328910b00ca88fba62aa0dd7bd99fefb55ba9bd8740ad117bc8"
+}

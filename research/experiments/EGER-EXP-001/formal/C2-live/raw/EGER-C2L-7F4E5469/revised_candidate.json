@@ -1,0 +1,24 @@
+{
+  "artifact_id": "EGER-CAND-A33010F39B66",
+  "schema_version": "eger.candidate.v1",
+  "sdc_text": "set sdc_version 2.2\nset_units -time ns -capacitance pF\n\ncreate_clock -name clk -period 10.0 [get_ports clk]\n\nset_input_delay -clock clk -max 2.0 [get_ports data_in[*]]\nset_input_delay -clock clk -min 0.5 [get_ports data_in[*]]\n\nset_output_delay -clock clk -max 3.0 [get_ports data_out[*]]\nset_output_delay -clock clk -min 0.8 [get_ports data_out[*]]\n\nset_clock_latency -source 0.5 [get_clocks clk]\nset_clock_transition 0.1 [get_clocks clk]\nset_clock_uncertainty 0.2 [get_clocks clk]\n\nset_driving_cell -lib_cell BUF_X1 [get_ports data_in[*]]\nset_input_transition 0.2 [get_ports data_in[*]]\n\nset_load 0.1 [get_ports data_out[*]]\n\nset_max_fanout 20 [get_ports clk]\nset_max_transition 0.2 [all_nets]\n\nset_ideal_network [get_ports reset]",
+  "input_hash": "a33010f39b669bc575970397e4bf72549b9ecc71f5b1891cb9cb082457a98868",
+  "candidate_hash": "a33010f39b669bc575970397e4bf72549b9ecc71f5b1891cb9cb082457a98868",
+  "verified": false,
+  "provision": {
+    "provider": "opencode",
+    "model": "opencode/nemotron-3-ultra-free",
+    "model_version": "NOT_EXPOSED",
+    "sampling_params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "timeout": 60
+    },
+    "request_id": null,
+    "prompt_hash": "c3243c346e7c453450c49223f0f7e01d7fba52e70eeef70986b7c3d21eff3114",
+    "prompt_version": "eger.prompt.v1",
+    "output_hash": "f5b953ac0cac8a5312796224dc2c6b3ea46137146ad5fd44dcc5f22b7ea9813a",
+    "produced_at": "2026-08-27T16:38:41.134905+00:00"
+  },
+  "created_at": "2026-08-27T16:38:41.134905+00:00"
+}

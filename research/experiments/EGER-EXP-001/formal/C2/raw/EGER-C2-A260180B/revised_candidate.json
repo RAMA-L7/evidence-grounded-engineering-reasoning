@@ -1,0 +1,24 @@
+{
+  "artifact_id": "EGER-CAND-788310C662F4",
+  "schema_version": "eger.candidate.v1",
+  "sdc_text": "create_clock -name clk -period 10 [get_ports clk]\nset_false_path -from [get_pins cfg_reg/Q] -to [get_pins data_reg/D]",
+  "input_hash": "788310c662f464a14ac804c1663b55a5c85d57d0b94b8d10ee85d4195b64307f",
+  "candidate_hash": "788310c662f464a14ac804c1663b55a5c85d57d0b94b8d10ee85d4195b64307f",
+  "verified": false,
+  "provision": {
+    "provider": "opencode",
+    "model": "opencode/mimo-v2.5-free",
+    "model_version": "NOT_EXPOSED",
+    "sampling_params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "timeout": 60
+    },
+    "request_id": null,
+    "prompt_hash": "05d054e7860a11b085a6d2f09b68d8a2a7e8cf70f67f6388e9ceee57d05504d3",
+    "prompt_version": "eger.prompt.v1",
+    "output_hash": "07bf9ce05e0fd49ad033d05ae826431b0eaa1b9b9a0a38e3487efbdde8a14047",
+    "produced_at": "2026-08-27T15:24:42.933868+00:00"
+  },
+  "created_at": "2026-08-27T15:24:42.933868+00:00"
+}

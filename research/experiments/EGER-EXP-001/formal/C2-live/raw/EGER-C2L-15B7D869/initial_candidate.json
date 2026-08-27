@@ -1,0 +1,24 @@
+{
+  "artifact_id": "EGER-CAND-7FDFFB63D9B0",
+  "schema_version": "eger.candidate.v1",
+  "sdc_text": "set_multicycle_path -setup 2 -from [get_pins pipe_reg1/CP] -to [get_pins pipe_reg2/D]",
+  "input_hash": "7fdffb63d9b0223eb15de021686649f0d485b9aca11cbdb7afe4133f29e642f2",
+  "candidate_hash": "7fdffb63d9b0223eb15de021686649f0d485b9aca11cbdb7afe4133f29e642f2",
+  "verified": false,
+  "provision": {
+    "provider": "opencode",
+    "model": "opencode/nemotron-3-ultra-free",
+    "model_version": "NOT_EXPOSED",
+    "sampling_params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "timeout": 60
+    },
+    "request_id": null,
+    "prompt_hash": "aaaa3831a3e270dad74cf9e218df0a8e901dd422abb54967040b5d6f548b02cb",
+    "prompt_version": "eger.prompt.v1",
+    "output_hash": "2d99200a534808e447156f630ec197b74a611879e15169854c97ab61d4af09a3",
+    "produced_at": "2026-08-27T16:42:44.303393+00:00"
+  },
+  "created_at": "2026-08-27T16:42:44.303393+00:00"
+}

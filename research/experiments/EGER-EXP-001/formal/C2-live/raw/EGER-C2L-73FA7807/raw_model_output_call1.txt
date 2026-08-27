@@ -1,0 +1,5 @@
+```sdc
+create_clock -name clk -period 10.000 [get_ports clk]
+
+set_false_path -from [get_pins cfg_reg/*] -to [get_pins data_reg/*]
+```

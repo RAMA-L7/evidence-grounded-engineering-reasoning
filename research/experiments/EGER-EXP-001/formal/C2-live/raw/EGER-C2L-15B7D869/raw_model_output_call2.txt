@@ -1,0 +1,18 @@
+```sdc
+set sdc_version 2.2
+set_units -time ns -capacitance pF
+
+# Clock definition - assumed 100MHz based on typical pipeline design
+create_clock -name clk -period 10.000 [get_ports clk]
+
+# Multicycle path for pipelined path from pipe_reg1 to pipe_reg2
+# Pipeline stage requires 2 cycles for setup (data valid 2 cycles after launch)
+set_multicycle_path -setup 2 -hold 1 -from [get_pins pipe_reg1/CP] -to [get_pins pipe_reg2/D]
+
+# Basic physical constraints
+set_max_fanout 20 [all_inputs]
+set_max_transition 0.2 [all_nets]
+set_clock_latency -source 0.1 [all_clocks]
+set_clock_transition 0.1 [all_clocks]
+set_clock_jitter 0.05 [all_clocks]
+```

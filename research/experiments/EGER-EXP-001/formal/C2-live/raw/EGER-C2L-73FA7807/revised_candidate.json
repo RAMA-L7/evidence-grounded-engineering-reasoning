@@ -1,0 +1,24 @@
+{
+  "artifact_id": "EGER-CAND-6A55A0FEC3AE",
+  "schema_version": "eger.candidate.v1",
+  "sdc_text": "set sdc_version 2.2\nset_units -time ns -capacitance pF\n\ncreate_clock -name clk -period 10.000 [get_ports clk]\n\n# False path by design: config register to data register path is not timing-critical\nset_false_path -from [get_pins cfg_reg/*] -to [get_pins data_reg/*]",
+  "input_hash": "6a55a0fec3ae5b999ec33be4d54e7c70cb1bc1baa767bb81cf9ee60e14e65a29",
+  "candidate_hash": "6a55a0fec3ae5b999ec33be4d54e7c70cb1bc1baa767bb81cf9ee60e14e65a29",
+  "verified": false,
+  "provision": {
+    "provider": "opencode",
+    "model": "opencode/nemotron-3-ultra-free",
+    "model_version": "NOT_EXPOSED",
+    "sampling_params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "timeout": 60
+    },
+    "request_id": null,
+    "prompt_hash": "02879d3d7f4173be91f1e63e592fa03c1fb32dea5c6b624a7fd7705d791db2e7",
+    "prompt_version": "eger.prompt.v1",
+    "output_hash": "e452ff7e64a6776cfbe78a625681a08e88fb6bee9f8a53e6cadea16eb3878435",
+    "produced_at": "2026-08-27T16:42:25.154551+00:00"
+  },
+  "created_at": "2026-08-27T16:42:25.154551+00:00"
+}

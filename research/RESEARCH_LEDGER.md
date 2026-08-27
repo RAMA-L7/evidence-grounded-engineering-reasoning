@@ -451,6 +451,150 @@ Literature synthesis that preceded the contract is recorded in
 | Ṛta modification | NONE |
 | Status | **COMPLETE — C0 IS A VALID BASELINE WITH DOCUMENTED LIMITATIONS — C1 REQUIRES HUMAN AUTHORIZATION** |
 
+## 5s. EGER-P017 — C1 Readiness & Experimental Freeze Review
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P017 · 2026-08-26 |
+| Type / Purpose | Readiness review — determine whether C1 can be executed without introducing uncontrolled variables |
+| Previous state | C0 COMPLETE, C0-REVIEW-001-R1 COMPLETE, C1 NOT EXECUTED |
+| Key finding | One blocking issue: B-1 — C1 text feedback format not defined. Protocol says "deterministic oracle output rendered as text" but does not specify exact format. |
+| Verdict | READY WITH EXPLICIT OPEN QUESTIONS — C1 NOT AUTHORIZED |
+| Deliverable | research/implementation/EGER-C1-READINESS-001.md |
+| Status | **COMPLETE — BLOCKER IDENTIFIED** |
+
+## 5t. EGER-P018 — C1 Text Feedback Contract Definition
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P018 · 2026-08-26 |
+| Type / Purpose | Protocol definition — formalize C1 text feedback contract to resolve B-1 |
+| Previous state | B-1 unresolved — C1 text feedback format undefined |
+| Design selected | Option A — Full Oracle Summary (execution status + evidence scope + findings) |
+| Fields included | Oracle execution status, evidence scope, scope limitation, findings (severity/code/message/line) |
+| Fields excluded | Hashes, provenance, evaluator answers, epistemic state, authorization |
+| Open design questions | ODQ-1 (injection point), ODQ-2 (iteration protocol), ODQ-3 (line=0 representation) |
+| Deliverable | research/implementation/EGER-C1-TEXT-FEEDBACK-CONTRACT-001.md |
+| Status | **PROPOSED — NOT YET FROZEN** |
+
+## 5u. EGER-P019 — C1 Contract Closure
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P019 · 2026-08-26 |
+| Type / Purpose | Protocol closure — resolve ODQ-1/2/3 and freeze C1 text feedback contract |
+| Previous state | Three open design questions from P018 |
+| ODQ-1 decision | Injection point: after CANDIDATE, before RESPOND instruction |
+| ODQ-2 decision | Single-shot feedback (one model call, no revision) — **later corrected by P020** |
+| ODQ-3 decision | line=0 rendered as Line: N/A |
+| Deliverable | research/implementation/EGER-C1-TEXT-FEEDBACK-CONTRACT-001-R1.md |
+| Status | **HISTORICAL — CONTAINS CONTRADICTION IDENTIFIED BY P020** |
+
+## 5v. EGER-P020 — C1 Causal Mechanism Reconciliation
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P020 · 2026-08-26 |
+| Type / Purpose | Scientific reconciliation — resolve P019 contradiction (single-shot vs. revision) |
+| Previous state | P019 contains incompatible definitions: "one model call" AND "produce a revised candidate" |
+| Central question | What exactly is the causal mechanism that C1 is intended to test? |
+| Interpretation A | Post-proposal feedback (scientifically vacuous — no causal pathway) |
+| Interpretation B | Feedback-assisted revision (scientifically meaningful — clear causal pathway) |
+| Recommendation | Interpretation B — feedback-assisted revision | 
+| Independent variable | Access to deterministic oracle text feedback during proposal revision |
+| Revision call status | Part of treatment, not confound |
+| Deliverable | research/implementation/EGER-C1-CAUSAL-MECHANISM-RECONCILIATION-001.md |
+| Status | **RECOMMENDATION READY — HUMAN DECISION REQUIRED** |
+
+## 5w. EGER-P021 — C1 Protocol Change-Control Assessment
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P021 · 2026-08-26 |
+| Type / Purpose | Audit and change-control assessment — determine whether feedback-assisted revision requires formal change control |
+| Previous state | P020 recommends Interpretation B; change-control status unknown |
+| Change-control classification | **EGER-CHANGE-### REQUIRED** — independent variable clarified, primary artifact changed, execution mechanism changed |
+| Budget impact | None — C1 fits within MODEL-002 budget (2 model calls ≤ 5, 2 oracle calls ≤ 5) |
+| Benchmark impact | None — BENCH-002 unchanged |
+| Model impact | None — MODEL-002 unchanged |
+| Ṛta impact | None — same oracle interface |
+| Deliverable | research/implementation/EGER-C1-PROTOCOL-CHANGE-ASSESSMENT-001.md |
+| Status | **CHANGE-CONTROL DECISION READY — HUMAN APPROVAL REQUIRED** |
+
+## 5x. EGER-P022 — C1 Protocol Change Authorization & Recording
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P022 · 2026-08-26 |
+| Type / Purpose | Change-control recording — formally record the approved C0→C1 protocol change |
+| Human authorization | Explicit — P022 directive authorizes change-control recording |
+| Change record | **EGER-CHANGE-001** — C1 clarified as feedback-assisted revision |
+| Protocol update | **EXP-001 v0.2** — C1 definition clarified to include revision procedure |
+| What changed | (1) C1 independent variable clarified (not added). (2) C1 primary artifact changed (initial → final revised candidate). (3) C1 execution: 2 model calls + 2 oracle calls (was ambiguous). (4) Run manifest schema extended. |
+| What did NOT change | BENCH-002 (frozen), MODEL-002 (frozen), Ṛta (untouched), C0 (frozen baseline), research question, hypothesis H1, text feedback contract format, information boundary, authority separation |
+| Scientific justification | P019 single-shot interpretation was scientifically vacuous — feedback arrives after model finishes, no causal pathway. P020 feedback-assisted revision establishes causal pathway: feedback → revision → outcome. |
+| C0 preservation | C0 remains exactly as executed — historical baseline unchanged |
+| Confound monitoring | CM-1 through CM-6 observable under feedback-assisted revision; CM-7 requires definition update |
+| C1 implementation status | NOT STARTED |
+| C1 execution status | NOT AUTHORIZED |
+| Deliverables | EGER-CHANGE-001.md, EGER-EXP-001-PROTOCOL-v0.2.md |
+| Status | **APPROVED — change control complete; C1 implementation readiness next** |
+
+## 5y. EGER-P023 — C1 Implementation Readiness Verification
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P023 · 2026-08-26 |
+| Type / Purpose | Strict read-only implementation-readiness audit for C1 |
+| Previous state | C1 change control approved (P022); C1 not yet implemented |
+| Verdict | NOT READY — blocking gap: no text feedback renderer |
+| Key finding | EngineerModel interface and OracleAdapter structurally ready; text feedback renderer missing (BLOCKING); C1 runner missing; manifest schema needs extension |
+| Blocking gap | B-1: No deterministic text feedback renderer exists |
+| Non-blocking gaps | NB-1: No C1 runner. NB-2: Manifest schema extension. NB-3: No C1 tests. NB-4: Failure handling semantics undefined. NB-5: CM-7 not updated. NB-6: Experiment version string. |
+| C0 preservation | VERIFIED — C0 artifacts, runner, manifests untouched |
+| BENCH-002 isolation | VERIFIED — engineer/evaluator boundary intact |
+| MODEL-002 freeze | VERIFIED — same model, same parameters, budget accommodates 2 calls |
+| Ṛta boundary | INTACT — 3b5c2f2 main 19 unchanged |
+| Deliverable | research/implementation/EGER-C1-IMPLEMENTATION-READINESS-001.md |
+| Status | **NOT READY — BLOCKING GAP IDENTIFIED** |
+
+## 5z. EGER-P024 — C1 Open-Question Resolution & Implementation Authorization
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P024 · 2026-08-26 |
+| Type / Purpose | Resolve 5 ODQs from P023; authorize C1 implementation if approved |
+| ODQ-1 | Oracle call 1 failure → ABORT (INCOMPLETE_TREATMENT) with infra retry |
+| ODQ-2 | Model call 2 failure → TERMINATE (INCOMPLETE_TREATMENT) with infra retry |
+| ODQ-3 | Oracle call 2 failure → UNMEASURED (INCOMPLETE_MEASUREMENT) with infra retry |
+| ODQ-4 | Renderer location → Standalone `eger/engineer/feedback.py` |
+| ODQ-5 | C1 artifact directory → `formal/C1/` subdirectory |
+| Failure taxonomy | Existing contract categories + INCOMPLETE_TREATMENT, INCOMPLETE_MEASUREMENT |
+| Information boundary | CONFIRMED — Call 2 receives only task context + initial candidate + text feedback |
+| Model freeze | CONFIRMED — MODEL-002 unchanged, OpenCode/MIMO 2.5 is NOT the experimental model |
+| Authorized scope | Renderer + runner + manifest extension + tests + documentation |
+| Deliverable | research/implementation/EGER-P024-C1-DECISION-RECORD.md |
+| Status | **DECISIONS RECORDED — AWAITING HUMAN APPROVAL** |
+
+## 5aa. EGER-P025 — C1 Implementation
+
+| Field | Value |
+|---|---|
+| ID / Date | EGER-P025 · 2026-08-26 |
+| Type / Purpose | Implement approved C1 feedback-assisted revision protocol |
+| Human authorization | Explicit — IMPLEMENT C1 but DO NOT EXECUTE C1 |
+| Implementation scope | (1) Text feedback renderer, (2) C1 runner, (3) Manifest extension, (4) Tests, (5) Documentation |
+| Files created | `eger/engineer/feedback.py` (deterministic text feedback renderer), `research/experiments/EGER-EXP-001/formal_runner_c1.py` (C1 two-stage runner), `tests/test_c1_feedback.py` (16 tests) |
+| Files modified | None (source code) |
+| Tests | 16/16 C1 tests PASS + 47/47 existing tests PASS = 63/63 total |
+| C0 regression | VERIFIED — 47/47 existing tests still pass |
+| BENCH-002 | UNCHANGED |
+| MODEL-002 | UNCHANGED |
+| Ṛta | UNCHANGED (3b5c2f2 main 19) |
+| C1 execution | **NOT EXECUTED** — implementation only |
+| GitHub | NOT PUSHED |
+| Status | **IMPLEMENTED — 63/63 TESTS PASS — C1 NOT EXECUTED** |
+
 ## 6. Standing rules for future entries
 
 1. New material action ⇒ new ledger entry before or at the time of action.

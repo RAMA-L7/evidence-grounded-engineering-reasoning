@@ -1,0 +1,103 @@
+{
+  "evidence_scope": "UNSUPPORTED",
+  "oracle_status": "SUCCESS",
+  "findings": [
+    {
+      "finding_id": "EGER-FIND-5e15cb5a-001",
+      "code": "SDC-044",
+      "severity": "warning",
+      "message": "Operating condition \"-library\" does not match common patterns (WORST/BEST/TYP/SSG/TT/FFG).",
+      "location": {
+        "line": 26,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-5e15cb5a-002",
+      "code": "SDC-150",
+      "severity": "warning",
+      "message": "set_case_analysis without an explanatory comment \u2014 an undocumented timing exception can hide a real violation. Add a comment above the line or inline (e.g. '# async CDC \u2014 two-flop synchronizer, no timing path').",
+      "location": {
+        "line": 30,
+        "col": null
+      },
+      "related_location": null,
+      "context": {
+        "command": "set_case_analysis",
+        "inline_comment": false,
+        "comment_within_proximity": false,
+        "proximity_lines_checked": 3,
+        "min_comment_chars_required": 10
+      },
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-5e15cb5a-003",
+      "code": "SDC-150",
+      "severity": "warning",
+      "message": "set_case_analysis without an explanatory comment \u2014 an undocumented timing exception can hide a real violation. Add a comment above the line or inline (e.g. '# async CDC \u2014 two-flop synchronizer, no timing path').",
+      "location": {
+        "line": 31,
+        "col": null
+      },
+      "related_location": null,
+      "context": {
+        "command": "set_case_analysis",
+        "inline_comment": false,
+        "comment_within_proximity": false,
+        "proximity_lines_checked": 3,
+        "min_comment_chars_required": 10
+      },
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-5e15cb5a-004",
+      "code": "SDC-121",
+      "severity": "info",
+      "message": "No wire load constraints \u2014 needed for flows without extracted RC.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-5e15cb5a-005",
+      "code": "SDC-124",
+      "severity": "info",
+      "message": "set_clock_gating_check present but no set_min_pulse_width.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-5e15cb5a-006",
+      "code": "SDC-130",
+      "severity": "info",
+      "message": "set_operating_conditions found but no corner/PVT context in comments \u2014 consider adding a corner label for clarity.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    }
+  ],
+  "evidence_hash": "ed721f90923f805dfde29209f696156af9a325e3b0acb2a401b8a0477e360894"
+}

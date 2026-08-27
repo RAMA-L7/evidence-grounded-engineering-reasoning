@@ -1,0 +1,34 @@
+{
+  "EGER-M004C2-EC73742C": {
+    "condition": "C2",
+    "task_id": "BENCH2-001",
+    "status": "COMPLETED"
+  },
+  "EGER-M004C2-03C39A05": {
+    "condition": "C2",
+    "task_id": "BENCH2-002",
+    "status": "COMPLETED"
+  },
+  "EGER-M004C2-EC977E68": {
+    "condition": "C2",
+    "task_id": "BENCH2-004",
+    "status": "COMPLETED"
+  },
+  "EGER-M004C2-9C250E20": {
+    "condition": "C2",
+    "task_id": "BENCH2-005",
+    "status": "COMPLETED"
+  },
+  "FAILED-BENCH2-003": {
+    "condition": "C2",
+    "task_id": "BENCH2-003",
+    "status": "INCOMPLETE_TREATMENT",
+    "failure_type": "CALL2_FAILURE"
+  },
+  "FAILED-BENCH2-006": {
+    "condition": "C2",
+    "task_id": "BENCH2-006",
+    "status": "INCOMPLETE_TREATMENT",
+    "failure_type": "CALL1_FAILURE"
+  }
+}

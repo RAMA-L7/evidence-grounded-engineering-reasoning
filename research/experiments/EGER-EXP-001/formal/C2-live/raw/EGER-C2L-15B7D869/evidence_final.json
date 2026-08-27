@@ -1,0 +1,231 @@
+{
+  "evidence_scope": "PARTIAL",
+  "oracle_status": "SUCCESS",
+  "findings": [
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-001",
+      "code": "SDC-005",
+      "severity": "error",
+      "message": "No set_input_delay \u2014 all input ports are unconstrained.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-002",
+      "code": "SDC-006",
+      "severity": "error",
+      "message": "No set_output_delay \u2014 all output ports are unconstrained.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-003",
+      "code": "SDC-030",
+      "severity": "warning",
+      "message": "No set_propagated_clock \u2014 ideal clock model is over-optimistic for post-layout correlation.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-004",
+      "code": "SDC-104",
+      "severity": "info",
+      "message": "No set_max_capacitance.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-005",
+      "code": "SDC-105",
+      "severity": "info",
+      "message": "No set_load on outputs.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-006",
+      "code": "SDC-106",
+      "severity": "info",
+      "message": "No set_driving_cell / set_input_transition / set_drive \u2014 input slew is ideal.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-007",
+      "code": "SDC-109",
+      "severity": "info",
+      "message": "No set_case_analysis \u2014 use for scan_en, test_mode to prevent DFT paths dominating timing.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-008",
+      "code": "SDC-110",
+      "severity": "info",
+      "message": "No set_ideal_network \u2014 mark reset/scan_en as ideal.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-009",
+      "code": "SDC-113",
+      "severity": "info",
+      "message": "No set_dont_use \u2014 consider excluding weak/problematic cells.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-010",
+      "code": "SDC-114",
+      "severity": "info",
+      "message": "No set_operating_conditions \u2014 specify PVT corner explicitly.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-011",
+      "code": "SDC-115",
+      "severity": "info",
+      "message": "No set_timing_derate \u2014 needed for AOCV/POCVM advanced signoff.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-012",
+      "code": "SDC-117",
+      "severity": "info",
+      "message": "No group_path \u2014 improves synthesis optimization focus on critical interfaces.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-013",
+      "code": "SDC-118",
+      "severity": "info",
+      "message": "No set_clock_gating_check \u2014 needed if design uses clock gating cells.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-014",
+      "code": "SDC-121",
+      "severity": "info",
+      "message": "No wire load constraints \u2014 needed for flows without extracted RC.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-015",
+      "code": "SDC-122",
+      "severity": "info",
+      "message": "No set_max_area \u2014 add area target for synthesis.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    },
+    {
+      "finding_id": "EGER-FIND-0d41cc0d-016",
+      "code": "SDC-123",
+      "severity": "info",
+      "message": "No power constraints.",
+      "location": {
+        "line": 0,
+        "col": null
+      },
+      "related_location": null,
+      "context": null,
+      "affected_object": null,
+      "finding_identity": null
+    }
+  ],
+  "evidence_hash": "a55733319d74ab9dfd0b865f3b4e19c5cc806fef4a75a06294203d21d05d5398"
+}
