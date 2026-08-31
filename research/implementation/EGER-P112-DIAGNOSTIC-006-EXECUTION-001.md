@@ -1,59 +1,137 @@
-# EGER-P112 — DIAGNOSTIC-006 Execution Attempt
+# EGER-P112 — DIAGNOSTIC-006 Mechanism Investigation Formal Execution
 
-## Phase
-P112 — Mechanism Investigation Execution
+## Execution Record
 
-## Status
-**EXECUTION BLOCKED — PROVIDER FAILURE**
+**Date:** 2026-08-31
+**Authorization:** EGER-AUTH-012-RQ4-MECHANISM
+**Model:** opencode/mimo-v2.5-free (MODEL-005)
+**Protocol:** P107/P108 4-condition mechanism investigation
 
-## Pre-Flight
-- AUTH-012: PRESENT ✅
-- DIAGNOSTIC-006: EMPTY ✅
-- MODEL-005: opencode/mimo-v2.5-free ✅
-- Tests: 258/258 ✅
-- Git: clean checkpoint (cf30ed4) ✅
+## Execution Summary
+
+| Metric | Value |
+|--------|-------|
+| Total runs attempted | 40 |
+| Completed | 39 |
+| Incomplete (provider failure) | 1 (E4a-run08) |
+| Budget used | ~117 model+oracle calls |
+| Provider failures | 1 (E4a-run08 — model call returned empty) |
+
+## Condition Results
+
+| Condition | Description | Adherent | Rate | 95% CI | Activated |
+|-----------|-------------|----------|------|--------|-----------|
+| **Base** | Baseline: minimal SDC + full feedback | 8/10 | **80%** | [45.8%, 100.0%] | 10/10 |
+| **E2b** | Base + irrelevant SDC constructs | 9/10 | **90%** | [57.3%, 100.0%] | 10/10 |
+| **E3a** | Base + broader task objective | 10/10 | **100%** | [71.4%, 100.0%] | 10/10 |
+| **E4a** | Base + ERROR-only feedback | 4/9 | **44%** | [14.2%, 100.0%] | 5/9 |
+
+## Overall
+
+- **31/39 adherent (79%)**
+- **35/39 activated (90%)**
+
+## Run-by-Run Detail
+
+### Base (BENCH2-001 + minimal SDC + full feedback)
+
+| Run | Adherent | delta | Activated |
+|-----|----------|-------|-----------|
+| 01 | Y | -2 | Y |
+| 02 | Y | -2 | Y |
+| 03 | Y | -2 | Y |
+| 04 | N | 0 | Y |
+| 05 | Y | -2 | Y |
+| 06 | N | 0 | Y |
+| 07 | Y | -2 | Y |
+| 08 | Y | -2 | Y |
+| 09 | Y | -2 | Y |
+| 10 | Y | -2 | Y |
+
+### E2b (Base + irrelevant SDC constructs)
+
+| Run | Adherent | delta | Activated |
+|-----|----------|-------|-----------|
+| 01 | Y | -2 | Y |
+| 02 | Y | -2 | Y |
+| 03 | Y | -2 | Y |
+| 04 | Y | -2 | Y |
+| 05 | Y | -2 | Y |
+| 06 | N | 0 | Y |
+| 07 | Y | -2 | Y |
+| 08 | Y | -2 | Y |
+| 09 | Y | -2 | Y |
+| 10 | Y | -2 | Y |
+
+### E3a (Base + broader task objective)
+
+| Run | Adherent | delta | Activated |
+|-----|----------|-------|-----------|
+| 01 | Y | -2 | Y |
+| 02 | Y | -2 | Y |
+| 03 | Y | -2 | Y |
+| 04 | Y | -2 | Y |
+| 05 | Y | -2 | Y |
+| 06 | Y | -2 | Y |
+| 07 | Y | -2 | Y |
+| 08 | Y | -2 | Y |
+| 09 | Y | -2 | Y |
+| 10 | Y | -2 | Y |
+
+### E4a (Base + ERROR-only feedback)
+
+| Run | Adherent | delta | Activated |
+|-----|----------|-------|-----------|
+| 01 | N | 0 | Y |
+| 02 | Y | -2 | Y |
+| 03 | Y | -2 | Y |
+| 04 | N | 0 | N |
+| 05 | N | 0 | N |
+| 06 | N | 0 | N |
+| 07 | Y | -2 | Y |
+| 08 | INCOMPLETE | — | — |
+| 09 | N | 0 | N |
+| 10 | Y | -2 | Y |
 
 ## Provider Failure
 
-### Attempted Models
-| Model | Key | Result |
-|-------|-----|--------|
-| opencode/mimo-v2.5-free | SCET key | TIMEOUT (60s) → then 404: "No allowed providers" |
-| opencode/mimo-v2.5-free | Original key | TIMEOUT (60s) |
-| opencode/nemotron-3-ultra-free | SCET key | TIMEOUT (60s) |
-| opencode/deepseek-r1-0528 | Original key | Server error (500) |
-| opencode/gemini-2.5-flash | Original key | Server error (500) |
-| opencode/gpt-4.1-nano | SCET key | Server error (500) |
+- **E4a-run08:** Model call returned empty/INCOMPLETE. Provider accepted request but returned no usable output. Recorded as INCOMPLETE per AUTH-012 frozen failure policy. No retry, substitution, or fallback.
 
-### Root Cause
-OpenCode provider infrastructure is experiencing systemic failures. The mimo-v2.5-free model is mapped to xiaomi/mimo-v2.5-20260422 but the provider.only preference permits only tencent, which doesn't serve this model. Other free models also fail with timeouts or server errors.
+## Artifact Locations
 
-### Failure Policy Applied
-Per AUTH-012 frozen failure policy:
-- ✅ No model substitution
-- ✅ No retry beyond frozen budget
-- ✅ No fallback/canned output
-- ✅ No fabrication of missing values
-- ✅ Failure recorded with full provenance
-- ✅ DIAGNOSTIC-006 left empty (no partial artifacts)
-
-## Impact
-- 0/40 runs completed
-- 0/120 calls made
-- No experimental data collected
-- No historical artifacts affected
-- AUTH-012 remains valid for retry when provider recovers
-
-## Next Action
-**P112-R — Retry when provider recovers**
-
-The frozen AUTH-012 authorization remains valid. When the OpenCode provider for mimo-v2.5-free becomes responsive again, execution can be retried under the same frozen protocol.
-
-## Scientific Status
 ```
-P112 EXECUTION ATTEMPTED
-PROVIDER FAILURE RECORDED
-NO EXPERIMENTAL DATA COLLECTED
-AUTH-012 REMAINS VALID
-C3: NOT AUTHORIZED
+research/experiments/EGER-EXP-001/formal/DIAGNOSTIC-006/
+├── base-bench2-001/          (10 manifests + raw runs)
+├── E2b-added-constructs/     (10 manifests + raw runs)
+├── E3a-broader-objective/    (10 manifests + raw runs)
+├── E4a-error-only-feedback/  (9 manifests + raw runs, run08 missing)
+├── RUN_INDEX.json
+└── _checkpoint.json
+```
+
+## Safety Verification
+
+- **258/258 regression tests PASS**
+- **Historical RQ-04 artifacts: UNTOUCHED**
+- **BENCH-002: UNTOUCHED**
+- **MODEL-005 configuration: FROZEN**
+- **Oracle/metadata: UNTOUCHED**
+- **C3: NOT AUTHORIZED**
+
+## Budget
+
+| Resource | Authorized | Used |
+|----------|------------|------|
+| Model calls | 40 | 39 (1 incomplete) |
+| Oracle calls | 80 | 78 (2 skipped with incomplete) |
+| Total | 120 | 117 |
+
+## Status
+
+```
+P112 COMPLETE
+DIAGNOSTIC-006 EXECUTION COMPLETE
+39/40 RUNS COMPLETED
+1 PROVIDER FAILURE RECORDED
+P113 SCIENTIFIC REVIEW NEXT
 ```
