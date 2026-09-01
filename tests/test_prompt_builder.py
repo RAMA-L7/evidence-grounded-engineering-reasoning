@@ -253,13 +253,14 @@ class TestPromptBuilder:
         prompt_text = self.builder.build_prompt_text(task, candidate=candidate, evidence=evidence)
         assert evidence.evidence_id in prompt_text
 
-    def test_revision_preserves_verified_state(self):
-        """Revision preserves candidate verified state."""
+    def test_revision_preserves_candidate_metadata(self):
+        """Revision preserves candidate artifact_id in prompt."""
         task = _make_task()
         candidate = _make_candidate()
         evidence = _make_evidence()
         prompt_text = self.builder.build_prompt_text(task, candidate=candidate, evidence=evidence)
-        assert "Verified: False" in prompt_text
+        # P150: verified field removed; candidate ID is the key metadata
+        assert candidate.artifact_id in prompt_text
 
     # -- Determinism -------------------------------------------------------
 

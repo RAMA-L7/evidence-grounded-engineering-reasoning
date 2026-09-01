@@ -41,11 +41,15 @@ def test_T_P010_002_unverified():
     adapter = _fake_adapter("create_clock -name clk -period 10 [get_ports clk]")
     result = adapter.propose(design_context="ctx")
     assert result.is_success
-    assert result.candidate.verified is False
-    # Candidate cannot be interpreted as VALIDATED before L1
+    # P150: CandidateArtifact is now frozen and has no `verified` field.
+    # Verification authority belongs solely to VerificationGate.
+    assert not hasattr(result.candidate, 'verified')
+    # Candidate cannot self-promote — no verified attribute exists
     assert result.candidate.provision is not None
-    # The string "VALIDATED" must not appear as a field on candidate
-    assert "VALIDATED" not in str(result.candidate.to_dict().get("verified"))
+    # Candidate is immutable (frozen)
+    import pytest
+    with pytest.raises(AttributeError):
+        result.candidate.sdc_text = "mutated"
 
 # ---------------------------------------------------------------------------
 # T-P010-003 — model cannot create EvidenceArtifact

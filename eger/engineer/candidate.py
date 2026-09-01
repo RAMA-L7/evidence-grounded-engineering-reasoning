@@ -1,7 +1,14 @@
-"""CandidateArtifact — typed, deterministic extraction.
+"""CandidateArtifact — typed, deterministic, immutable extraction.
+
+P150: CandidateArtifact is now frozen (immutable). The `verified` field
+has been removed — verification authority belongs solely to VerificationGate.
 
 The candidate is the LLM's unverified proposal. It is NOT evidence.
-EvidenceArtifact comes only from L1.
+EvidenceArtifact comes only from Oracle.
+
+INVARIANT: CandidateArtifact is immutable once created.
+INVARIANT: CandidateArtifact cannot self-promote to VERIFIED/ACCEPTED.
+INVARIANT: VerificationGate is the sole acceptance authority.
 """
 
 from __future__ import annotations
@@ -10,14 +17,21 @@ import hashlib
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Tuple
 
 SCHEMA_CANDIDATE = "eger.candidate.v1"
 
 
-@dataclass
+@dataclass(frozen=True)
 class CandidateArtifact:
-    """Typed candidate — unverified until L1 evaluates it."""
+    """Typed candidate — immutable once created.
+
+    P150: frozen=True, verified field removed.
+    Verification authority belongs solely to VerificationGate.
+
+    INVARIANT: All fields are immutable (frozen=True).
+    INVARIANT: Cannot self-promote to VERIFIED/ACCEPTED.
+    """
     artifact_id: str
     sdc_text: str
     input_hash: str  # SHA256(sdc_text)
@@ -25,20 +39,31 @@ class CandidateArtifact:
     provision: Dict[str, Any]  # provenance: provider, model, prompt_hash, output_hash, etc
     schema_version: str = SCHEMA_CANDIDATE
     created_at: str = ""
-    # Mark explicitly as unverified
-    verified: bool = False
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
+        """Deterministic serialization."""
         return {
             "artifact_id": self.artifact_id,
             "schema_version": self.schema_version,
             "sdc_text": self.sdc_text,
             "input_hash": self.input_hash,
             "candidate_hash": self.candidate_hash,
-            "verified": self.verified,
-            "provision": self.provision,
+            "provision": dict(self.provision),
             "created_at": self.created_at,
         }
+
+    @classmethod
+    def from_dict(cls, d: Dict[str, Any]) -> CandidateArtifact:
+        """Deserialize from dict."""
+        return cls(
+            artifact_id=d["artifact_id"],
+            sdc_text=d["sdc_text"],
+            input_hash=d["input_hash"],
+            candidate_hash=d["candidate_hash"],
+            provision=dict(d.get("provision", {})),
+            schema_version=d.get("schema_version", SCHEMA_CANDIDATE),
+            created_at=d.get("created_at", ""),
+        )
 
 
 def _candidate_hash(sdc_text: str) -> str:
@@ -50,6 +75,7 @@ def build_candidate(
     artifact_id: Optional[str] = None,
     provision: Optional[Dict[str, Any]] = None,
 ) -> CandidateArtifact:
+    """Build an immutable CandidateArtifact."""
     h = _candidate_hash(sdc_text)
     aid = artifact_id or f"EGER-CAND-{h[:12].upper()}"
     return CandidateArtifact(
@@ -59,7 +85,6 @@ def build_candidate(
         candidate_hash=h,
         provision=provision or {},
         created_at=datetime.now(timezone.utc).isoformat(),
-        verified=False,
     )
 
 

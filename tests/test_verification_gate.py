@@ -169,9 +169,8 @@ class TestVerificationGate:
     # -- Candidate eligibility ---------------------------------------------
 
     def test_unverified_candidate_accepted(self):
-        """Unverified candidate can be accepted if evidence passes."""
+        """Candidate can be accepted if evidence passes."""
         candidate = _make_candidate()
-        assert candidate.verified is False
 
         evidence = _make_evidence(findings_data=[])
         result = self.gate.evaluate(candidate, evidence)
@@ -332,13 +331,13 @@ class TestVerificationGate:
         """Gate does not mutate CandidateArtifact."""
         candidate = _make_candidate()
         original_hash = candidate.candidate_hash
-        original_verified = candidate.verified
+        original_sdc = candidate.sdc_text
 
         evidence = _make_evidence(findings_data=[])
         self.gate.evaluate(candidate, evidence)
 
         assert candidate.candidate_hash == original_hash
-        assert candidate.verified == original_verified
+        assert candidate.sdc_text == original_sdc
 
     def test_evidence_not_mutated(self):
         """Gate does not mutate EvidenceArtifact."""

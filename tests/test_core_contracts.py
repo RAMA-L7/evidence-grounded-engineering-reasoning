@@ -22,6 +22,7 @@ from eger.prompting.request import PromptRequest
 from eger.verification.result import VerificationResult
 from eger.revision.record import RunRecord, RevisionConfig
 from eger.provenance.tracker import ProvenanceTracker
+from eger.engineer.candidate import CandidateArtifact, build_candidate
 
 
 # ---------------------------------------------------------------------------
@@ -746,7 +747,77 @@ class TestProvenanceTracker:
         d = pt.to_dict()
         pt2 = ProvenanceTracker.from_dict(d)
         assert pt2.entry_count == 1
-        assert pt2.get_entry("A-1").metadata == {"key": "val"}
+        assert pt2.get_entry("A-1").metadata == {"key": "val"}# ===========================================================================
+# CandidateArtifact (P150)
+# ===========================================================================
+
+class TestCandidateArtifact:
+    """Tests for eger.engineer.candidate.CandidateArtifact (P150 frozen)."""
+
+    def test_valid_construction(self):
+        c = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        assert c.artifact_id.startswith("EGER-CAND-")
+        assert c.schema_version == "eger.candidate.v1"
+        assert c.sdc_text == "create_clock -name clk -period 10.0 [get_ports clk]"
+        assert c.input_hash == c.candidate_hash
+
+    def test_frozen(self):
+        """CandidateArtifact is immutable (frozen=True)."""
+        c = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        with pytest.raises(AttributeError):
+            c.sdc_text = "mutated"
+        with pytest.raises(AttributeError):
+            c.artifact_id = "mutated"
+        with pytest.raises(AttributeError):
+            c.candidate_hash = "mutated"
+
+    def test_no_verified_field(self):
+        """P150: verified field removed — no self-promotion possible."""
+        c = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        assert not hasattr(c, "verified")
+
+    def test_deterministic_hash(self):
+        c1 = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        c2 = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        assert c1.candidate_hash == c2.candidate_hash
+        assert c1.input_hash == c2.input_hash
+
+    def test_different_sdc_different_hash(self):
+        c1 = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        c2 = build_candidate("create_clock -name clk -period 20.0 [get_ports clk]")
+        assert c1.candidate_hash != c2.candidate_hash
+
+    def test_serialization_roundtrip(self):
+        c = build_candidate(
+            "create_clock -name clk -period 10.0 [get_ports clk]",
+            provision={"model": "test", "prompt_hash": "abc"},
+        )
+        d = c.to_dict()
+        c2 = CandidateArtifact.from_dict(d)
+        assert c.artifact_id == c2.artifact_id
+        assert c.sdc_text == c2.sdc_text
+        assert c.candidate_hash == c2.candidate_hash
+        assert c.input_hash == c2.input_hash
+        assert c.provision == c2.provision
+        assert c.created_at == c2.created_at
+
+    def test_to_dict_excludes_verified(self):
+        """P150: to_dict no longer includes verified field."""
+        c = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        d = c.to_dict()
+        assert "verified" not in d
+
+    def test_custom_artifact_id(self):
+        c = build_candidate("sdc", artifact_id="CUSTOM-ID")
+        assert c.artifact_id == "CUSTOM-ID"
+
+    def test_custom_provision(self):
+        c = build_candidate("sdc", provision={"key": "val"})
+        assert c.provision == {"key": "val"}
+
+    def test_empty_provision_default(self):
+        c = build_candidate("sdc")
+        assert c.provision == {}
 
 
 # ===========================================================================
@@ -756,11 +827,12 @@ class TestProvenanceTracker:
 class TestAuthoritySafety:
     """Verify that authority boundaries are preserved."""
 
-    def test_candidate_starts_unverified(self):
-        """CandidateArtifact must start with verified=False."""
+    def test_candidate_is_frozen(self):
+        """CandidateArtifact is immutable (frozen=True)."""
         from eger.engineer.candidate import build_candidate
         c = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
-        assert c.verified is False
+        with pytest.raises(AttributeError):
+            c.sdc_text = "mutated"
 
     def test_evidence_is_frozen(self):
         """EvidenceArtifact cannot be mutated."""
@@ -799,3 +871,46 @@ class TestAuthoritySafety:
         )
         with pytest.raises(AttributeError):
             rr.status = "REJECTED"
+
+    # -- P150 Authority boundary tests -------------------------------------
+
+    def test_candidate_cannot_accept(self):
+        """CandidateArtifact has no ACCEPT authority."""
+        c = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        assert not hasattr(c, "accept")
+        assert not hasattr(c, "approve")
+        assert not hasattr(c, "verify")
+        assert not hasattr(c, "authorize")
+
+    def test_candidate_cannot_reject(self):
+        """CandidateArtifact has no REJECT authority."""
+        c = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        assert not hasattr(c, "reject")
+
+    def test_candidate_cannot_self_promote(self):
+        """CandidateArtifact cannot self-promote to verified/accepted."""
+        c = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        assert not hasattr(c, "verified")
+        assert not hasattr(c, "mark_verified")
+        assert not hasattr(c, "set_verified")
+        assert not hasattr(c, "mark_accepted")
+
+    def test_only_verification_gate_can_accept(self):
+        """Only VerificationGate produces ACCEPT/REJECT."""
+        from eger.verification.gate import VerificationGate
+        gate = VerificationGate()
+        c = build_candidate("create_clock -name clk -period 10.0 [get_ports clk]")
+        findings = (Finding(
+            finding_id="F-1", severity="error", category="c", entity="e",
+            message="m", source="s", expected_state="e",
+            observed_state="o", remediation_hint="r",
+        ),)
+        summary = FindingSummary.from_findings(list(findings))
+        ea = EvidenceArtifact(
+            evidence_id="E-001", task_id="T-001",
+            oracle_status="SUCCESS", evidence_scope="FULL",
+            findings=findings, summary=summary, analysis_scope={},
+        )
+        result = gate.evaluate(c, ea)
+        assert result.decision == "REJECT"
+        assert result.provenance["gate"] == "VerificationGate"

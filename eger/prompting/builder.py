@@ -149,7 +149,6 @@ class PromptBuilder:
             sections.append("CURRENT CANDIDATE")
             sections.append("─────────────────")
             sections.append(f"Candidate ID: {candidate.artifact_id}")
-            sections.append(f"Verified: {candidate.verified}")
             sections.append("")
             sections.append("Current SDC:")
             sections.append(candidate.sdc_text)

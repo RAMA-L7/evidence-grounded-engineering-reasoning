@@ -45,6 +45,13 @@ RTA_CLI = Path(__file__).resolve().parents[2] / "rta-constraint-intelligence" / 
 EVIDENCE_SCOPE_VALUES = {"FULL", "PARTIAL", "INSUFFICIENT", "UNSUPPORTED"}
 ORACLE_STATUS_VALUES = {"SUCCESS", "INVALID_REQUEST", "ORACLE_FAILURE"}
 
+# P149: Oracle subprocess timeout
+# Default: 60 seconds. Must be >= 1. Must be configured per-deployment.
+# Rationale: Oracle typically completes in <5s for well-formed SDC.
+# 60s provides generous headroom while preventing indefinite hangs.
+DEFAULT_ORACLE_TIMEOUT_SECONDS = 60
+MINIMUM_ORACLE_TIMEOUT_SECONDS = 1
+
 # ---------------------------------------------------------------------------
 # Data types
 # ---------------------------------------------------------------------------
@@ -211,11 +218,27 @@ def _normalize_scope(raw_scope: Dict[str, Any]) -> Dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 class EvidenceOracle:
-    """Deterministic adapter. No LLM, no epistemic state, no authorization."""
+    """Deterministic adapter. No LLM, no epistemic state, no authorization.
 
-    def __init__(self, rta_cli: Optional[Path] = None, oracle_revision: str = ORACLE_REVISION):
+    P149: Oracle subprocess timeout.
+    The subprocess.run() call in _invoke_rta() uses timeout_seconds to
+    prevent indefinite hangs. TimeoutExpired is classified as ORACLE_FAILURE.
+    """
+
+    def __init__(
+        self,
+        rta_cli: Optional[Path] = None,
+        oracle_revision: str = ORACLE_REVISION,
+        timeout_seconds: int = DEFAULT_ORACLE_TIMEOUT_SECONDS,
+    ):
         self.rta_cli = Path(rta_cli) if rta_cli else RTA_CLI
         self.oracle_revision = oracle_revision
+        if timeout_seconds < MINIMUM_ORACLE_TIMEOUT_SECONDS:
+            raise ValueError(
+                f"timeout_seconds must be >= {MINIMUM_ORACLE_TIMEOUT_SECONDS}, "
+                f"got {timeout_seconds}"
+            )
+        self.timeout_seconds = timeout_seconds
 
     # -- public API -------------------------------------------------------
 
@@ -331,6 +354,19 @@ class EvidenceOracle:
         )
 
         # -- classify exit code ------------------------------------------
+        # P149: exit_code == -1 indicates subprocess timeout (caught in _invoke_rta).
+        # Treat as ORACLE_FAILURE — timeout must never produce SUCCESS.
+        if exit_code == -1:
+            return OracleResult(
+                is_success=False,
+                raw_evidence=raw_evidence,
+                failure=OracleFailure(
+                    kind="ORACLE_FAILURE",
+                    exit_code=exit_code,
+                    message=stderr_text or f"Oracle subprocess timed out after {self.timeout_seconds}s",
+                    raw_ref={"raw_id": raw_id, "raw_hash": raw_hash},
+                ),
+            )
         if exit_code in (0, 1):
             return self._build_success(raw_evidence, input_h, artifact_id, produced_at, invocation, design_metadata=design_metadata, sdc_text=sdc_text)
         elif exit_code == 2:
@@ -381,6 +417,7 @@ class EvidenceOracle:
         # the oracle's "file" field in raw JSON is deterministic. This preserves
         # byte-identical evidence for identical inputs (P006 EVID-005) and keeps
         # evidence_hash stable. Still OUTSIDE Ṛta.
+        # P149: subprocess timeout prevents indefinite hangs.
         input_h = _input_hash(sdc_text)
         base_tmp = Path(tempfile.gettempdir()) / f"eger_oracle_{input_h[:12]}"
         base_tmp.mkdir(parents=True, exist_ok=True)
@@ -391,12 +428,33 @@ class EvidenceOracle:
         env["PYTHONDONTWRITEBYTECODE"] = "1"
 
         cmd = [sys.executable, str(self.rta_cli), "check", str(candidate_path), "--json"]
-        result = subprocess.run(
-            cmd,
-            cwd=str(base_tmp),
-            capture_output=True,
-            env=env,
-        )
+        try:
+            result = subprocess.run(
+                cmd,
+                cwd=str(base_tmp),
+                capture_output=True,
+                env=env,
+                timeout=self.timeout_seconds,
+            )
+        except subprocess.TimeoutExpired as exc:
+            # P149: Timeout is classified as ORACLE_FAILURE.
+            # The process may still be running — do not wait for it.
+            # Clean up candidate file.
+            try:
+                candidate_path.unlink(missing_ok=True)
+                try:
+                    base_tmp.rmdir()
+                except OSError:
+                    pass
+            except Exception:
+                pass
+            stdout = exc.stdout if exc.stdout else b""
+            stderr_text = (
+                exc.stderr.decode("utf-8", errors="replace")
+                if exc.stderr
+                else f"Oracle subprocess timed out after {self.timeout_seconds}s"
+            )
+            return stdout, stderr_text, -1
         stdout = result.stdout or b""
         stderr = (result.stderr or b"").decode("utf-8", errors="replace")
         exit_code = int(result.returncode)
