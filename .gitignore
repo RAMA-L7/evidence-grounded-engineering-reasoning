@@ -16,3 +16,13 @@ research/oracle/runtime/
 # Temporary files
 temporary/
 tmp/
+
+# Experimental result directories (large, generated — preserved locally)
+research/experiments/EGER-EXP-001/formal/DIAGNOSTIC-*/
+research/experiments/EGER-EXP-001/formal/RQ4-MODEL-005/
+
+# Temporary SDC files
+*.sdc
+
+# Research PDFs (not source code)
+*.pdf
