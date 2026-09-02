@@ -43,10 +43,18 @@ class RevisionConfig:
     def __post_init__(self):
         if self.max_iterations < 1:
             raise ValueError("max_iterations must be >= 1")
+        if self.max_iterations > 100:
+            raise ValueError("max_iterations must be <= 100")
         if self.max_total_calls < 3:
             raise ValueError("max_total_calls must be >= 3")
+        if self.max_total_calls > 500:
+            raise ValueError("max_total_calls must be <= 500")
         if self.timeout_seconds < 1:
             raise ValueError("timeout_seconds must be >= 1")
+        if self.temperature < 0.0 or self.temperature > 2.0:
+            raise ValueError("temperature must be between 0.0 and 2.0")
+        if self.max_tokens < 1 or self.max_tokens > 128_000:
+            raise ValueError("max_tokens must be between 1 and 128000")
 
     def to_dict(self) -> Dict[str, Any]:
         return {

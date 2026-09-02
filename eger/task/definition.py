@@ -19,6 +19,16 @@ import json
 
 SCHEMA_TASK = "eger.task.v1"
 
+# P155: Size limits for input validation
+from eger.contracts import (
+    MAX_TASK_ID_LENGTH,
+    MAX_DESIGN_CONTEXT_LENGTH,
+    MAX_OBJECTIVE_LENGTH,
+    MAX_INITIAL_SDC_LENGTH,
+    MAX_CONSTRAINTS_COUNT,
+    MAX_CONSTRAINT_LENGTH,
+)
+
 
 def _deterministic_hash(text: str) -> str:
     """SHA256 hash — deterministic."""
@@ -55,6 +65,32 @@ class TaskDefinition:
             raise ValueError("initial_sdc must be non-empty")
         if not self.constraints:
             raise ValueError("constraints must be non-empty")
+        # P155: Size limits
+        if len(self.task_id) > MAX_TASK_ID_LENGTH:
+            raise ValueError(
+                f"task_id length ({len(self.task_id)}) exceeds maximum ({MAX_TASK_ID_LENGTH})"
+            )
+        if len(self.design_context) > MAX_DESIGN_CONTEXT_LENGTH:
+            raise ValueError(
+                f"design_context length ({len(self.design_context)}) exceeds maximum ({MAX_DESIGN_CONTEXT_LENGTH})"
+            )
+        if len(self.objective) > MAX_OBJECTIVE_LENGTH:
+            raise ValueError(
+                f"objective length ({len(self.objective)}) exceeds maximum ({MAX_OBJECTIVE_LENGTH})"
+            )
+        if len(self.initial_sdc) > MAX_INITIAL_SDC_LENGTH:
+            raise ValueError(
+                f"initial_sdc length ({len(self.initial_sdc)}) exceeds maximum ({MAX_INITIAL_SDC_LENGTH})"
+            )
+        if len(self.constraints) > MAX_CONSTRAINTS_COUNT:
+            raise ValueError(
+                f"constraints count ({len(self.constraints)}) exceeds maximum ({MAX_CONSTRAINTS_COUNT})"
+            )
+        for i, c in enumerate(self.constraints):
+            if len(c) > MAX_CONSTRAINT_LENGTH:
+                raise ValueError(
+                    f"constraint[{i}] length ({len(c)}) exceeds maximum ({MAX_CONSTRAINT_LENGTH})"
+                )
 
     @property
     def task_hash(self) -> str:

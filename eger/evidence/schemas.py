@@ -25,6 +25,14 @@ VALID_SEVERITY = {"error", "warning", "info"}
 VALID_ORACLE_STATUS = {"SUCCESS", "INVALID_REQUEST", "ORACLE_FAILURE", "UNKNOWN"}
 VALID_EVIDENCE_SCOPE = {"FULL", "PARTIAL", "INSUFFICIENT", "UNSUPPORTED"}
 
+# P155: Size limits for evidence validation
+from eger.contracts import (
+    MAX_FINDINGS_COUNT,
+    MAX_FINDING_MESSAGE_LENGTH,
+    MAX_FINDING_ID_LENGTH,
+    MAX_EVIDENCE_ID_LENGTH,
+)
+
 
 def _deterministic_hash(text: str) -> str:
     """SHA256 hash — deterministic."""
@@ -65,6 +73,15 @@ class Finding:
             raise ValueError(f"severity must be one of {VALID_SEVERITY}, got '{self.severity}'")
         if not self.source:
             raise ValueError("source must be non-empty")
+        # P155: Size limits
+        if len(self.finding_id) > MAX_FINDING_ID_LENGTH:
+            raise ValueError(
+                f"finding_id length ({len(self.finding_id)}) exceeds maximum ({MAX_FINDING_ID_LENGTH})"
+            )
+        if len(self.message) > MAX_FINDING_MESSAGE_LENGTH:
+            raise ValueError(
+                f"finding message length ({len(self.message)}) exceeds maximum ({MAX_FINDING_MESSAGE_LENGTH})"
+            )
 
     @property
     def is_error(self) -> bool:
@@ -181,6 +198,15 @@ class EvidenceArtifact:
             raise ValueError(f"oracle_status must be one of {VALID_ORACLE_STATUS}, got '{self.oracle_status}'")
         if self.evidence_scope not in VALID_EVIDENCE_SCOPE:
             raise ValueError(f"evidence_scope must be one of {VALID_EVIDENCE_SCOPE}, got '{self.evidence_scope}'")
+        # P155: Size limits
+        if len(self.evidence_id) > MAX_EVIDENCE_ID_LENGTH:
+            raise ValueError(
+                f"evidence_id length ({len(self.evidence_id)}) exceeds maximum ({MAX_EVIDENCE_ID_LENGTH})"
+            )
+        if len(self.findings) > MAX_FINDINGS_COUNT:
+            raise ValueError(
+                f"findings count ({len(self.findings)}) exceeds maximum ({MAX_FINDINGS_COUNT})"
+            )
         # Validate summary matches findings
         expected = FindingSummary.from_findings(list(self.findings))
         if self.summary.error_count != expected.error_count:

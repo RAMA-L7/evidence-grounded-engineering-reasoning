@@ -21,6 +21,12 @@ from typing import Optional, Dict, Any, Tuple
 
 SCHEMA_CANDIDATE = "eger.candidate.v1"
 
+# P155: Size limits for input validation
+from eger.contracts import (
+    MAX_SDC_TEXT_LENGTH,
+    MAX_ARTIFACT_ID_LENGTH,
+)
+
 
 @dataclass(frozen=True)
 class CandidateArtifact:
@@ -75,9 +81,23 @@ def build_candidate(
     artifact_id: Optional[str] = None,
     provision: Optional[Dict[str, Any]] = None,
 ) -> CandidateArtifact:
-    """Build an immutable CandidateArtifact."""
+    """Build an immutable CandidateArtifact.
+
+    P155: Validates sdc_text size before construction.
+    Raises ValueError if sdc_text exceeds MAX_SDC_TEXT_LENGTH.
+    """
+    if not isinstance(sdc_text, str):
+        raise TypeError(f"sdc_text must be str, got {type(sdc_text).__name__}")
+    if len(sdc_text) > MAX_SDC_TEXT_LENGTH:
+        raise ValueError(
+            f"sdc_text length ({len(sdc_text)}) exceeds maximum ({MAX_SDC_TEXT_LENGTH})"
+        )
     h = _candidate_hash(sdc_text)
     aid = artifact_id or f"EGER-CAND-{h[:12].upper()}"
+    if artifact_id and len(artifact_id) > MAX_ARTIFACT_ID_LENGTH:
+        raise ValueError(
+            f"artifact_id length ({len(artifact_id)}) exceeds maximum ({MAX_ARTIFACT_ID_LENGTH})"
+        )
     return CandidateArtifact(
         artifact_id=aid,
         sdc_text=sdc_text,
