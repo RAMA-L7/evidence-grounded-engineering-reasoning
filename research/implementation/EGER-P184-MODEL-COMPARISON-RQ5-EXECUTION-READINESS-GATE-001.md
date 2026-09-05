@@ -219,7 +219,7 @@ New model invoked: NO (qualification readiness data only)
 
 ## 14. Git
 
-- P184 committed as: `<hash>` (see CHANGE-056)
+- P184 committed as: `0eea615` (see CHANGE-056)
 - HEAD == origin/main (after push)
 - No code changes; research records only
 - Universal_Principles_Library/ untouched
