@@ -275,7 +275,7 @@ C0-C5 conclusions changed: NO
 
 ## 17. Git
 
-- P181 committed as: `<hash>` (see CHANGE-053)
+- P181 committed as: `2941485` (see CHANGE-053)
 - HEAD == origin/main (after push)
 - No code changes; research records only
 - Universal_Principles_Library/ untouched
