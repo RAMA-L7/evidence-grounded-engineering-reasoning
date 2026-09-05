@@ -292,33 +292,61 @@ def _run_attempt(
     return attempt_record
 
 
+_ORDINALS = [
+    "First", "Second", "Third", "Fourth", "Fifth",
+    "Sixth", "Seventh", "Eighth", "Ninth", "Tenth",
+]
+
+
+def _format_sdc_lines(sdc_text: str) -> str:
+    """Format SDC text as numbered lines for the file-writing prompt.
+
+    The model (opencode/mimo-v2.5-free) reliably follows a directive
+    "Write the file timing.sdc. First line: ... Second line: ..."
+    instruction (P173-R diagnostic), so the current SDC is presented
+    line-by-line rather than as a raw block.
+    """
+    lines = [ln.rstrip() for ln in sdc_text.splitlines() if ln.strip()]
+    if not lines:
+        return "(empty SDC)"
+    parts = []
+    for i, line in enumerate(lines):
+        if i < len(_ORDINALS):
+            parts.append(f"{_ORDINALS[i]} line: {line}")
+        else:
+            parts.append(f"Line {i + 1}: {line}")
+    return ". ".join(parts) + "."
+
+
 def _build_prompt(design_context: str, current_sdc: str, iterations: List[Dict[str, Any]], oracle_name: str) -> str:
     """Frozen prompt template (P172 §6 Option A: repaired prompt/harness).
 
-    The prompt explicitly demands SDC-only output; the validity gate enforces
-    compliance regardless of the model's behavior.
+    P173-R invocation repair: the model (opencode/mimo-v2.5-free) is a
+    file-writing agent. Diagnostic testing (P173-R) showed it reliably writes
+    timing.sdc when prompted with a TERSE directive ("Write the file timing.sdc."
+    + numbered SDC lines + feedback + overwrite instruction), but switches to
+    conversational mode when given a verbose role preamble ("You are an SDC
+    author...") or a long REQUIRED CONTENT / OUTPUT RULES block. The prompt is
+    therefore terse and file-based. The validity gate still enforces compliance
+    regardless of the model's behavior.
     """
     if iterations:
         last = iterations[-1]
         feedback = json.dumps(last.get("oracle_result", {}), indent=2)
-        feedback_str = f"Oracle feedback from previous iteration:\n{feedback}"
+        feedback_str = f"Oracle feedback: {feedback}"
     else:
         feedback_str = "Oracle feedback: None (first iteration)"
 
+    numbered = _format_sdc_lines(current_sdc)
+
     return (
-        "You are an SDC (Synopsys Design Constraints) author for a VLSI design.\n"
-        f"Design context:\n{design_context}\n"
-        "TASK: Produce a complete, valid SDC constraint file for this design.\n"
-        "REQUIRED SDC CONTENT:\n"
-        "  - create_clock -name clk -period <period> [get_ports clk]\n"
-        "  - set_input_delay / set_output_delay for all I/O ports\n"
-        "  - any other constraints needed for a complete, correct SDC\n"
-        f"Current SDC:\n{current_sdc}\n\n"
-        f"{feedback_str}\n"
-        "OUTPUT RULES (strict):\n"
-        "  - Output ONLY SDC commands. No explanations. No greetings. No markdown.\n"
-        "  - Every line must be a valid SDC command (create_clock, set_*, etc.).\n"
-        "  - The SDC MUST contain create_clock.\n"
+        "Write the file timing.sdc. "
+        f"{numbered} "
+        f"{feedback_str} "
+        f"Overwrite the file with a complete, correct SDC for the design simple_path "
+        "(ports clk, data_in, data_out). "
+        "The SDC must include create_clock, set_input_delay, and set_output_delay commands. "
+        "Do not create any other files."
     )
 
 

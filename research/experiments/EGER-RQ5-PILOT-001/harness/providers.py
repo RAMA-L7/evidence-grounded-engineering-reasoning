@@ -20,7 +20,10 @@ from eger.verification.gate import VerificationGate
 
 DEFAULT_MODEL = "opencode/mimo-v2.5-free"
 DEFAULT_DISTRO = "Ubuntu-24.04"
-DEFAULT_TIMEOUT_SECONDS = 60
+# P173-R: the agent-mode model can exceed 60s on some invocations (it
+# performs file operations in its workspace). 180s is the model-call
+# timeout (distinct from the frozen 60s Oracle-call timeout in P169).
+DEFAULT_TIMEOUT_SECONDS = 180
 
 
 # ---------------------------------------------------------------------------
@@ -80,7 +83,23 @@ def build_opensta_oracle_call(
 # ---------------------------------------------------------------------------
 
 class OpenCodeModelProvider:
-    """Invokes the frozen model via `opencode.cmd run` (P172 §6)."""
+    """Invokes the frozen model via `opencode.cmd run` (P172 §6).
+
+    P173-R invocation repair: the model (opencode/mimo-v2.5-free) behaves
+    as a file-writing agent. It reliably produces SDC content when prompted
+    with a directive file-writing instruction ("Write the file timing.sdc."
+    with the current SDC as numbered lines) and writes the result to
+    timing.sdc in its working directory. It does NOT reliably return SDC
+    text on stdout for chat-style prompts.
+
+    This provider therefore:
+    1. Runs opencode in a scratch working directory (no spaces).
+    2. Prompts the model to write/overwrite timing.sdc.
+    3. Reads timing.sdc back after the run; falls back to stdout if no
+       file was produced (e.g., the model returned text instead).
+    """
+
+    SDC_FILENAME = "timing.sdc"
 
     def __init__(
         self,
@@ -88,33 +107,62 @@ class OpenCodeModelProvider:
         provider_failure_prefix: str = "ERROR:",
         timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS,
         cwd: Optional[Path] = None,
+        workdir: Optional[Path] = None,
     ):
         self.model = model
         self.provider_failure_prefix = provider_failure_prefix
         self.timeout_seconds = timeout_seconds
         self.cwd = cwd
+        # Scratch working directory for the model's file operations.
+        # If not given, derive one from the process cwd; ensure no spaces.
+        # P173-R finding: `opencode run` resolves its workspace to the git
+        # repository root of the process cwd and writes files THERE, not to
+        # the subprocess cwd. The provider therefore reads timing.sdc from
+        # the workspace root (the project root when running inside the repo).
+        if cwd is not None:
+            self.workdir = Path(cwd)
+        elif workdir is not None:
+            self.workdir = Path(workdir)
+        else:
+            import tempfile
+            self.workdir = Path(tempfile.gettempdir()) / "eger_model_scratch"
+        self.workdir.mkdir(parents=True, exist_ok=True)
+
+    def _clean(self) -> None:
+        sdc = self.workdir / self.SDC_FILENAME
+        if sdc.exists():
+            sdc.unlink()
 
     def invoke(self, prompt: str) -> str:
+        self._clean()
         try:
             result = subprocess.run(
                 ["opencode.cmd", "run", "--model", self.model, prompt],
                 capture_output=True, text=True, timeout=self.timeout_seconds,
-                cwd=str(self.cwd) if self.cwd else None,
+                cwd=str(self.workdir),
             )
-            return result.stdout.strip()
+            stdout = result.stdout or ""
         except subprocess.TimeoutExpired:
             return f"{self.provider_failure_prefix}timeout after {self.timeout_seconds}s"
         except Exception as e:  # pragma: no cover - defensive
             return f"{self.provider_failure_prefix}{e}"
 
+        sdc = self.workdir / self.SDC_FILENAME
+        if sdc.exists():
+            content = sdc.read_text(encoding="utf-8", errors="replace")
+            return content.strip()
+        # Fall back to stdout text (some models reply directly).
+        return stdout.strip()
+
 
 def build_model_call(
     model: str = DEFAULT_MODEL,
     cwd: Optional[Path] = None,
+    workdir: Optional[Path] = None,
     timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS,
 ) -> Callable[[str], str]:
     provider = OpenCodeModelProvider(
-        model=model, timeout_seconds=timeout_seconds, cwd=cwd,
+        model=model, timeout_seconds=timeout_seconds, cwd=cwd, workdir=workdir,
     )
     return provider.invoke
 

@@ -38,8 +38,13 @@ PASS_THRESHOLD = 5  # >= 5/6 VALID_SDC
 REQUIRED_PER_TASK = 1
 
 
-def run_qualification(model: str = "opencode/mimo-v2.5-free", timeout_seconds: int = 60) -> dict:
-    model_call = build_model_call(model=model, cwd=PROJECT_ROOT, timeout_seconds=timeout_seconds)
+def run_qualification(model: str = "opencode/mimo-v2.5-free", timeout_seconds: int = 180) -> dict:
+    # P173-R: model is a file-writing agent; run it in a scratch dir so it
+    # writes timing.sdc there (providers reads the file back).
+    workdir = PILOT_DIR / "model_scratch"
+    model_call = build_model_call(
+        model=model, cwd=PROJECT_ROOT, workdir=workdir, timeout_seconds=timeout_seconds,
+    )
     results = []
     for task_id in ("T1", "T2"):
         task = TASKS[task_id]
