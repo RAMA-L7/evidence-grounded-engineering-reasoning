@@ -1,5 +1,7 @@
 # EGER — P180: Independent RQ-5 Research Review
 
+*Revised P180-R: wording corrections applied per reviewer feedback. Three changes: (1) distinguished shared initial SDC from Oracle-specific revised candidates, (2) replaced “no feasible candidate exists” with “no OpenSTA-acceptable candidate was found within the frozen three-iteration revision budget,” (3) CHANGE-052 commit hash corrected.*
+
 ## 1. Objective
 
 Independently audit the completed P179 PILOT-002 dataset and conclusions. Focus on: raw-record analysis reconciliation, protocol compliance, provenance and candidate identity, PO validity, the T2 vacuous-initial confound, authority-separation interpretation, replication consistency, Level-2 claim defensibility, and any overstatement of shared-candidate identity.
@@ -120,7 +122,7 @@ All 8 trials: evidence compatible = true. Both Ṛta and OpenSTA produced eviden
 
 **T2-Ṛta: IMPROVED (2/2).** Initial SDC (0.05 ns clock only) → 2 errors (SDC-005/006) → model added I/O delays (0.01 ns) → 0 errors → ACCEPT. Correct: Ṛta's constraint-quality rules found the completed SDC valid.
 
-**T2-OpenSTA: WORSE (2/2).** Initial SDC (0.05 ns clock only) → WNS 0.0, VALIDATED (vacuous-clean) → model added I/O delays → WNS −0.01/−0.02, VIOLATIONS_FOUND → REJECT across all 3 iterations. PO-3 = WORSE is correct: the initial "clean" was vacuous; the first real constraints exposed the timing violation. This is NOT a case of the model making things worse — the model could not relax the 0.05 ns clock because no feasible candidate exists for this substrate at that clock period.
+**T2-OpenSTA: WORSE (2/2).** Initial SDC (0.05 ns clock only) → WNS 0.0, VALIDATED (vacuous-clean) → model added I/O delays → WNS −0.01/−0.02, VIOLATIONS_FOUND → REJECT across all 3 iterations. PO-3 = WORSE is correct: the initial "clean" was vacuous; the first real constraints exposed the timing violation. This is NOT a case of the model making things worse — the frozen task fixes the 0.05 ns clock period, and no OpenSTA-acceptable candidate was found within the frozen three-iteration revision budget.
 
 ## 8. T2 OpenSTA Vacuous-Initial Confound
 
@@ -135,13 +137,13 @@ The initial 0.05 ns clock SDC has **no `set_input_delay` or `set_output_delay`**
 
 **This is the correct behavior.** The initial vacuous-clean is an artifact of the substrate; the real evaluation is the first candidate with actual constraints. The P179 report properly documents this as a "documented floor" rather than claiming the initial SDC was actually timing-clean.
 
-**Key observation:** the model was unable to relax the 0.05 ns clock because the frozen task definition fixes the clock period. The model can only add/modify I/O delays, not change the clock. On this substrate (u_inv → u_and → u_ff path), even minimal I/O delays (0.01/0.02 ns) violate the 0.05 ns constraint. This is the task ceiling — not a harness defect.
+**Key observation:** the model was unable to relax the 0.05 ns clock because the frozen task definition fixes the clock period. The model can only add/modify I/O delays, not change the clock. On this substrate (u_inv → u_and → u_ff path), even minimal I/O delays (0.01/0.02 ns) produce negative WNS under the 0.05 ns constraint. No OpenSTA-acceptable candidate was found within the allowed three-iteration budget. This is the task ceiling — not a harness defect.
 
 ## 9. Authority-Separation Interpretation
 
 The T2 condition produces the critical authority-separated result:
 
-**Same task, same initial SDC, same first-revision candidate structure (clock + I/O delays):**
+**Same task and shared initial SDC (byte-identical across Oracle arms); each Oracle then evaluated its own feedback-driven revision candidate:**
 
 - **Ṛta (constraint-quality authority):** finds 0 constraint errors → ACCEPT
 - **OpenSTA (timing authority):** finds WNS −0.01/−0.02 → REJECT
