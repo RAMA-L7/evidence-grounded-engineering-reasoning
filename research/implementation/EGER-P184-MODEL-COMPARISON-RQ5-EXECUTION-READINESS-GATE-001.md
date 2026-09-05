@@ -157,7 +157,7 @@ New model invoked: NO (qualification attempted but blocked)
 
 ## 11. Git
 
-- P184 committed as: `<hash>` (see CHANGE-056)
+- P184 committed as: `4de3cab` (see CHANGE-056)
 - HEAD == origin/main (after push)
 - No code changes; research records only
 - Universal_Principles_Library/ untouched
