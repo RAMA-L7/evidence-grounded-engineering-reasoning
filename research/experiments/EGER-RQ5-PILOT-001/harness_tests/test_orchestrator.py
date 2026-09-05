@@ -18,8 +18,9 @@ for p in (str(PROJECT_ROOT), str(PILOT_DIR)):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-from harness.orchestrator import run_matrix
+from harness.orchestrator import run_matrix, audit_candidate_identity
 from harness.matrix import frozen_matrix, assert_matrix_order
+from harness.trial_runner import sha256_text
 from harness.fixtures import (
     FakeOracle,
     FakeModelProvider,
@@ -101,6 +102,78 @@ class TestOrchestratorDryRun:
         for cond, c in a["per_condition"].items():
             assert c["count"] == 2
             assert c["qualified_accept"] == 2
+
+
+class TestCandidateIdentityAudit:
+    """P178: mechanical candidate-identity properties (protocol-true item 2)."""
+
+    def setup_method(self):
+        self.normalizer, self.gate = build_pipeline()
+
+    def _run(self):
+        return run_matrix(_fixture_callables, self.normalizer, self.gate)
+
+    def test_shared_initial_sdc_across_oracle_arms(self):
+        """Every trial of a task evaluates the byte-identical frozen initial
+        SDC across the Rta and OpenSTA arms (the pairing level the frozen
+        protocol guarantees)."""
+        result = self._run()
+        audit = result["identity_audit"]
+        assert audit["shared_initial_across_arms"] is True
+        # One hash per task across all 4 trials of that task (2 per arm).
+        for task, hashes in audit["shared_task_initial_hashes"].items():
+            assert len(hashes) == 1
+            # The shared hash equals the frozen task initial SDC hash.
+            from harness.tasks import TASKS
+            assert hashes[0] == sha256_text(TASKS[task]["initial_sdc"])
+
+    def test_identity_audit_ok_on_full_matrix(self):
+        """Initial candidate matches task SDC and every iteration has a single
+        gated candidate whose bytes hash to the recorded hash."""
+        result = self._run()
+        audit = result["identity_audit"]
+        assert audit["ok"] is True
+        assert len(audit["checks"]) >= 9  # 8 trials + 1 retried attempt
+        for check in audit["checks"]:
+            assert check["initial_matches_task_sdc"] is True
+            assert check["iterations_single_path_ok"] is True
+
+    def test_oracle_received_exact_recorded_candidate_bytes(self):
+        """Spy proof: the Oracle received, in order, exactly the recorded
+        candidate bytes — the initial SDC then one gated candidate per
+        iteration. No extra call, no substituted/edited bytes, and Oracle
+        evaluation never triggered a second generation."""
+        spy = []
+
+        def spy_callables(row):
+            oracle = FakeOracle(oracle_name=row["oracle"])
+            model = FakeModelProvider(_FIXTURE_MODEL_OUTPUTS[row["trial_id"]])
+
+            def oracle_call(sdc_text, identity):
+                spy.append((row["trial_id"], sdc_text))
+                return oracle.validate(sdc_text, identity)
+
+            return oracle_call, model.invoke
+
+        result = run_matrix(spy_callables, self.normalizer, self.gate)
+        by_trial = {}
+        for trial_id, sdc in spy:
+            by_trial.setdefault(trial_id, []).append(sdc)
+
+        for rec in result["records"]:
+            trial_id = rec["trial_id"]
+            attempts = rec["attempts"] or [rec]
+            # Reconstruct the expected byte sequence in call order.
+            expected = []
+            for attempt in attempts:
+                expected.append(attempt["initial_sdc"])
+                for it in attempt.get("iterations", []):
+                    if it.get("oracle_result") is not None:
+                        expected.append(it["candidate_sdc"])
+            assert by_trial.get(trial_id) == expected, (
+                f"{trial_id}: oracle-received bytes differ from recorded "
+                f"candidate bytes"
+            )
 
 
 class TestQualifiedAcceptRule:

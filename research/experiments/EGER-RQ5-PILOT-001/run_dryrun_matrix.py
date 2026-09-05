@@ -83,9 +83,15 @@ def main() -> int:
 
     records = result["records"]
     analysis = result["analysis"]
+    identity_audit = result["identity_audit"]
     assert len(records) == 8, f"expected 8 records, got {len(records)}"
 
     print(f"Trials executed: {len(records)} (frozen order, asserted pre-run)")
+    print(
+        f"Identity audit: ok={identity_audit['ok']} "
+        f"shared_initial_across_arms={identity_audit['shared_initial_across_arms']}"
+    )
+    print(f"  shared task initial hashes: {identity_audit['shared_task_initial_hashes']}")
     for rec in records:
         retry = f", retries={rec.get('retry_count')}, attempts={len(rec.get('attempts', []))}"
         print(
@@ -105,7 +111,10 @@ def main() -> int:
     # Record locally (readiness simulation, not committed as experiment data).
     out = PILOT_DIR / "dryrun_records.json"
     out.write_text(
-        json.dumps({"records": records, "analysis": analysis}, indent=2, default=str),
+        json.dumps(
+            {"records": records, "analysis": analysis, "identity_audit": identity_audit},
+            indent=2, default=str,
+        ),
         encoding="utf-8",
     )
     print(f"\nDry-run record written: {out} (kept local)")
