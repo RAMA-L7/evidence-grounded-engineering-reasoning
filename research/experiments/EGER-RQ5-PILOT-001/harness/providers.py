@@ -15,8 +15,32 @@ import subprocess
 
 from eger.oracle.adapter import EvidenceOracle
 from eger.oracle.opensta_adapter import OpenSTAAdapter
+from eger.oracle.schemas import DesignMetadata
 from eger.evidence.normalizer import EvidenceNormalizer
 from eger.verification.gate import VerificationGate
+
+# Frozen P055 DesignMetadata for the P163 simple_path substrate (P175 §5).
+# Kept as a declarative JSON next to this module, mirroring the
+# BENCH-002 evaluator_context convention.
+SIMPLE_PATH_METADATA_PATH = Path(__file__).resolve().parent / "simple_path.design_metadata.json"
+
+
+def load_simple_path_design_metadata() -> DesignMetadata:
+    """Load the frozen design metadata for the RQ-5 substrate.
+
+    Deterministic; the JSON is versioned with the harness. Used to elevate
+    Ṛta's NETLIST_REQUIRED scope to FULL/PARTIAL via the FROZEN P055
+    evaluator-side reference validation (EGER P175 resolution). The metadata
+    is NEVER exposed to the model.
+    """
+    if not SIMPLE_PATH_METADATA_PATH.exists():
+        raise FileNotFoundError(
+            f"design metadata not found: {SIMPLE_PATH_METADATA_PATH}"
+        )
+    import json
+    with open(SIMPLE_PATH_METADATA_PATH, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return DesignMetadata.from_dict(data)
 
 DEFAULT_MODEL = "opencode/mimo-v2.5-free"
 DEFAULT_DISTRO = "Ubuntu-24.04"
@@ -52,10 +76,22 @@ def resolve_opensta_binary_wsl(distro: str = DEFAULT_DISTRO) -> Path:
 def build_rta_oracle_call(
     rta_cli: Optional[Path] = None,
     timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS,
+    design_metadata: Optional[DesignMetadata] = None,
 ) -> Callable[[str, str], Any]:
+    """Build the Ṛta oracle callable for the RQ-5 harness.
+
+    P175 §5: the harness passes the frozen P055 DesignMetadata on every
+    Ṛta validate() call (initial and candidate evaluations) so that
+    NETLIST_REQUIRED evaluations elevate to FULL/PARTIAL evidence scope via
+    evaluator-side reference validation. Without it, every Ṛta evaluation
+    normalizes to UNSUPPORTED and the VerificationGate fail-closes REJECT.
+    """
+    if design_metadata is None:
+        design_metadata = load_simple_path_design_metadata()
     oracle = EvidenceOracle(rta_cli=rta_cli, timeout_seconds=timeout_seconds)
     return lambda sdc_text, input_identity: oracle.validate(
         sdc_text=sdc_text, input_identity=input_identity,
+        design_metadata=design_metadata,
     )
 
 

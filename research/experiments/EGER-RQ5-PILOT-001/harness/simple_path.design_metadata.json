@@ -1,0 +1,47 @@
+{
+  "task_id": "SIMPLE_PATH",
+  "metadata_version": "eger.design_metadata.v1",
+  "design_metadata": {
+    "ports": [
+      {
+        "name": "clk",
+        "direction": "input",
+        "type": "clock",
+        "bus": false
+      },
+      {
+        "name": "data_in",
+        "direction": "input",
+        "type": "data",
+        "bus": false
+      },
+      {
+        "name": "data_out",
+        "direction": "output",
+        "type": "data",
+        "bus": false
+      }
+    ],
+    "clocks": [
+      {
+        "name": "clk",
+        "period_ns": 10.0,
+        "port": "clk"
+      }
+    ],
+    "cells": [
+      {
+        "name": "u_inv",
+        "type": "INVX1"
+      },
+      {
+        "name": "u_and",
+        "type": "AND2X1"
+      },
+      {
+        "name": "u_ff",
+        "type": "DFFX1"
+      }
+    ]
+  }
+}

@@ -80,6 +80,17 @@ def oracle_summary(result, oracle_name: str) -> Dict[str, Any]:
         }
     ev = result.evidence
     findings = getattr(ev, "findings", None) or []
+    # P176: expose the P055 metadata-validation outcome so the experiment
+    # layer can flag evaluations whose references were not all validated
+    # (metadata PARTIAL — e.g., a candidate referencing a nonexistent port).
+    # Present only for evaluations run with design_metadata (the Ṛta arm).
+    provenance = getattr(ev, "provenance", None) or {}
+    metadata_validation = provenance.get("metadata_validation") if isinstance(provenance, dict) else None
+    metadata_all_validated = (
+        bool(metadata_validation.get("all_validated"))
+        if isinstance(metadata_validation, dict) and metadata_validation.get("total_references", 0) > 0
+        else None
+    )
     return {
         "is_success": True,
         "oracle_status": getattr(ev, "oracle_status", "SUCCESS"),
@@ -87,6 +98,7 @@ def oracle_summary(result, oracle_name: str) -> Dict[str, Any]:
         "evidence_hash": getattr(ev, "evidence_hash", None),
         "error_count": _error_count(result),
         "wns": _wns(result),
+        "metadata_all_validated": metadata_all_validated,
         "analysis_scope_status": (
             (getattr(ev, "analysis_scope", None) or {}).get("status")
             if isinstance(getattr(ev, "analysis_scope", None), dict)
@@ -521,10 +533,25 @@ def derive_trial_metrics(record: Dict[str, Any]) -> Dict[str, Any]:
             if it.get("oracle_result", {}).get("is_success") and not it.get("clock_defined", False):
                 no_timing_constraint.append(it.get("iteration"))
 
+    # P176 metadata-unqualified flags (Ṛta arm, mirroring the
+    # NO_TIMING_CONSTRAINT precedent): an evaluation is unqualified when the
+    # P055 metadata validation did NOT validate every referenced object
+    # (evidence scope PARTIAL — e.g., a candidate referencing a nonexistent
+    # port). The FROZEN VerificationGate accepts PARTIAL-with-zero-errors by
+    # contract, so this experiment-layer flag is the fail-closed lever the
+    # future PILOT-002 analysis uses to exclude unqualified accepts.
+    metadata_unqualified = []
+    if oracle_name == "Rta":
+        for it in record.get("iterations", []):
+            ores = it.get("oracle_result", {}) or {}
+            if ores.get("is_success") and ores.get("metadata_all_validated") is False:
+                metadata_unqualified.append(it.get("iteration"))
+
     return {
         "completion_quality": po1,
         "oracle_detected_improvement": po3,
         "evidence_compatible": evidence_compatible,
         "evaluation_count": evaluations,
         "no_timing_constraint_iterations": no_timing_constraint,
+        "metadata_unqualified_iterations": metadata_unqualified,
     }

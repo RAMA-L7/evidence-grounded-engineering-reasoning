@@ -89,7 +89,18 @@ def _map_oracle_status(raw_status: str) -> str:
 
 
 def _map_scope(raw_scope: str) -> str:
-    """Map Oracle scope to canonical scope. Defaults to UNSUPPORTED."""
+    """Map Oracle scope to canonical scope. Defaults to UNSUPPORTED.
+
+    P175: canonical values (FULL/PARTIAL/INSUFFICIENT/UNSUPPORTED) pass
+    through unchanged — the Ṛta adapter stores canonical evidence_scope on
+    its EvidenceArtifact. Raw scope-status vocabulary (VALIDATED,
+    PARTIALLY_VALIDATED, NETLIST_REQUIRED, ...) maps per the frozen
+    raw→canonical _SCOPE_MAP (e.g., the OpenSTA adapter stores raw
+    "VALIDATED"). Prior to P175, canonical input fell through to
+    UNSUPPORTED, silently forcing every Ṛta evaluation to fail-closed scope.
+    """
+    if raw_scope in VALID_EVIDENCE_SCOPE:
+        return raw_scope
     return _SCOPE_MAP.get(raw_scope, "UNSUPPORTED")
 
 
