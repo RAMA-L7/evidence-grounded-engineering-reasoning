@@ -241,7 +241,7 @@ Execution summary: 8/8 completed; 0 failures; 0 retries; PO-1/PO-2/PO-3 derived 
 
 ## 22. Git
 
-- P179 committed as: `<hash>` (see CHANGE-051)
+- P179 committed as: `ad4d86a` (see CHANGE-051)
 - HEAD == origin/main (after push)
 - Universal_Principles_Library/ untouched
 - Raw/experimental records (raw_trials.json, analysis.json, identity_audit.json, manifest.json under EGER-RQ5-PILOT-002/, execution log) remain local-only
