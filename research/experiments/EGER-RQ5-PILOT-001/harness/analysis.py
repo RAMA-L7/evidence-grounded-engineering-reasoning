@@ -64,6 +64,8 @@ def analyze_trials(trials: List[Dict[str, Any]], planned: int = 8) -> Dict[str, 
         row["_evidence_compatible"] = m["evidence_compatible"]
         row["_evaluation_count"] = m["evaluation_count"]
         row["_no_timing_constraint"] = m["no_timing_constraint_iterations"]
+        row["_metadata_unqualified"] = m["metadata_unqualified_iterations"]
+        row["_qualified_accept"] = m["qualified_accept"]
         derived.append(row)
 
     # ---- Oracle evaluations (all attempts) ----
@@ -114,6 +116,7 @@ def analyze_trials(trials: List[Dict[str, Any]], planned: int = 8) -> Dict[str, 
                 "NOT_MEASURABLE": sum(1 for r in rows if r["_po3"] == "NOT_MEASURABLE"),
             },
             "evidence_compatible": sum(1 for r in rows if r["_evidence_compatible"]),
+            "qualified_accept": sum(1 for r in rows if r["_qualified_accept"]),
         }
 
     # ---- Per-Oracle PO-2 with explicit denominators ----
@@ -129,7 +132,9 @@ def analyze_trials(trials: List[Dict[str, Any]], planned: int = 8) -> Dict[str, 
             "oracle_evaluations": evals,
             "successful_evaluations": evals_ok,
             "evidence_compatible_trials": compatible,
+            "qualified_accepts": sum(1 for r in rows if r["_qualified_accept"]),
             "no_timing_constraint_iterations": sum(len(r["_no_timing_constraint"]) for r in rows),
+            "metadata_unqualified_iterations": sum(len(r["_metadata_unqualified"]) for r in rows),
         }
 
     # ---- Verification decisions ----
@@ -170,6 +175,8 @@ def analyze_trials(trials: List[Dict[str, Any]], planned: int = 8) -> Dict[str, 
                 "po1": r["_po1"],
                 "po3": r["_po3"],
                 "evidence_compatible": r["_evidence_compatible"],
+                "qualified_accept": r["_qualified_accept"],
+                "metadata_unqualified_iterations": r["_metadata_unqualified"],
                 "evaluation_count": r["_evaluation_count"],
                 "iteration_count": r.get("iteration_count"),
                 "oracle_call_count": r.get("oracle_call_count"),

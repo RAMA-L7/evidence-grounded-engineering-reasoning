@@ -547,6 +547,28 @@ def derive_trial_metrics(record: Dict[str, Any]) -> Dict[str, Any]:
             if ores.get("is_success") and ores.get("metadata_all_validated") is False:
                 metadata_unqualified.append(it.get("iteration"))
 
+    # P177 §13: qualified-accept rule. A trial's accept is QUALIFIED iff the
+    # trial reached ACCEPT (accept_reached) and no ACCEPTing iteration was
+    # metadata-unqualified. For OpenSTA (no design_metadata), metadata is
+    # None so qualified_accept == accept_reached. When an accept rests on
+    # unqualified (PARTIAL-metadata) evidence, PO-1 is capped at MARGINAL:
+    # the trial completed, but it is not a clean, qualified success and
+    # must not be counted as ROBUST in the primary analysis.
+    qualified_accept = bool(record.get("accept_reached", False))
+    if qualified_accept and oracle_name == "Rta":
+        for it in record.get("iterations", []):
+            ores = it.get("oracle_result", {}) or {}
+            if (
+                it.get("verification_decision") == "ACCEPT"
+                and ores.get("is_success")
+                and ores.get("metadata_all_validated") is False
+            ):
+                qualified_accept = False
+    if qualified_accept is False and record.get("accept_reached"):
+        # Unqualified accept (or accept absent): never ROBUST.
+        if po1 == "ROBUST":
+            po1 = "MARGINAL"
+
     return {
         "completion_quality": po1,
         "oracle_detected_improvement": po3,
@@ -554,4 +576,5 @@ def derive_trial_metrics(record: Dict[str, Any]) -> Dict[str, Any]:
         "evaluation_count": evaluations,
         "no_timing_constraint_iterations": no_timing_constraint,
         "metadata_unqualified_iterations": metadata_unqualified,
+        "qualified_accept": qualified_accept,
     }
