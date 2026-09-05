@@ -283,7 +283,7 @@ New research question designed: NO (only selected)
 
 ## 14. Git
 
-- P182 committed as: `<hash>` (see CHANGE-054)
+- P182 committed as: `b251cae` (see CHANGE-054)
 - HEAD == origin/main (after push)
 - No code changes; research records only
 - Universal_Principles_Library/ untouched
