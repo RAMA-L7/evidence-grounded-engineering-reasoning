@@ -58,13 +58,15 @@ def resolve_opensta_binary_wsl(distro: str = DEFAULT_DISTRO) -> Path:
     """Resolve the WSL OpenSTA binary path via wslpath (P167 canonical config)."""
     r = subprocess.run(
         ["wsl", "-d", distro, "bash", "-c", "echo $HOME"],
-        capture_output=True, text=True, timeout=10,
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+        timeout=10,
     )
     wsl_home = r.stdout.strip()
     sta_wsl = f"{wsl_home}/opensta_build/OpenSTA/app/sta"
     r = subprocess.run(
         ["wsl", "-d", distro, "wslpath", "-w", sta_wsl],
-        capture_output=True, text=True, timeout=10,
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+        timeout=10,
     )
     return Path(r.stdout.strip())
 
@@ -172,9 +174,13 @@ class OpenCodeModelProvider:
     def invoke(self, prompt: str) -> str:
         self._clean()
         try:
+            # P179: opencode emits UTF-8 agent output; decode robustly
+            # instead of using the locale codec (cp1252 on Windows), which
+            # crashes on non-ASCII bytes.
             result = subprocess.run(
                 ["opencode.cmd", "run", "--model", self.model, prompt],
-                capture_output=True, text=True, timeout=self.timeout_seconds,
+                capture_output=True, text=True, encoding="utf-8",
+                errors="replace", timeout=self.timeout_seconds,
                 cwd=str(self.workdir),
             )
             stdout = result.stdout or ""
