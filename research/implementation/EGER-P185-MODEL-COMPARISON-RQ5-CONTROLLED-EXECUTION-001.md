@@ -281,7 +281,7 @@ Statistical inference performed: NO
 ## 21. Git
 
 - Baseline: `776a50c` (P184 READY) — recorded in manifest.
-- Committed as: `<commit>` (see CHANGE-057)
+- Committed as: `2b8e2fe` (see CHANGE-057)
 - HEAD == origin/main after push.
 - Harness changes: `harness/model_matrix.py` (new), `harness/orchestrator.py`, `harness/analysis.py`, `harness/trial_runner.py` (additive), `harness_tests/test_model_matrix.py` (new), `run_pilot003.py` (new).
 - Raw experimental records (`EGER-RQ5-PILOT-003/raw_trials.json`, `analysis.json`, `identity_audit.json`, `manifest.json`) kept local, not committed (repository convention).

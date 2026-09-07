@@ -64,7 +64,7 @@ Statistical inference performed: NO
 
 ## Git / Tests
 
-- Commit: `<commit>`
+- Commit: `2b8e2fe`
 - EGER suite: 878/878 PASS · Harness suite: 74/74 PASS
 - Raw experimental records kept local (not committed)
 - Universal_Principles_Library/ untouched
