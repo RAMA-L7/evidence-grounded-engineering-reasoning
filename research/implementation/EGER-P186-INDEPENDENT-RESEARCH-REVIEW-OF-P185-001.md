@@ -116,7 +116,7 @@ Statistical inference: NONE performed
 ## 9. Git
 
 - Review baseline: `cb4d7b9` (HEAD == origin/main)
-- P186 committed as: `<commit>` (see CHANGE-058)
+- P186 committed as: `ff3f5ed` (see CHANGE-058)
 - Raw experimental records remain local (deliberate boundary)
 - `Universal_Principles_Library/` untouched
 

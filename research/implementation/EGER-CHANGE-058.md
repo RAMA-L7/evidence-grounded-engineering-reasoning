@@ -54,7 +54,7 @@ Raw experimental data modified: NO
 
 ## Git / Tests
 
-- Commit: `<commit>`
+- Commit: `ff3f5ed`
 - EGER suite: 878/878 PASS · Harness suite: 74/74 PASS (re-run in P186)
 - Raw experimental records remain local
 - Universal_Principles_Library/ untouched
