@@ -148,6 +148,63 @@ def analyze_trials(trials: List[Dict[str, Any]], planned: int = 8) -> Dict[str, 
             elif dec == "REJECT":
                 reject_count += 1
 
+    # ---- Per-model aggregation (P185 model-comparison dimension) ----
+    # Present only when records carry a model label (the 16-trial
+    # model-comparison matrix). Derived from raw records, deterministic.
+    models = sorted({t.get("model") for t in trials if t.get("model")})
+    per_model = {}
+    per_model_condition = {}
+    if models:
+        for model in models:
+            rows = [r for r in derived if r.get("model") == model]
+            per_model[model] = {
+                "trials": len(rows),
+                "completed_trials": sum(1 for r in rows if r.get("completion_status") == "COMPLETED"),
+                "failed_trials": sum(1 for r in rows if r.get("completion_status") == "FAILED"),
+                "po1": {
+                    "ROBUST": sum(1 for r in rows if r["_po1"] == "ROBUST"),
+                    "MARGINAL": sum(1 for r in rows if r["_po1"] == "MARGINAL"),
+                    "FAILED": sum(1 for r in rows if r["_po1"] == "FAILED"),
+                },
+                "po3": {
+                    "IMPROVED": sum(1 for r in rows if r["_po3"] == "IMPROVED"),
+                    "NOT_IMPROVED": sum(1 for r in rows if r["_po3"] == "NOT_IMPROVED"),
+                    "WORSE": sum(1 for r in rows if r["_po3"] == "WORSE"),
+                    "NOT_MEASURABLE": sum(1 for r in rows if r["_po3"] == "NOT_MEASURABLE"),
+                },
+                "evidence_compatible": sum(1 for r in rows if r["_evidence_compatible"]),
+                "qualified_accept": sum(1 for r in rows if r["_qualified_accept"]),
+                "retry_attempts": sum(r.get("retry_count", 0) for r in rows),
+                "oracle_evaluations": sum(_count_evaluations(t)["total"] for t in trials if t.get("model") == model),
+            }
+        # Per (model, task, oracle) condition breakdown
+        cond_keys = sorted({
+            (r.get("model"), r.get("task_id"), r.get("oracle"))
+            for r in derived if r.get("model")
+        })
+        for model, task, oracle in cond_keys:
+            rows = [r for r in derived
+                    if r.get("model") == model and r.get("task_id") == task
+                    and r.get("oracle") == oracle]
+            key = f"{model}|{task}-{oracle}"
+            per_model_condition[key] = {
+                "count": len(rows),
+                "completed": sum(1 for r in rows if r.get("completion_status") == "COMPLETED"),
+                "po1": {
+                    "ROBUST": sum(1 for r in rows if r["_po1"] == "ROBUST"),
+                    "MARGINAL": sum(1 for r in rows if r["_po1"] == "MARGINAL"),
+                    "FAILED": sum(1 for r in rows if r["_po1"] == "FAILED"),
+                },
+                "po3": {
+                    "IMPROVED": sum(1 for r in rows if r["_po3"] == "IMPROVED"),
+                    "NOT_IMPROVED": sum(1 for r in rows if r["_po3"] == "NOT_IMPROVED"),
+                    "WORSE": sum(1 for r in rows if r["_po3"] == "WORSE"),
+                    "NOT_MEASURABLE": sum(1 for r in rows if r["_po3"] == "NOT_MEASURABLE"),
+                },
+                "evidence_compatible": sum(1 for r in rows if r["_evidence_compatible"]),
+                "qualified_accept": sum(1 for r in rows if r["_qualified_accept"]),
+            }
+
     return {
         "planned_trials": planned,
         "total_trials": len(trials),
@@ -162,9 +219,12 @@ def analyze_trials(trials: List[Dict[str, Any]], planned: int = 8) -> Dict[str, 
         "reject_decisions": reject_count,
         "per_condition": per_condition,
         "per_oracle": per_oracle,
+        "per_model": per_model,
+        "per_model_condition": per_model_condition,
         "_trials": [
             {
                 "trial_id": r.get("trial_id"),
+                "model": r.get("model"),
                 "task_id": r.get("task_id"),
                 "oracle": r.get("oracle"),
                 "replication_id": r.get("replication_id"),

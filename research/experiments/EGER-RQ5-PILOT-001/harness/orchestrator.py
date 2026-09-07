@@ -24,6 +24,12 @@ from __future__ import annotations
 from typing import Any, Callable, Dict, List
 
 from .matrix import frozen_matrix, assert_matrix_order
+from .model_matrix import (
+    frozen_model_matrix,
+    assert_model_matrix_order,
+    MODEL_IDS,
+    MODEL_TIMEOUTS,
+)
 from .tasks import TASKS
 from .trial_runner import run_trial, MAX_RETRIES, sha256_text
 from .analysis import analyze_trials
@@ -176,6 +182,63 @@ def run_matrix(
             gate=gate,
             max_iterations=max_iterations,
             max_retries=max_retries,
+        )
+        records.append(record)
+
+    analysis = analyze_trials(records, planned=len(trials))
+    identity_audit = audit_candidate_identity(records)
+    return {
+        "records": records,
+        "analysis": analysis,
+        "identity_audit": identity_audit,
+    }
+
+
+def run_model_matrix(
+    callables: Callable[[Dict[str, Any]], tuple],
+    normalizer,
+    gate,
+    max_iterations: int = MAX_ITERATIONS,
+    max_retries: int = MAX_RETRIES,
+) -> Dict[str, Any]:
+    """Run the frozen 16-trial model-comparison matrix (P185 §2).
+
+    Identical construction contract to run_matrix, with the model
+    dimension added: the callable receives a frozen model-matrix row dict
+    (including "model" / "model_id") and returns (oracle_call, model_call)
+    for that trial. The pre-run assertion (assert_model_matrix_order) must
+    pass BEFORE trial 1 and raises on violation.
+
+    The model label is recorded on every trial record via run_trial(model=...)
+    and the deterministic analysis adds per_model / per_model_condition
+    aggregation.
+
+    Returns:
+        {"records", "analysis", "identity_audit"}.
+    """
+    trials = frozen_model_matrix()
+    # Protocol assertion BEFORE trial 1 (P185 §2). Raises on violation.
+    assert_model_matrix_order(trials)
+
+    records: List[Dict[str, Any]] = []
+    for row in trials:
+        task = TASKS[row["task_id"]]
+        oracle_call, model_call = callables(row)
+        record = run_trial(
+            trial_id=row["trial_id"],
+            task_id=row["task_id"],
+            oracle_name=row["oracle"],
+            replication_id=row["replication_id"],
+            execution_order=row["order"],
+            initial_sdc=task["initial_sdc"],
+            design_context=task["design_context"],
+            oracle_call=oracle_call,
+            model_call=model_call,
+            normalizer=normalizer,
+            gate=gate,
+            max_iterations=max_iterations,
+            max_retries=max_retries,
+            model=row["model"],
         )
         records.append(record)
 

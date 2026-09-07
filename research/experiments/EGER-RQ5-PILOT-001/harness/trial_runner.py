@@ -153,6 +153,7 @@ def _run_attempt(
     gate,
     max_iterations: int = 3,
     provider_failure_prefix: str = "ERROR:",
+    model: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Execute one attempt of a trial (P172 §7 sequence)."""
     start = time.time()
@@ -164,6 +165,7 @@ def _run_attempt(
         "execution_order": execution_order,
         "attempt": attempt,
         "retry_count": attempt - 1,
+        "model": model,
         "initial_sdc": initial_sdc,
         "initial_sdc_hash": sha256_text(initial_sdc),
     }
@@ -386,12 +388,16 @@ def run_trial(
     gate,
     max_iterations: int = 3,
     max_retries: int = MAX_RETRIES,
+    model: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Run a trial with up to `max_retries` bounded retries.
 
     Both attempts are recorded. If attempt 1 fails with a retryable
     failure kind, attempt 2 runs with identical configuration. If attempt 2
     also fails, the trial is FAILED with attempt 2's failure kind.
+
+    `model` is an optional model label recorded for provenance (P185
+    model-comparison dimension); it does not alter trial semantics.
 
     Retry policy (P172 §8):
     - Retryable: PROVIDER_FAILURE, EMPTY_OUTPUT, CANDIDATE_INVALID, TIMEOUT,
@@ -416,6 +422,7 @@ def run_trial(
             normalizer=normalizer,
             gate=gate,
             max_iterations=max_iterations,
+            model=model,
         )
         attempts.append(last)
         if last["completion_status"] == "COMPLETED":
