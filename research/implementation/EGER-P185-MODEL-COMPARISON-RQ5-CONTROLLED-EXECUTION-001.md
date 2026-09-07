@@ -1,5 +1,7 @@
 # EGER — P185: Model-Comparison RQ-5 Controlled Experiment Execution
 
+> **REVISION NOTE (P186):** Two prose-count corrections were applied to §11 by the independent P186 review (PASS WITH REVISION): the replication-consistency count is **5 of 8 cells agreeing / 3 diverging** (the §13 table was already correct), and the model-stochasticity invocation counts are **4 of 17 (mimo) / 0 of 10 (nemotron)** model invocations (the previously stated 24/19 are Oracle evaluation counts). Raw records, analysis, all PO counts, and every conclusion are unchanged.
+
 ## 1. Objective
 
 Execute the frozen 16-trial model-comparison experiment (2 models × 2 tasks × 2 Oracles × 2 replications) with real providers, using the P184-READY harness, and report results within the frozen claim boundary. This gate tests **model dependence** — not Oracle interchangeability, production generalization, or universal model independence.
@@ -132,8 +134,8 @@ Both authorities entered the same contract for every trial and every evaluation:
 ## 11. Determinism / Reproducibility
 
 - **Oracle determinism:** identical inputs produce identical outputs (unchanged from RQ-5; both authorities deterministic).
-- **Model stochasticity:** observed. The two models produced different candidate bytes for identical tasks, and mimo additionally showed the conversational-filler failure mode intermittently (3 of 24 model invocations) while nemotron showed none (0 of 19).
-- **Pipeline reproducibility:** replication pairs agree at outcome level in 6 of 8 condition cells (see §13); the two diverging cells are driven by model stochasticity, not harness nondeterminism.
+- **Model stochasticity:** observed. The two models produced different candidate bytes for identical tasks, and mimo additionally showed the conversational-filler failure mode intermittently (**4 of 17** mimo model invocations across 3 trials) while nemotron showed none (**0 of 10** nemotron model invocations). (The per-model Oracle evaluation counts are 24 and 19 respectively — a different denominator from model invocations.) [Corrected by P186]
+- **Pipeline reproducibility:** replication pairs agree at outcome level in **5 of 8** condition cells (see §13); the three diverging cells (mimo\|T1-Rta, mimo\|T2-Rta, nemotron\|T2-OpenSTA) are driven by model stochasticity, not harness nondeterminism. [Corrected by P186]
 
 ## 12. Descriptive Analysis (predefined only)
 
