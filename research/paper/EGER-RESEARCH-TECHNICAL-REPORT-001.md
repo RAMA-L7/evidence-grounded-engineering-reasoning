@@ -278,7 +278,7 @@ Deferred **does not** mean disproven. It means "not yet motivated by evidence."
 
 The evidence shows:
 
-- Structured evidence reliably causes revision (100% activation in the tested conditions).
+- Structured evidence was associated with reliable revision activation (100% activation in the tested conditions).
 - Revision does **not** always address ERROR findings; adherence ranges across task framing (broad framing associated with higher adherence than narrow framing in the tested conditions).
 - The effect is **probabilistic, not deterministic**.
 - **Framing causality is NOT established.**
@@ -474,7 +474,7 @@ Descriptive only — N=2 per cell does not support statistical reliability claim
 - Nemotron completed **8/8** with **0 retries**, **4/8 ROBUST**, **7/8 qualified accepts**.
 - Mimo completed **7/8** with **3 retries** (1 unrecovered), **2/8 ROBUST**, **4/8 qualified accepts**.
 - Both models reproduced the RQ-5 authority-separation pattern: Ṛta and OpenSTA evaluated the same shared task substrate and produced authority-specific verdicts (e.g., T2: Ṛta accepted structurally complete aggressive-clock SDC; OpenSTA flagged a timing violation → REJECT), and both models' evidence reached the VerificationGate.
-- Nemotron showed 0 model×Oracle interaction breaks in the reported run: all four Ṛta cells ROBUST/IMPROVED and both OpenSTA clean-floor cells as expected.
+- No qualitative model×Oracle inconsistency was observed in the reported run: all four Ṛta cells ROBUST/IMPROVED and both OpenSTA clean-floor cells as expected. This is a descriptive observation under the tested sampling and does not establish causal model×Oracle interaction or general model superiority.
 
 ### 8.12 Claim level
 
@@ -562,7 +562,7 @@ The tasks are synthetic 3-cell VLSI scenarios. The results are therefore bounded
 - **Baseline:** `opencode/mimo-v2.5-free`
 - **Comparison:** `opencode/nemotron-3.5-lightning-free`
 
-Model identifiers, provider/runtime, and frozen invocation configuration are recorded in the P184/P185 experimental records. The repository does not expose provider API keys or payment configuration.
+Model identifiers: `opencode/mimo-v2.5-free` (baseline) and `opencode/nemotron-3.5-lightning-free` (comparison). Provider/runtime configuration and frozen invocation parameters — including default provider sampling behavior, no explicit temperature override, and the frozen per-model timeout values recorded in the P184/P185 experimental records (180 s for mimo, 300 s for nemotron) — are intentionally recorded in the local P184/P185 experimental records and are not embedded in the public repository package. The repository does not expose provider API keys, credentials, or payment configuration.
 
 ### 11.4 Frozen experimental design
 
@@ -715,7 +715,7 @@ This manuscript is a packaging artifact assembled from the frozen research packa
 
 Manuscript path: `research/paper/EGER-RESEARCH-TECHNICAL-REPORT-001.md`
 
-Status: **assembled and claim-audited; ready for checkpoint review.**
+Status: **Assembled from the frozen EGER research package; publication status is documented by CHANGE-061.**
 
 ---
 
