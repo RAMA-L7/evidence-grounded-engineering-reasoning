@@ -128,6 +128,69 @@ MODEL-002             ✓ FROZEN / UNCHANGED
 
 C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). C0 **REVIEWED (R1)** — valid baseline with documented limitations; confound status open. **C1 DESIGN CHANGE CONTROL APPROVED** (EGER-CHANGE-001, EXP-001 v0.2) — C1 clarified as feedback-assisted revision. **C1 NOT YET IMPLEMENTED.** Next: C1 implementation readiness verification. GitHub **PUSHED** (`0c4eccc`). **Repository PRIVATE.** Benchmark exposure contained.
 
+---
+
+# EGER Research STATE — Current Snapshot (post-P187)
+
+Last updated: 2026-09-08 (P187-R documentation closure; refreshed from P181/P185/P186/P187 frozen record)
+
+> This snapshot reflects the frozen research state **after P187**. It does not modify any historical research record. Historical P025-era content above is preserved.
+
+## Frozen research state
+
+```
+C0: ESTABLISHED
+C1: ESTABLISHED
+C2: PARTIALLY SUPPORTED / absorbed into C1 where applicable
+C3: NOT JUSTIFIED
+C4: DEFERRED
+C5: DEFERRED
+
+RQ-4: CLOSED (behavioral-association level; causality NOT established)
+RQ-5: CLOSED at Level 2 (descriptive pilot; generalization NOT established)
+
+P185: additive second-model observation (mimo vs nemotron; 15/16 completed)
+P186: independent review PASS WITH REVISION (two prose-count corrections)
+P187: packaging review PASS WITH REMAINING DOCUMENTATION GAPS
+
+Model independence: NOT ESTABLISHED
+Statistical superiority/equivalence: NOT ESTABLISHED
+Universal generalization: NOT ESTABLISHED
+Production-scale generalization: NOT ESTABLISHED
+
+Ṛta: deterministic, external, read-only (1.5.11 @ 3b5c2f2; unchanged through P159-P186)
+VerificationGate: sole ACCEPT/REJECT authority (UNCHANGED)
+```
+
+## Research arcs (must stay separate)
+
+- **Arc 1 — C0-C5 / RQ-4:** architecture hypothesis, controlled evidence/revision behavior, C3 not justified, C4/C5 deferred, RQ-4 closed at behavioral-association level.
+- **Arc 2 — RQ-5 / PILOT-002 / P185:** deterministic authority separation and additive two-model observation under frozen synthetic VLSI conditions; RQ-5 closed at Level 2.
+
+Arc 2 is **not** presented as validation of every C0-C5 architectural hypothesis. Do not merge the two into a single causal claim.
+
+## Documentation gaps remaining (P187/P187-R)
+
+1. `research/STATE.md` was stale; refreshed above.
+2. No top-level `README.md` (created in P187-R).
+3. `research/architecture/EGER-ARCH-002.md` is a pending/unvalidated design recommendation, not an experimentally validated result.
+4. P182 overclaim (model-independence language) corrected under CHANGE-060.
+5. No package-level reproducibility page (created in P187-R as `research/REPRODUCIBILITY.md`).
+
+## Maximum defensible aggregate claim
+
+> The EGER evidence-grounded control loop operated with the two tested language models — `opencode/mimo-v2.5-free` and `opencode/nemotron-3.5-lightning-free` — across the frozen synthetic VLSI tasks and the two independent deterministic evaluation authorities (Ṛta and OpenSTA), with evaluation evidence entering the common EGER evidence contract and reaching the VerificationGate, under the tested conditions.
+
+This claim is preserved verbatim. It is NOT upgraded into model independence, Oracle interchangeability, causal superiority, arbitrary VLSI generalization, or production-scale generalization.
+
+## Current package readiness
+
+P187 verdict: **PASS WITH REMAINING DOCUMENTATION GAPS**. Documentation gaps closed in P187-R: STATE.md refresh, README.md added, REPRODUCIBILITY.md added, P182 overclaim corrected under CHANGE-060.
+
+## Next
+
+P188 (Research Paper / Technical Report Assembly) may legitimately assemble the paper from the synchronized research state after P187-R. P188 is NOT started in this gate.
+
 ## C0 Verification (EGER-AUTH-001)
 
 - Model: MODEL-002 live `opencode/muse-spark-1.2` task-aware, temp 0.0, `eger.prompt.v1`, budget 5 — identical for all 6 tasks

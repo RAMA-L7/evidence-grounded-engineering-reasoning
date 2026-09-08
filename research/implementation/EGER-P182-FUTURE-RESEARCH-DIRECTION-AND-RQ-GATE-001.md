@@ -155,7 +155,7 @@ Ranked by scientific impact and unresolved status:
 | Maximum defensible claim | Level 2 with model as a second condition |
 | Required engineering | Minimal: add a second model to the harness |
 
-**Verdict: HIGH scientific value, HIGH feasibility.** This is the most efficient test of the most critical uncertainty. The existing RQ-5 protocol, tasks, Oracles, and harness can be reused with only a model change. If the architecture works with a second model, the Level-2 claim becomes model-independent. If it doesn't, the architecture's boundaries are precisely identified.
+**Verdict: HIGH scientific value, HIGH feasibility.** This is the most efficient test of the most critical uncertainty. The existing RQ-5 protocol, tasks, Oracles, and harness can be reused with only a model change. If the architecture works with a second model, the Level-2 claim is strengthened to operation under an additional tested model. If it doesn't, the architecture's boundaries are precisely identified. In either case, model independence is NOT established: two models ≠ all models, and model independence would require additional models and an appropriate experimental design.
 
 ### Candidate 6: Larger-N RQ-5
 
@@ -201,7 +201,7 @@ The P181 synthesis explicitly lists "Generalization beyond MODEL-005" as NOT EST
 
 1. **If the architecture only works with one specific LLM, it is a model-specific artifact, not an architectural finding.** The entire P159–P180 research program would be bounded to one model's behavior.
 
-2. **If the architecture works with multiple LLMs, the Level-2 claim becomes model-independent.** This is a qualitative leap in the strength of the evidence base.
+2. **If the architecture works with multiple LLMs, the Level-2 claim is strengthened to operation under additional tested models — but does NOT become model-independent.** Two models ≠ all models; model independence would require additional models and an appropriate experimental design. Per the frozen P159–P186 record, model independence is explicitly NOT established.
 
 3. **Model dependence is the most efficient variable to test.** The existing RQ-5 protocol, tasks, Oracles, and harness require only a model change — no new substrates, no new adapters, no protocol redesign.
 
@@ -247,11 +247,11 @@ The P181 synthesis explicitly lists "Generalization beyond MODEL-005" as NOT EST
 
 ## 10. Maximum Anticipated Claim Level
 
-**Level 2 — model-general.** If the architecture operates with two independent LLMs across both tasks and both Oracles, the claim becomes:
+**Level 2 — model-general (operation under a second tested model, not model independence).** If the architecture operates with two independent LLMs across both tasks and both Oracles, the claim becomes:
 
 > The evidence-grounded EGER control loop operated with multiple independent deterministic evaluation authorities and multiple independent language models across the frozen synthetic VLSI tasks, under the tested conditions.
 
-This is a qualitative strengthening of the Level-2 claim from RQ-5, making it model-independent.
+This is a qualitative strengthening of the Level-2 claim from RQ-5, demonstrating operation under a second tested model. It does NOT establish model independence: two models ≠ all models, and model independence would require additional models and an appropriate experimental design.
 
 ## 11. Decision
 
