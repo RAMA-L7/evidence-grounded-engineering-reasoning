@@ -24,13 +24,13 @@ EGER introduces a clear separation of roles:
 
 We report two coordinated research threads:
 
-1. An **architecture ladder (C0–C5)** and **RQ-4**, investigating whether structured evidence reliably drives revision behavior. RQ-4 is **closed** at the behavioral-association level; causality is **not established**. C3 was **not justified** because a more parsimonious explanation (task framing) was found; C4 and C5 remain **deferred**.
+1. An **architecture ladder (C0–C5)** and **RQ-4**, investigating whether structured evidence reliably drives revision behavior. RQ-4 is **closed** at the behavioral-association level; causality is **not established**. C3 was **not justified** because a more parsimonious explanation (task framing) was found; C4 and C5 remain **deferred**. A pre-registered, randomized **framing-causality pilot** (P191-R4; 48 scheduled runs, one model, one deterministic authority) subsequently observed a **positive-direction but non-significant** framing effect on the pre-specified SUCCESS outcome (RD_equal = +0.33; exact one-sided blocked permutation p ≈ 0.16). Framing causality is **not established**.
 
 2. An **RQ-5** series testing whether the EGER control loop operates with **two independent deterministic evaluation authorities** — **Ṛta** (structural/constraint-quality) and **OpenSTA** (timing) — under frozen synthetic VLSI conditions. The RQ-5 pilot (PILOT-002, 8 trials) completed 8/8 with **0 failures and 0 retries**; both authorities drove their own evidence-grounded loops. On one task, the two authorities **legitimately disagreed** because they measured different engineering properties — evidence for authority separation, **not** interchangeability.
 
 A subsequent **model-comparison experiment (P185, PILOT-003)** tested whether the same architecture operated with a **second LLM** under the same authorities and tasks: **2 models × 2 tasks × 2 Oracles × 2 replications = 16 trials**. The experiment completed **15/16 trials** (1 documented baseline-model output failure, handled per the frozen bounded-retry policy), with **43 Oracle evaluations / 43 evidence artifacts**, **3 retries**, and an identity audit of **ok=True, 0 violations**. This supports a **descriptive** statement that the architecture operated with two tested models under the tested conditions. It does **not** establish model independence.
 
-**Explicit limitations:** small pilot samples; synthetic VLSI tasks; two language models only; two deterministic authorities only; descriptive statistics only; no inferential superiority claim; no universal model-independence claim; no arbitrary-authority generalization; no production-scale evaluation.
+**Explicit limitations:** small pilot samples; synthetic VLSI tasks; two language models only; two deterministic authorities only; descriptive statistics for the RQ-5 threads plus one pre-registered exact permutation test in the framing pilot (non-significant); no inferential superiority claim; no universal model-independence claim; no arbitrary-authority generalization; no production-scale evaluation. The RQ-4 framing-causality pilot used N=8 per task×condition cell.
 
 ---
 
@@ -65,6 +65,8 @@ The present manuscript reports two explicitly separate research questions. They 
 **RQ-4 (closed):** To what extent does structured deterministic evidence affect proposal revision behavior in the EGER framework?
 
 This thread studies an **architecture hypothesis**: that inserting deterministic evaluation evidence into the revision loop changes revision behavior in a measurable way, and whether that effect is consistent, causal, or dependent on framing.
+
+A pre-registered randomized pilot (P191-R4) was subsequently executed to test the framing question causally under the frozen apparatus; its result is reported in §6.3 and remains bounded (positive direction, not significant; causality not established).
 
 ### 2.2 Cross-authority operation (RQ-5)
 
@@ -284,6 +286,32 @@ The evidence shows:
 - **Framing causality is NOT established.**
 
 RQ-4 is therefore closed with a bounded conclusion: structured evidence is associated with revision behavior in a task- and framing-dependent way, but causality and mechanism are not established.
+
+### 6.3 RQ-4 framing-causality pilot (P191-R4 / PILOT-004)
+
+A pre-registered randomized blocked pilot was executed under the frozen P191-R2 protocol to test whether task framing causally affects error-adherence behavior under otherwise controlled conditions.
+
+**Design (frozen before execution):** 3 frozen synthetic VLSI tasks (BENCH2-002, BENCH2-004, BENCH2-005) × 2 framing conditions (A1 broad: "generate a complete, production-quality SDC"; A4 narrow: task-specific objective only) × 8 runs per cell = **48 scheduled runs**. Model: MODEL-005 (`opencode/mimo-v2.5-free`, temperature 0.0). Authority: Ṛta 1.5.11 @ `3b5c2f2`. An immutable pre-execution manifest (seed 20260908; manifest SHA-256 `8350e3519b00ab24373e7a57e04c38df5bc3657b935f50db56101880c50ba890`) froze task order, within-task A1/A4 run order, and run IDs before the first model invocation. No retries, no replacement, no early stopping, no sample-size extension.
+
+**Primary outcome (unconditional estimand):** `SUCCESS = 1` iff `status==COMPLETED` AND the revised SDC contains both `set_input_delay` and `set_output_delay`; otherwise `0` — including INCOMPLETE runs, which contribute `SUCCESS=0`. No conditioning on candidate validity. `RD_task = P(SUCCESS|A1) − P(SUCCESS|A4)` per task; the primary aggregate is `RD_equal`, the equal-task-weighted mean of the three `RD_task` values (task is a blocking/effect-modification factor, so tasks are weighted equally).
+
+**Primary results (all scheduled-run denominators):**
+
+| Task | A1 SUCCESS | A4 SUCCESS | RD_task |
+| ---- | :--------: | :--------: | :-----: |
+| BENCH2-002 | 7/8 | 5/8 | +0.250 |
+| BENCH2-004 | 8/8 | 5/8 | +0.375 |
+| BENCH2-005 | 7/8 | 4/8 | +0.375 |
+
+- `RD_equal = +1/3 ≈ +0.3333`.
+- **Primary inference:** exact blocked permutation test of `RD_equal` — all C(16,8) = 12,870 within-task relabelings per task, combined by exact rational convolution across tasks (2,131,746,903,000 enumerations; deterministic; no common-effect assumption). One-sided exact **p = 0.16265286**; two-sided descriptive p = 0.32530572.
+- Execution accounting: 48 scheduled, **46 COMPLETED**, **2 INCOMPLETE** (provider timeouts, retained with SUCCESS=0 under the frozen estimand). No retries.
+
+**Secondary (completed-only descriptive) analysis:** conditioning on completed runs, the conditional success-rate difference aggregates to +0.4167. This is a **secondary descriptive analysis only** and must not be read as the primary causal estimate; conditioning on candidate completion is post-treatment conditioning.
+
+**Interpretation (bounded):** the observed direction was positive in all three task blocks (A1 conditional success was 22/22 completed runs), consistent with the earlier behavioral association — but the primary exact test does **not** reach conventional significance at N=8 per cell. This is **positive-direction, non-significant causal pilot evidence**. Framing causality is **NOT established**; RQ-4 remains closed at the behavioral-association level.
+
+**Execution integrity:** an initial execution attempt was aborted for an infrastructure-level Windows subprocess timeout/process-reaping defect (partial artifacts preserved, not merged into the cohort). The full frozen 48-run manifest was then re-executed in a single pass; the only change was a runner-local process-tree-kill hardening of the provider invocation. No protocol parameter, treatment, prompt, timeout duration, or measurement changed. Details are recorded in the local pilot records.
 
 ---
 
@@ -530,7 +558,7 @@ The tasks are synthetic 3-cell VLSI scenarios. The results are therefore bounded
 - Synthetic VLSI tasks (2 tasks, 3-cell substrate).
 - Two language models only (mimo and nemotron).
 - Two deterministic authorities only (Ṛta and OpenSTA).
-- Descriptive statistics only; **no inferential statistics performed**.
+- PILOT-002 and P185 are descriptive; the P191-R4 framing pilot adds one pre-registered exact blocked permutation test (non-significant). No other inferential statistics are performed.
 - **No statistical superiority or equivalence claim.**
 - **No universal model-independence claim.**
 - **No arbitrary-authority generalization claim.**
@@ -540,6 +568,8 @@ The tasks are synthetic 3-cell VLSI scenarios. The results are therefore bounded
 - The T2 OpenSTA initial condition is a documented vacuous-clean floor; the "WORSE" metric reflects the first real constraints exposing a timing violation under an unmeetable frozen clock.
 - The C0–C5 architecture ladder includes deferred stages (C4, C5) that are **not** experimentally disproven.
 - RQ-4 is closed at behavioral-association level; **causality not established**.
+- The RQ-4 framing-causality pilot (P191-R4) used N=8 per task×condition cell; its primary exact blocked permutation test was **not significant** (one-sided p ≈ 0.16). The result is positive-direction pilot evidence, not an established causal effect.
+- Two P191-R4 runs were INCOMPLETE (provider timeouts) and contribute SUCCESS=0 under the frozen unconditional estimand; completed-only conditional rates are reported only as a secondary descriptive analysis.
 - ARCH-002 is a recommended/unvalidated design, not an experimentally validated result.
 
 ---
@@ -561,6 +591,7 @@ The tasks are synthetic 3-cell VLSI scenarios. The results are therefore bounded
 
 - **Baseline:** `opencode/mimo-v2.5-free`
 - **Comparison:** `opencode/nemotron-3.5-lightning-free`
+- **RQ-4 framing pilot (P191-R4):** `opencode/mimo-v2.5-free` (MODEL-005), temperature 0.0, max_tokens 2048, 60 s provider timeout, no retries.
 
 Model identifiers: `opencode/mimo-v2.5-free` (baseline) and `opencode/nemotron-3.5-lightning-free` (comparison). Provider/runtime configuration and frozen invocation parameters — including default provider sampling behavior, no explicit temperature override, and the frozen per-model timeout values recorded in the P184/P185 experimental records (180 s for mimo, 300 s for nemotron) — are intentionally recorded in the local P184/P185 experimental records and are not embedded in the public repository package. The repository does not expose provider API keys, credentials, or payment configuration.
 
@@ -571,11 +602,13 @@ Model identifiers: `opencode/mimo-v2.5-free` (baseline) and `opencode/nemotron-3
 - P183: model-comparison experimental design.
 - P184: execution readiness gate.
 - P185: model-comparison execution (PILOT-003).
+- P191-R2: RQ-4 framing-causality pilot design (pre-registered frozen protocol).
 
 Matrices:
 
 - PILOT-002: 2 tasks × 2 Oracles × 2 replications = 8 trials.
 - PILOT-003: 2 models × 2 tasks × 2 Oracles × 2 replications = 16 trials.
+- PILOT-004 (P191-R4): 3 tasks × 2 framing conditions (A1 broad / A4 narrow) × 8 runs = 48 scheduled runs.
 
 ### 11.5 Protocol constraints
 
@@ -587,6 +620,8 @@ Matrices:
 - Shared initial SDC identity verified; Oracle-specific revised candidates allowed to diverge.
 - PO-2 / PO-3 derived deterministically from raw records.
 - VerificationGate is the sole final accept/reject authority.
+- PILOT-004 (P191-R4): no retries, no replacement, no early stopping, no sample-size extension; an immutable pre-execution manifest (seed 20260908; SHA-256 `8350e3519b00ab24373e7a57e04c38df5bc3657b935f50db56101880c50ba890`) froze task order, within-task A1/A4 run order, and run IDs before the first model invocation; every scheduled run was retained, and INCOMPLETE runs contribute SUCCESS=0 under the frozen unconditional estimand.
+- PILOT-004 execution integrity: an initial attempt was aborted for an infrastructure-level Windows subprocess timeout/process-reaping defect; its partial artifacts were preserved and not merged. The full frozen manifest was re-executed in a single pass (the experimental cohort), with a runner-local process-tree-kill hardening of the provider invocation only; no protocol parameter changed.
 
 ### 11.6 Provenance / identity auditing
 
@@ -610,7 +645,7 @@ Matrices:
 
 ### 11.9 Raw experimental data
 
-Raw experimental records (PILOT-002, PILOT-003) are **intentionally local** and are **not automatically exposed by the repository package**. The manuscript cites them by manifest path where needed. The published research records and this manuscript do not embed raw experimental JSON or execution logs.
+Raw experimental records (PILOT-002, PILOT-003, PILOT-004) are **intentionally local** and are **not automatically exposed by the repository package**. The manuscript cites them by manifest path where needed. The published research records and this manuscript do not embed raw experimental JSON or execution logs.
 
 ### 11.9 Test counts
 
@@ -630,6 +665,7 @@ The evidence supports the following conclusions:
 3. The tested loop **operated with two deterministic authorities** (Ṛta and OpenSTA) and **two tested language models** (mimo and nemotron) under **frozen synthetic VLSI conditions**.
 4. Authority-specific semantics remain important: the T2 result shows that the two authorities can legitimately disagree because they measure different engineering properties — evidence for authority separation, **not** interchangeability.
 5. Broader generalization and **model independence remain open research questions**. The present evidence does not establish model independence, statistical superiority, universal generalization, arbitrary-authority generalization, or production-scale validity.
+6. A pre-registered randomized framing-causality pilot (P191-R4) observed a **positive-direction but non-significant** effect of broad versus narrow framing on the pre-specified SUCCESS outcome under the tested conditions (RD_equal = +0.33, exact one-sided p ≈ 0.16). Framing causality remains **not established** and is an open research question at adequate sample size.
 
 **Strongest defensible aggregate statement:**
 
@@ -655,7 +691,8 @@ This manuscript is assembled from the frozen research package. Key source record
 - **Schema/contracts:** `research/schemas/EGER-EPISTEMIC-SCHEMAS.md`, `research/schemas/EGER-ARTIFACT-SCHEMAS.md`.
 - **Tasks/substrate:** `research/experiments/EGER-BENCH-002.md`, `research/experiments/EGER-BENCH-002-TASKS.json`.
 - **Models:** `research/experiments/EGER-MODEL-002.md`, `EGER-MODEL-005.md`.
-- **Raw experimental records:** intentionally local under `research/experiments/EGER-RQ5-PILOT-002/` and `research/experiments/EGER-RQ5-PILOT-003/` (not committed).
+- **RQ-4 framing-causality pilot:** `research/implementation/EGER-P191-R2-FINAL-CAUSAL-DESIGN-AND-READINESS-001.md` (frozen design), `research/implementation/EGER-P192-PUBLICATION-DECISION-RULE-AUDIT-001.md` (publication decision rule), `research/implementation/EGER-CHANGE-062.md` (manuscript reconciliation).
+- **Raw experimental records:** intentionally local under `research/experiments/EGER-RQ5-PILOT-002/`, `research/experiments/EGER-RQ5-PILOT-003/`, and `research/experiments/EGER-RQ5-PILOT-004/` (not committed).
 
 ---
 
@@ -674,6 +711,7 @@ Each substantive claim in this manuscript was classified before finalization.
 - PILOT-002: 8/8 completed, 0 failures, 0 retries, 22 evaluations, 22 evidence artifacts.
 - P185: 15/16 completed, 1 failed, 3 retries, 43 evaluations, 43 evidence artifacts; identity audit ok=True, 0 violations.
 - Mimo exhibited the conversational-filler failure mode; nemotron did not (in the reported run).
+- P191-R4 pilot execution: 48 scheduled, 46 completed, 2 INCOMPLETE; manifest-verified randomization (seed 20260908); RD_task = +0.250 / +0.375 / +0.375; RD_equal = +1/3; exact one-sided blocked permutation p = 0.16265286 over 2,131,746,903,000 exact enumerations.
 - ARCH-002 is recommended/unvalidated, not experimentally validated.
 
 ### Supported with boundary
@@ -681,6 +719,7 @@ Each substantive claim in this manuscript was classified before finalization.
 - Structured evidence is associated with revision behavior (RQ-4 behavioral association; not causal).
 - The architecture operated with a second tested model (descriptive; not model independence).
 - Mimo showed stronger descriptive failure-mode behavior than nemotron in this run (observed under this sampling; not a proven stable trait).
+- The framing pilot observed a positive direction in all three task blocks (bounded causal pilot evidence; not significant; framing causality not established).
 
 ### Historical design statement
 
@@ -701,6 +740,7 @@ Each substantive claim in this manuscript was classified before finalization.
 - Universal model generalization.
 - Arbitrary-authority generalization.
 - Production-scale generalization.
+- Framing causality established (not supported: the pilot is positive-direction and non-significant at pilot N).
 - Oracle interchangeability (explicitly refuted on T2).
 - Revised candidates byte-identical across authorities (not asserted).
 - ARCH-002 as an experimentally validated result.
@@ -711,11 +751,11 @@ No claim in this manuscript exceeds Level-2 evidence.
 
 ## 15. Final Status
 
-This manuscript is a packaging artifact assembled from the frozen research package after P187-R. It does **not** rerun any experiment, does **not** modify any raw experimental data, does **not** modify Ṛta, OpenSTA, or the VerificationGate, does **not** alter frozen research conclusions, and does **not** upgrade any evidence level.
+This manuscript is a packaging artifact assembled from the frozen research package after P187-R and reconciled with the independently verified P191-R4 causal pilot under P191-R5. It does **not** rerun any experiment, does **not** modify any raw experimental data, does **not** modify Ṛta, OpenSTA, or the VerificationGate, does **not** alter frozen research conclusions, and does **not** upgrade any evidence level.
 
 Manuscript path: `research/paper/EGER-RESEARCH-TECHNICAL-REPORT-001.md`
 
-Status: **Assembled from the frozen EGER research package; publication status is documented by CHANGE-061.**
+Status: **Assembled from the frozen EGER research package; publication status is documented by CHANGE-061; reconciled with the P191-R4 causal pilot under CHANGE-062.**
 
 ---
 

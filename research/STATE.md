@@ -130,11 +130,11 @@ C0 **COMPLETE** (6/6 tasks, 5 INVALID_ARTIFACT + 1 INSUFFICIENT, 0 converged). C
 
 ---
 
-# EGER Research STATE — Current Snapshot (post-P187)
+# EGER Research STATE — Current Snapshot (post-P191-R5)
 
-Last updated: 2026-09-08 (P187-R documentation closure; refreshed from P181/P185/P186/P187 frozen record)
+Last updated: 2026-09-09 (P191-R5 manuscript reconciliation; refreshed from P181/P185/P186/P187/P191-R4 frozen record)
 
-> This snapshot reflects the frozen research state **after P187**. It does not modify any historical research record. Historical P025-era content above is preserved.
+> This snapshot reflects the frozen research state **after P191-R4/P191-R5**. It does not modify any historical research record. Historical P025-era and post-P187 content above/below is preserved.
 
 ## Frozen research state
 
@@ -152,6 +152,10 @@ RQ-5: CLOSED at Level 2 (descriptive pilot; generalization NOT established)
 P185: additive second-model observation (mimo vs nemotron; 15/16 completed)
 P186: independent review PASS WITH REVISION (two prose-count corrections)
 P187: packaging review PASS WITH REMAINING DOCUMENTATION GAPS
+P191-R4: framing-causality pilot EXECUTED (48 scheduled, 46 completed, 2 INCOMPLETE);
+  RD_equal = +1/3 (+0.3333); exact one-sided blocked permutation p = 0.16265286;
+  POSITIVE-DIRECTION, NON-SIGNIFICANT pilot evidence. Framing causality NOT established.
+P191-R5: manuscript reconciled with P191-R4 evidence (CHANGE-062); publication gate next
 
 Model independence: NOT ESTABLISHED
 Statistical superiority/equivalence: NOT ESTABLISHED
@@ -164,7 +168,7 @@ VerificationGate: sole ACCEPT/REJECT authority (UNCHANGED)
 
 ## Research arcs (must stay separate)
 
-- **Arc 1 — C0-C5 / RQ-4:** architecture hypothesis, controlled evidence/revision behavior, C3 not justified, C4/C5 deferred, RQ-4 closed at behavioral-association level.
+- **Arc 1 — C0-C5 / RQ-4:** architecture hypothesis, controlled evidence/revision behavior, C3 not justified, C4/C5 deferred, RQ-4 closed at behavioral-association level. The P191-R4 framing-causality pilot (the planned final experiment of the thesis, per the P192 Path B decision) observed a positive-direction, non-significant framing effect (RD_equal = +0.33, exact one-sided p ≈ 0.16); causality remains not established.
 - **Arc 2 — RQ-5 / PILOT-002 / P185:** deterministic authority separation and additive two-model observation under frozen synthetic VLSI conditions; RQ-5 closed at Level 2.
 
 Arc 2 is **not** presented as validation of every C0-C5 architectural hypothesis. Do not merge the two into a single causal claim.
@@ -187,9 +191,19 @@ This claim is preserved verbatim. It is NOT upgraded into model independence, Or
 
 P187 verdict: **PASS WITH REMAINING DOCUMENTATION GAPS**. Documentation gaps closed in P187-R: STATE.md refresh, README.md added, REPRODUCIBILITY.md added, P182 overclaim corrected under CHANGE-060.
 
+## P191-R4 causal pilot (post-P187 addition, 2026-09-09)
+
+Per the P192 publication decision (Path B), the pre-registered framing-causality pilot P191-R4 was executed as the planned final experiment of the thesis and has reached its endpoint:
+
+- Frozen manifest: seed 20260908; SHA-256 `8350e3519b00ab24373e7a57e04c38df5bc3657b935f50db56101880c50ba890`; 3 tasks × A1/A4 × 8 runs = 48 scheduled; no retries/replacement/early stopping/extension.
+- Outcome: 46 COMPLETED, 2 INCOMPLETE (retained; SUCCESS=0 under the frozen unconditional estimand).
+- Primary result: RD_task = +0.250 (BENCH2-002), +0.375 (BENCH2-004), +0.375 (BENCH2-005); RD_equal = +1/3; exact one-sided blocked permutation p = 0.16265286 (exhaustive 12,870 relabelings per task, exact rational convolution = 2,131,746,903,000 enumerations).
+- Verdict class: **positive-direction, non-significant causal pilot evidence**. Framing causality NOT established. RQ-4 remains closed at behavioral-association level.
+- Integrity: attempt 1 aborted for an infrastructure-level Windows subprocess timeout/reaping defect (partial artifacts preserved, not merged); attempt 2 re-executed the full frozen manifest as the sole experimental cohort with runner-local process-tree-kill hardening only. Raw records local-only under `research/experiments/EGER-RQ5-PILOT-004/`.
+
 ## Next
 
-P188 (Research Paper / Technical Report Assembly) may legitimately assemble the paper from the synchronized research state after P187-R. P188 is NOT started in this gate.
+P191-R5 reconciled the manuscript with the P191-R4 evidence (CHANGE-062). The next step is the explicit publication commit-authorization gate.
 
 ## C0 Verification (EGER-AUTH-001)
 
