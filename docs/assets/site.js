@@ -16,6 +16,7 @@
      enters the viewport. */
   var items = [].slice.call(document.querySelectorAll('.reveal'));
   if (items.length) {
+    var show = function (el) { el.classList.add('on'); };
     var docEl = document.documentElement;
     var sweep = function () {
       var vh = window.innerHeight || 1;
