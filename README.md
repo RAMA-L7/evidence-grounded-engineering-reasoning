@@ -2,6 +2,8 @@
 
 A research project studying whether a probabilistic LLM proposal generator can be paired with **deterministic external engineering evaluation** to form an evidence-grounded control loop for synchronous digital constraint (SDC) generation.
 
+**Research site:** <https://rama-l7.github.io/evidence-grounded-engineering-reasoning/> — the findings, story, method, evidence, results, reproducibility, limitations and materials, served from `docs/`. The [primary documents](https://rama-l7.github.io/evidence-grounded-engineering-reasoning/materials.html) link to the checksummed submission package in `research/thesis/EGER-001-Final-Submission-Package-v1.0/`.
+
 **Research directory:** `research/` — this README is a repo-level map; the canonical research narrative lives there.
 
 ## What EGER is
