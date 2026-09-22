@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGER · Materials and Citation</title>
+<!-- Social preview and icon -->
+<meta property="og:site_name" content="EGER · Evidence-Grounded Engineering Reasoning">
+<meta property="og:title" content="Materials: thesis, statements, reviewer guide">
+<meta property="og:description" content="Primary documents published in the research repository with SHA-256 checksums, plus access and citation.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Materials: thesis, statements, reviewer guide">
+<meta name="twitter:description" content="Primary documents published in the research repository with SHA-256 checksums, plus access and citation.">
+<meta name="twitter:image" content="assets/og-card.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta name="description" content="EGER materials: the thesis and its markdown source, the reproducibility statement, the reviewer guide, verified SHA-256 checksums, the access policy for run-level records, and how to cite the work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader-word">EGER</div>
+  <div class="loader-status"><span>Revealing</span><span data-loader-count>0</span></div>
+  <div class="loader-line"><span data-loader-line></span></div>
+</div>
+
+<div class="progress" aria-hidden="true"></div>
+<canvas id="ambient" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<nav class="dots" aria-label="Sections"></nav>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="EGER, home">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="12,2 22,20 2,20" fill="none" stroke="#8052ff" stroke-width="1.8" stroke-linejoin="round"/>
+        <polygon points="12,9 17,18 7,18" fill="none" stroke="#15846e" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-name">EGER</span>
+    </a>
+    <div class="nav-links">
+      <a class="navlink" href="story.html">Story</a>
+      <a class="navlink" href="index.html">Findings</a>
+      <a class="navlink" href="method.html">Method</a>
+      <a class="navlink" href="evidence.html">Evidence</a>
+      <a class="navlink" href="results.html">Results</a>
+      <a class="navlink" href="reproducibility.html">Reproduce</a>
+      <a class="navlink" href="limitations.html">Limitations</a>
+      <a class="navlink" href="materials.html" aria-current="page">Materials</a>
+    </div>
+    <a class="pill" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning" target="_blank" rel="noopener">Code</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero" data-shape="orb">
+    <div class="wrap">
+      <div class="split">
+        <div class="stack">
+          <p class="kicker reveal">Materials · thesis · statements · reviewer guide</p>
+          <h1 class="display reveal">Thesis, statements, reviewer guide.</h1>
+          <p class="body-light lede reveal maxw">The reviewable artifacts, published with recomputed checksums so a reader can confirm that the files they hold are the files described here. These accompany a thesis that no journal, conference or institution has examined.</p>
+        </div>
+        <!-- The constellation is a single fixed canvas behind the page, so the
+             hero column only needs to reserve the space it occupies. -->
+        <div class="figure-canvas tall" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="scroll-cue"><span>Scroll to reveal</span><i></i></div>
+  </section>
+
+  <!-- ------------------------------------------------------- documents -->
+  <section class="section-lg" data-shape="cube">
+    <div class="wrap">
+      <p class="kicker reveal">Primary documents</p>
+      <h2 class="h-lg reveal mt-18 maxw-wide">Four files, four checksums.</h2>
+      <p class="body-light reveal mt-18 maxw">All four documents are published in the research repository, alongside the closure manifest and the package checksum file, so any reader can verify what is quoted here without trusting this page.</p>
+      <div class="scroll-x mt-36 reveal">
+        <table class="flat">
+          <thead>
+            <tr>
+              <th>Document</th>
+              <th>File</th>
+              <th>SHA-256 (first 16)</th>
+              <th>What it is</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Thesis</td>
+              <td>EGER-THESIS-001-SubmissionCandidate-v1.0.pdf</td>
+              <td>9e65a5e1333f55d0</td>
+              <td>the rendered submission candidate of the frozen research</td>
+              <td><a class="tlink" href="https://raw.githubusercontent.com/RAMA-L7/evidence-grounded-engineering-reasoning/main/research/thesis/EGER-001-Final-Submission-Package-v1.0/EGER-THESIS-001-SubmissionCandidate-v1.0.pdf" target="_blank" rel="noopener">Open</a></td>
+            </tr>
+            <tr>
+              <td>Thesis source</td>
+              <td>EGER-THESIS-001.md</td>
+              <td>296674dd4d51a399</td>
+              <td>markdown source of the same document, diffable and searchable</td>
+              <td><a class="tlink" href="https://raw.githubusercontent.com/RAMA-L7/evidence-grounded-engineering-reasoning/main/research/thesis/EGER-001-Final-Submission-Package-v1.0/EGER-THESIS-001.md" target="_blank" rel="noopener">Open</a></td>
+            </tr>
+            <tr>
+              <td>Reproducibility</td>
+              <td>REPRODUCIBILITY.md</td>
+              <td>c8d35f81bab35c22</td>
+              <td>environments, frozen protocols, manifest hashes, data boundaries</td>
+              <td><a class="tlink" href="https://raw.githubusercontent.com/RAMA-L7/evidence-grounded-engineering-reasoning/main/research/thesis/EGER-001-Final-Submission-Package-v1.0/REPRODUCIBILITY.md" target="_blank" rel="noopener">Open</a></td>
+            </tr>
+            <tr>
+              <td>Reviewer guide</td>
+              <td>README-REVIEW.md</td>
+              <td>ed0bfa7592267dfa</td>
+              <td>how to check this work quickly, what is shared, how to request records</td>
+              <td><a class="tlink" href="https://raw.githubusercontent.com/RAMA-L7/evidence-grounded-engineering-reasoning/main/research/thesis/EGER-001-Final-Submission-Package-v1.0/README-REVIEW.md" target="_blank" rel="noopener">Open</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note mt-24 reveal">The checksums above were computed from the files published in the repository at <a href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning/tree/main/research/thesis/EGER-001-Final-Submission-Package-v1.0" target="_blank" rel="noopener">research/thesis/EGER-001-Final-Submission-Package-v1.0</a>, where <span class="mono">PACKAGE-CHECKSUMS.sha256</span> and the independent hash-check script live beside them. Verify with <span class="mono">sha256sum &lt;file&gt;</span>. A mismatch means the file is not the one described here. The reviewer guide also records three residual conditions carried openly into submission: a full-text inspection still outstanding, the positioning not being a systematic review, and a re-check scheduled at the submission date.</p>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------- shared -->
+  <section class="section-lg" data-shape="cube">
+    <div class="wrap">
+      <div class="split">
+        <div class="reveal">
+          <p class="kicker">Shared</p>
+          <h2 class="h-xs mt-12">Included in this package</h2>
+          <div class="rows mt-24">
+            <p class="body-light">The complete thesis text and PDF, with every claim and non-claim.</p>
+            <p class="body-light">The reproducibility statement, covering environments, frozen manifests and hashes.</p>
+            <p class="body-light">The reviewer guide, a short integrity check a reviewer can run first.</p>
+            <p class="body-light">This site: statements, tables and figures generated from the frozen dataset, with no tracking and no imagery of a product.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <p class="kicker">Held back</p>
+          <h2 class="h-xs mt-12">Retained, and why</h2>
+          <div class="rows mt-24">
+            <p class="body-light">Raw run-level records. They contain provider account traces and full prompts, so they are held hash locked rather than published.</p>
+            <p class="body-light">Model provider configuration. Private credentials are never included in a research package.</p>
+            <p class="body-light">Benchmark answer keys, kept evaluator only so that reading this site cannot double as passing the benchmark.</p>
+            <p class="body-light">Work from the later benchmark stage, which is documented separately and forms no part of the thesis claim.</p>
+          </div>
+        </div>
+      </div>
+      <p class="note mt-36 reveal">Held-back material is not secret. It is available to reviewers under the access path below, and the retained hash chain is verified jointly with the requester.</p>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------- request -->
+  <section class="section-lg" data-shape="torus">
+    <div class="wrap">
+      <p class="kicker reveal">Access</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Requesting the retained records.</h2>
+      <p class="body-light reveal mt-24 maxw">Run-level records are shared selectively with academic reviewers: identity and purpose stated, no redistribution without agreement, and joint verification of the retained hash chain. A useful request says who you are, what institution or role you hold, what you want to verify, and how you will handle the records.</p>
+      <div class="kv mt-36 reveal">
+        <span class="kv-key">Author</span>
+        <p class="kv-val">Rama Krishna Ketha, independent researcher</p>
+        <span class="kv-key mt-24">Email</span>
+        <p class="kv-val"><a class="tlink" href="mailto:ramasketha14093@gmail.com">ramasketha14093@gmail.com</a></p>
+        <span class="kv-key mt-24">Repository</span>
+        <p class="kv-val"><a class="tlink" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning" target="_blank" rel="noopener">evidence-grounded-engineering-reasoning</a>, holding the research records, architecture notes and change control</p>
+        <span class="kv-key mt-24">Persistent identifier</span>
+        <p class="kv-val">None. No DOI or venue exists yet, so this work should be cited as unpublished.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------- citation -->
+  <section class="section-lg" data-shape="wave">
+    <div class="wrap">
+      <p class="kicker reveal">Citation</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Cite it as independent, unpublished work.</h2>
+      <div class="reveal mt-36">
+        <pre class="term">@misc{ketha2026eger,
+  title  = {EGER: Evidence-Grounded Engineering Reasoning with
+            Deterministic Evaluation Authorities},
+  author = {Ketha, Rama Krishna},
+  year   = {2026},
+  note   = {Independent research thesis (EGER-THESIS-001).
+            Unpublished. Not peer reviewed.}
+}</pre>
+      </div>
+      <p class="body-light reveal mt-36 maxw">Rama Krishna Ketha. <em>EGER: Evidence-Grounded Engineering Reasoning</em>, a controlled and reproducible framework for evidence-grounded revision of model-generated engineering artifacts in a property-plural domain. Independent research thesis, EGER-THESIS-001. Unpublished, 2026. Not peer reviewed. If the work later acquires a DOI or a venue, this block will be updated on the same day.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-meta">
+      <span>EGER · Evidence-Grounded Engineering Reasoning</span>
+      <span>Rama Krishna Ketha · independent researcher</span>
+      <span>Not peer reviewed</span>
+      <span id="year"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+<script src="assets/particles.js" defer></script>
+</body>
+</html>

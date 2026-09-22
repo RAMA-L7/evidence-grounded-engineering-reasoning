@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGER · Reproducibility</title>
+<!-- Social preview and icon -->
+<meta property="og:site_name" content="EGER · Evidence-Grounded Engineering Reasoning">
+<meta property="og:title" content="Reproduce the work">
+<meta property="og:description" content="Pinned stack, frozen matrices, manifest chain, and a worked example so the record can be re-derived independently.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Reproduce the work">
+<meta name="twitter:description" content="Pinned stack, frozen matrices, manifest chain, and a worked example so the record can be re-derived independently.">
+<meta name="twitter:image" content="assets/og-card.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta name="description" content="How to re-run and verify EGER: the pinned models, authorities and versions, the hash manifest chain, the frozen run matrices, and the boundary of what is published.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader-word">EGER</div>
+  <div class="loader-status"><span>Revealing</span><span data-loader-count>0</span></div>
+  <div class="loader-line"><span data-loader-line></span></div>
+</div>
+
+<div class="progress" aria-hidden="true"></div>
+<canvas id="ambient" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<nav class="dots" aria-label="Sections"></nav>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="EGER, home">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="12,2 22,20 2,20" fill="none" stroke="#8052ff" stroke-width="1.8" stroke-linejoin="round"/>
+        <polygon points="12,9 17,18 7,18" fill="none" stroke="#15846e" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-name">EGER</span>
+    </a>
+    <div class="nav-links">
+      <a class="navlink" href="story.html">Story</a>
+      <a class="navlink" href="index.html">Findings</a>
+      <a class="navlink" href="method.html">Method</a>
+      <a class="navlink" href="evidence.html">Evidence</a>
+      <a class="navlink" href="results.html">Results</a>
+      <a class="navlink" href="reproducibility.html" aria-current="page">Reproduce</a>
+      <a class="navlink" href="limitations.html">Limitations</a>
+      <a class="navlink" href="materials.html">Materials</a>
+    </div>
+    <a class="pill" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning" target="_blank" rel="noopener">Code</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero" data-shape="orb">
+    <div class="wrap">
+      <div class="split">
+        <div class="stack">
+          <p class="kicker reveal">Reproducibility</p>
+          <h1 class="display reveal">Frozen, hashed, re-runnable.</h1>
+          <p class="body-light lede reveal maxw">Every verdict on this site is quoted from a frozen artifact rather than re-estimated for the web. This page states the pinned stack, the manifest chain, and the commands that check the implementation.</p>
+        </div>
+        <!-- The constellation is a single fixed canvas behind the page, so the
+             hero column only needs to reserve the space it occupies. -->
+        <div class="figure-canvas tall" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="scroll-cue"><span>Scroll to reveal</span><i></i></div>
+  </section>
+
+  <!-- -------------------------------------------------------- pinned -->
+  <section class="section-lg" data-shape="cube">
+    <div class="wrap">
+      <p class="kicker reveal">The pinned stack</p>
+      <h2 class="h-lg reveal mt-18 maxw-wide">Nothing in a run was allowed to move underneath it.</h2>
+      <div class="kv mt-36 reveal">
+        <span class="kv-key">Models</span>
+        <p class="kv-val"><span class="mono">opencode/mimo-v2.5-free</span> and <span class="mono">opencode/nemotron-3.5-lightning-free</span>, temperature 0.0, prompts and budgets frozen before the runs</p>
+        <span class="kv-key mt-24">Structural authority</span>
+        <p class="kv-val">Ṛta <span class="mono">1.5.11@3b5c2f2</span>, executed read only, generation path never invoked on the evidence route</p>
+        <span class="kv-key mt-24">Timing authority</span>
+        <p class="kv-val">OpenSTA, with the task netlist and library paths supplied by the caller, reporting into the same contract</p>
+        <span class="kv-key mt-24">Gate</span>
+        <p class="kv-val">VerificationGate unchanged across the reviewed gates, and the only component that emits a verdict</p>
+        <span class="kv-key mt-24">Benchmark</span>
+        <p class="kv-val">BENCH-002 v0.1, six clean held-out tasks, each with a distinct hash</p>
+      </div>
+      <p class="note mt-36 reveal">The authority repositories were kept outside the version control of this project and were not modified by it, so no verdict in a run can have been produced by a tool that changed during the run. Pins and versions are recorded in <a href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning/blob/main/research/REPRODUCIBILITY.md" target="_blank" rel="noopener">research/REPRODUCIBILITY.md</a>.</p>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------- matrices -->
+  <section class="section-lg" data-shape="torus">
+    <div class="wrap">
+      <p class="kicker reveal">Frozen matrices</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Four run matrices, each frozen before execution.</h2>
+      <div class="scroll-x mt-36 reveal">
+        <table class="flat">
+          <thead>
+            <tr>
+              <th>Record</th>
+              <th>Design</th>
+              <th>Scheduled runs</th>
+              <th>Retry budget</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>RQ-5 PILOT-002</td><td>2 × 2 × 2</td><td>8 trials</td><td>at most 1</td><td>authority separation, first look</td></tr>
+            <tr><td>P185 PILOT-003</td><td>2 × 2 × 2 × 2</td><td>16 trials</td><td>at most 1</td><td>second model under identical authorities</td></tr>
+            <tr><td>P191-R4 PILOT-004</td><td>3 tasks × 2 framings × 8 runs</td><td>48</td><td>0</td><td>the pre-registered framing pilot</td></tr>
+            <tr><td>EGER-002 Stage A</td><td>4 arms × 4 tasks × 8 repetitions</td><td>128</td><td>0</td><td>budget-frozen four-arm comparison</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note mt-24 reveal">Where a retry budget of zero applied, an incomplete run was retained in the denominator rather than replaced or dropped. The second-model observation completed 15 of its 16 planned trials.</p>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------- manifest -->
+  <section class="section-lg" data-shape="helix">
+    <div class="wrap">
+      <p class="kicker reveal">Manifest chain</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Four hashes and two seeds, so a reading can be tied to its input.</h2>
+      <div class="kv mt-36 reveal">
+        <span class="kv-key">Pre-registered pilot</span>
+        <p class="kv-val">seed <span class="mono">20260908</span> · manifest SHA-256 <span class="mono">8350e351…ba890</span> · 48 scheduled runs · 2,131,746,903,000 enumerations</p>
+        <span class="kv-key mt-24">Four-arm comparison</span>
+        <p class="kv-val">seed <span class="mono">20260910</span> · 128 scheduled runs</p>
+        <span class="kv-key mt-24">Frozen dataset</span>
+        <p class="kv-val"><span class="mono">685a916f4fc1deaa</span></p>
+        <span class="kv-key mt-24">Figure script</span>
+        <p class="kv-val"><span class="mono">178491866e20ffd5</span></p>
+      </div>
+      <p class="note mt-36 reveal">Hashes are shown as prefixes because the full values live in the provenance records. The figures on the results page were regenerated from that dataset by that script, and their captions are quoted from the frozen caption file rather than rewritten for this site.</p>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------ integrity -->
+  <section class="section-lg" data-shape="wave">
+    <div class="wrap">
+      <div class="split">
+        <div class="stack-sm reveal">
+          <p class="kicker">Checking the implementation</p>
+          <h2 class="h-md">The regression suite tests the code, not the findings.</h2>
+          <p class="body-light mt-12">Running the suite verifies that the implementation layer behaves as described. It does not re-derive the results, because the results live in the frozen research records rather than in the test suite. Keeping those two things apart is deliberate.</p>
+        </div>
+        <div class="reveal">
+          <pre class="term">python -m pytest tests -q
+
+# frozen research state
+research/STATE.md
+research/REPRODUCIBILITY.md
+
+# reviewed gates
+research/implementation/EGER-P185-*.md
+research/implementation/EGER-P186-*.md
+research/implementation/EGER-P187-*.md</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------- trace a claim -->
+  <section class="section-lg" data-shape="cube">
+    <div class="wrap">
+      <p class="kicker reveal">Worked example</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Tracing one number back to its record.</h2>
+      <p class="body-light reveal mt-24 maxw">Take the claim that structured evidence activated revision every time it was observed. Here is the chain a reader can walk without asking anyone for anything.</p>
+      <div class="steps mt-60">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Find the claim</h3>
+            <p class="body-light">It appears on the results page as a headline figure, and is the established rung of the architecture ladder on the findings page. Both places state that it holds under the tested conditions and that activation is not the same as repair.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num verdant">02</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Follow it to the record</h3>
+            <p class="body-light">The underlying observation comes from the first implementation rung, whose record carries the completion count for the implementation tests. That is the same rung whose status is frozen as established rather than partial.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num saffron">03</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Check the code path yourself</h3>
+            <p class="body-light">Running the regression suite exercises the implementation that produced the observation. It will not reproduce the finding, because the findings live in the frozen research records and not in the test suite, and the record says so plainly rather than letting the suite stand in for evidence.</p>
+          </div>
+        </div>
+      </div>
+      <p class="note mt-36 reveal">One correction is published rather than hidden: an audit pass during preparation removed an unverifiable historical statistic before release. It is described on the <a href="limitations.html">limitations page</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-meta">
+      <span>EGER · Evidence-Grounded Engineering Reasoning</span>
+      <span>Rama Krishna Ketha · independent researcher</span>
+      <span>Not peer reviewed</span>
+      <span id="year"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+<script src="assets/particles.js" defer></script>
+</body>
+</html>

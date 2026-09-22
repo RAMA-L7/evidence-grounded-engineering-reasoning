@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGER · Evidence</title>
+<!-- Social preview and icon -->
+<meta property="og:site_name" content="EGER · Evidence-Grounded Engineering Reasoning">
+<meta property="og:title" content="Evidence: one artifact, four states">
+<meta property="og:description" content="The substrate, the four artifact states, admissibility rules, and the frozen evidence contract behind every verdict.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Evidence: one artifact, four states">
+<meta name="twitter:description" content="The substrate, the four artifact states, admissibility rules, and the frozen evidence contract behind every verdict.">
+<meta name="twitter:image" content="assets/og-card.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta name="description" content="The evidence substrate: the frozen BENCH-002 benchmark tasks with their hashes, and the four states one candidate artifact passes through, including the observed divergence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader-word">EGER</div>
+  <div class="loader-status"><span>Revealing</span><span data-loader-count>0</span></div>
+  <div class="loader-line"><span data-loader-line></span></div>
+</div>
+
+<div class="progress" aria-hidden="true"></div>
+<canvas id="ambient" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<nav class="dots" aria-label="Sections"></nav>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="EGER, home">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="12,2 22,20 2,20" fill="none" stroke="#8052ff" stroke-width="1.8" stroke-linejoin="round"/>
+        <polygon points="12,9 17,18 7,18" fill="none" stroke="#15846e" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-name">EGER</span>
+    </a>
+    <div class="nav-links">
+      <a class="navlink" href="story.html">Story</a>
+      <a class="navlink" href="index.html">Findings</a>
+      <a class="navlink" href="method.html">Method</a>
+      <a class="navlink" href="evidence.html" aria-current="page">Evidence</a>
+      <a class="navlink" href="results.html">Results</a>
+      <a class="navlink" href="reproducibility.html">Reproduce</a>
+      <a class="navlink" href="limitations.html">Limitations</a>
+      <a class="navlink" href="materials.html">Materials</a>
+    </div>
+    <a class="pill" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning" target="_blank" rel="noopener">Code</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero" data-shape="orb">
+    <div class="wrap">
+      <div class="split">
+        <div class="stack">
+          <p class="kicker reveal">Evidence · one artifact, four states</p>
+          <h1 class="display reveal">What counted as evidence here.</h1>
+          <p class="body-light lede reveal maxw">A model's opinion was never admissible. Every verdict on this site came from a deterministic tool with a version, a scope and a hash, applied to a frozen task.</p>
+        </div>
+        <!-- The constellation is a single fixed canvas behind the page, so the
+             hero column only needs to reserve the space it occupies. -->
+        <div class="figure-canvas tall" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="scroll-cue"><span>Scroll to reveal</span><i></i></div>
+  </section>
+
+  <!-- -------------------------------------------------------- substrate -->
+  <section class="section-lg" data-shape="wave">
+    <div class="wrap">
+      <p class="kicker reveal">The substrate</p>
+      <h2 class="h-lg reveal mt-18 maxw-wide">Six frozen tasks, held out and hashed.</h2>
+      <div class="split mt-36">
+        <div class="stack-sm reveal">
+          <p class="body-light">BENCH-002 v0.1 is a set of six clean held-out tasks covering the constraint constructs that fail quietly: primary clocks, generated clocks, input and output delays, false paths, multicycle paths, and one adversarial case where a clock is driven from data.</p>
+          <p class="body-light">The tasks were hand authored after the prompt freeze, so the prompt could not have been tuned against them. Each task has its own distinct hash, and the benchmark as a whole has its own.</p>
+        </div>
+        <div class="kv reveal">
+          <span class="kv-key">Benchmark</span>
+          <p class="kv-val">BENCH-002 v0.1</p>
+          <span class="kv-key mt-24">Benchmark hash</span>
+          <p class="kv-val"><span class="mono">20C754FF58CBCAFD69F7</span></p>
+          <span class="kv-key mt-24">Set</span>
+          <p class="kv-val">6 clean held-out tasks, answer key separated</p>
+          <span class="kv-key mt-24">Scope</span>
+          <p class="kv-val">Oracle scope recorded as <span class="mono">FULL</span> for each task</p>
+        </div>
+      </div>
+
+      <div class="scroll-x mt-60 reveal">
+        <table class="flat">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Category</th>
+              <th>Difficulty</th>
+              <th>Property under test</th>
+              <th>Hash prefix</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BENCH2-001</td>
+              <td>primary_clocks</td>
+              <td>easy</td>
+              <td>syntax, structure and semantics</td>
+              <td>20C754</td>
+            </tr>
+            <tr>
+              <td>BENCH2-002</td>
+              <td>generated_clocks</td>
+              <td>medium</td>
+              <td>generated clock semantics</td>
+              <td>FF5848</td>
+            </tr>
+            <tr>
+              <td>BENCH2-003</td>
+              <td>io_constraints</td>
+              <td>medium</td>
+              <td>input and output delay semantics</td>
+              <td>CB0C16</td>
+            </tr>
+            <tr>
+              <td>BENCH2-004</td>
+              <td>false_paths</td>
+              <td>medium</td>
+              <td>exception semantics</td>
+              <td>CAF76E</td>
+            </tr>
+            <tr>
+              <td>BENCH2-005</td>
+              <td>multicycle_paths</td>
+              <td>hard</td>
+              <td>multicycle semantics</td>
+              <td>D69D81</td>
+            </tr>
+            <tr>
+              <td>BENCH2-006</td>
+              <td>adversarial_clock_on_data</td>
+              <td>hard</td>
+              <td>adversarial clock on data detection</td>
+              <td>F79D64</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note mt-24 reveal">Hashes are shown as prefixes; full manifests live in the repository. Benchmark answers are evaluator only and are not published, which is why a reader can verify a run without being able to pass the benchmark by reading this site.</p>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------- four states -->
+  <section class="section-lg" data-shape="wave">
+    <div class="wrap">
+      <p class="label reveal">States</p>
+      <h2 class="h-lg reveal mt-24 maxw-wide">Four states of the same artifact.</h2>
+      <p class="body-light reveal mt-24 maxw">One candidate file, followed from raw text to an authorized verdict. The same loop, the same authorities and the same contract apply at every state.</p>
+      <div class="steps mt-60">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Initial</h3>
+            <p class="body-light">The raw proposal, before any checker has seen it. It is stored with its input hash so that the exact text under evaluation is recoverable later, even if the prompt template changes in a future round.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num saffron">02</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Divergence</h3>
+            <p class="body-light">On task T2 this candidate drew ACCEPT from Ṛta, which owns constraint quality, and REJECT from OpenSTA, which owns timing. Neither was wrong. The constraint set was well formed, and the timing it described genuinely failed, with a negative worst slack of one to two hundredths of a nanosecond.</p>
+            <p class="body-light">The verdicts are recorded as an existence proof that the two authorities answer different questions. They are explicitly not recorded as prevalence evidence: one task, one candidate, one divergence.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Bounded revision</h3>
+            <p class="body-light">The findings were handed back and the artifact was revised against them, inside a bounded number of cycles, with each intermediate artifact hashed. The revision never received the model's own commentary as input, only the normalized evidence.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num verdant">04</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Verification gate</h3>
+            <p class="body-light">The gate, and only the gate, converted the collected evidence into ACCEPT or REJECT. Both readings were retained, including the divergence, rather than being reconciled into a single summary judgement.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------- admissibility -->
+  <section class="section-lg" data-shape="torus">
+    <div class="wrap">
+      <p class="kicker reveal">Admissibility</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Three tests a piece of evidence had to pass.</h2>
+      <div class="rows mt-36 reveal">
+        <div class="row-head">
+          <span class="mono iris">Pinned</span>
+          <p class="body-light">It came from a tool at a stated version, so a verdict can be re-derived later rather than trusted. Ṛta was held at <span class="mono">1.5.11@3b5c2f2</span> and did not change through the reviewed gates.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono iris">Scoped</span>
+          <p class="body-light">It stated how much of the artifact it actually covered. A partial inspection cannot be reported as a verdict on the whole file, and an authority that declines to answer is recorded as insufficient rather than as a rejection.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono iris">Reproducible</span>
+          <p class="body-light">It travelled with the hash of the input it was computed from, so the reading and the artifact it describes cannot drift apart after the fact.</p>
+        </div>
+      </div>
+      <p class="note mt-36 reveal">The full frozen state, including the tasks, run counts and verdicts, is recorded in <a href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning/blob/main/research/STATE.md" target="_blank" rel="noopener">research/STATE.md</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-meta">
+      <span>EGER · Evidence-Grounded Engineering Reasoning</span>
+      <span>Rama Krishna Ketha · independent researcher</span>
+      <span>Not peer reviewed</span>
+      <span id="year"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+<script src="assets/particles.js" defer></script>
+</body>
+</html>

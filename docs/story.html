@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGER · The Story</title>
+<!-- Social preview and icon -->
+<meta property="og:site_name" content="EGER · Evidence-Grounded Engineering Reasoning">
+<meta property="og:title" content="The story behind EGER">
+<meta property="og:description" content="A plain-language account of the problem, the bet, how the work was run, and what had to be given up. No prior knowledge assumed.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The story behind EGER">
+<meta name="twitter:description" content="A plain-language account of the problem, the bet, how the work was run, and what had to be given up. No prior knowledge assumed.">
+<meta name="twitter:image" content="assets/og-card.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta name="description" content="Why this research exists, in plain language: the silent failure of a wrong timing constraint file, the question it raises, and what the author had to give up to answer it honestly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader-word">EGER</div>
+  <div class="loader-status"><span>Revealing</span><span data-loader-count>0</span></div>
+  <div class="loader-line"><span data-loader-line></span></div>
+</div>
+
+<div class="progress" aria-hidden="true"></div>
+<canvas id="ambient" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<nav class="dots" aria-label="Sections"></nav>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="EGER, home">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="12,2 22,20 2,20" fill="none" stroke="#8052ff" stroke-width="1.8" stroke-linejoin="round"/>
+        <polygon points="12,9 17,18 7,18" fill="none" stroke="#15846e" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-name">EGER</span>
+    </a>
+    <div class="nav-links">
+      <a class="navlink" href="story.html" aria-current="page">Story</a>
+      <a class="navlink" href="index.html">Findings</a>
+      <a class="navlink" href="method.html">Method</a>
+      <a class="navlink" href="evidence.html">Evidence</a>
+      <a class="navlink" href="results.html">Results</a>
+      <a class="navlink" href="reproducibility.html">Reproduce</a>
+      <a class="navlink" href="limitations.html">Limitations</a>
+      <a class="navlink" href="materials.html">Materials</a>
+    </div>
+    <a class="pill" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning" target="_blank" rel="noopener">Code</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero" data-shape="orb">
+    <div class="wrap">
+      <div class="split">
+        <div class="stack">
+          <p class="kicker reveal">The story · no prior knowledge assumed</p>
+          <h1 class="display reveal">An AI can write the file. It cannot tell you the file is right.</h1>
+          <p class="body-light lede reveal maxw">A plain account of the problem this research started from, the bet it made, how the work was actually run, and what the author had to give up along the way.</p>
+          <div class="cta reveal">
+            <a class="ghost" href="index.html">Skip to the findings</a>
+          </div>
+        </div>
+        <!-- The constellation is a single fixed canvas behind the page, so the
+             hero column only needs to reserve the space it occupies. -->
+        <div class="figure-canvas tall" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="scroll-cue"><span>Scroll to reveal</span><i></i></div>
+  </section>
+
+  <!-- ---------------------------------------------------------- problem -->
+  <section class="section-lg" data-shape="torus">
+    <div class="wrap">
+      <p class="kicker reveal">01 · The problem</p>
+      <h2 class="h-lg reveal mt-18 maxw-wide">A wrong constraint file does not fail. It goes quiet.</h2>
+      <div class="stack mt-36 reveal" style="max-width:70ch">
+        <p class="body-light">Before a chip is built, an engineer writes a timing constraint file. It tells the analysis tools what the design is supposed to do: which clocks exist, when signals arrive at the boundary of the chip, which paths are deliberately exempt from timing analysis. The file is text, it looks like configuration, and it is therefore easy to imagine a language model drafting it.</p>
+        <p class="body-light">The trouble is what happens when it is wrong. Delete one input delay and nothing breaks. The tool does not crash. It does not warn. It simply stops checking that path, and then it reports a clean result. A design that has never been properly constrained and a design that is genuinely correct both come back looking the same.</p>
+        <p class="body-light">The mistake surfaces weeks later at signoff, or in silicon, where it is expensive. This is the property that makes the file worth automating and dangerous to automate carelessly: <strong>its failure mode is silence, not error.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------- the bet -->
+  <section class="section-lg" data-shape="helix">
+    <div class="wrap">
+      <p class="kicker reveal">02 · The bet</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Asking the model to check its own work is not a check.</h2>
+      <div class="stack mt-36 reveal" style="max-width:70ch">
+        <p class="body-light">A model's opinion about its own output is not evidence. It is another sample from the same distribution, with no independent access to the properties that actually matter. So the first repair is obvious: get the verdict from something outside the model.</p>
+        <p class="body-light">The second repair is less obvious and is the one this research is really about. Correctness in this domain is not one question. Whether a constraint set is structurally sound and whether the timing it implies actually closes are two different questions, and in practice they are answered by two different deterministic tools with two different catalogs of rules. Collapsing them into one pass or one score destroys the disagreement between them, and that disagreement is information.</p>
+        <p class="body-light">So the bet was to keep them apart on purpose, give each one authority over its own property only, and put a separate component in charge of the accept or reject decision. <a class="tlink" href="method.html">The five phases</a> describe how that is arranged in practice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------- how it was run -->
+  <section class="section-lg" data-shape="cube">
+    <div class="wrap">
+      <p class="kicker reveal">03 · How the work was run</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Frozen first, interpreted second.</h2>
+      <div class="steps mt-60">
+        <div class="step reveal">
+          <div class="step-num">A</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Everything that could be frozen was frozen</h3>
+            <p class="body-light">Task definitions, prompts, model identifiers, retry budgets, timeouts and oracle versions were fixed and hashed before the runs. The tools were pinned to exact versions and executed read only. Nothing in the loop could rewrite a frozen record.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num verdant">B</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Human gates sat between the phases</h3>
+            <p class="body-light">Each research gate was an explicit checkpoint where a person reviewed the record and approved the next step. Automated tooling produced evidence and analysis. It did not decide what counted as a finding.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num saffron">C</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">The non-claims were written before the pressure to state them</h3>
+            <p class="body-light">The list of things this work does not establish is published alongside the findings, in the same register, because a claim boundary written after the fact tends to be written to fit the result. <a class="tlink" href="limitations.html">Read the non-claims</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------ gave up on -->
+  <section class="section-lg" data-shape="wave">
+    <div class="wrap">
+      <p class="kicker reveal">04 · What had to be given up</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Three sentences the record would not support.</h2>
+      <div class="stack reveal mt-36" style="max-width:74ch">
+        <p class="body-light"><strong>The causal sentence.</strong> Broader task framing looked better in the pre-registered pilot, and the direction held in all three task blocks. The test still did not reject the null. It is reported as positive in direction and not significant, which is a weaker sentence than the one the author wanted to write.</p>
+        <p class="body-light"><strong>The equivalence sentence.</strong> A larger four-arm benchmark produced an identical reading on its primary metric across every completed run. That is a metric that could not discriminate on that substrate, not a demonstration that the arms were the same. It is published as a metric-power failure, and the stage it was meant to gate never ran.</p>
+        <p class="body-light"><strong>The priority sentence.</strong> Generate then repair loops, language-model constraint generation and model-assisted timing analysis are all established prior art. This work claims none of them. What it claims is the particular separated arrangement and the controlled characterisation of its behaviour.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------ where next -->
+  <section class="section-lg" data-shape="torus">
+    <div class="wrap">
+      <p class="kicker reveal">05 · Where to go next</p>
+      <div class="rows mt-36 reveal">
+        <div class="row-head">
+          <a class="h-xs tlink" href="index.html">Findings</a>
+          <p class="body-light">The three supported findings and the full status ladder, including the hypotheses that were not justified.</p>
+        </div>
+        <div class="row-head">
+          <a class="h-xs tlink" href="evidence.html">Evidence</a>
+          <p class="body-light">The benchmark substrate behind the tests, and the four states one artifact passes through, including the divergence.</p>
+        </div>
+        <div class="row-head">
+          <a class="h-xs tlink" href="results.html">Results</a>
+          <p class="body-light">The measured numbers, the frozen figures, and the single strongest claim this work will defend.</p>
+        </div>
+        <div class="row-head">
+          <a class="h-xs tlink" href="reproducibility.html">Reproduce</a>
+          <p class="body-light">Pinned versions, hashed manifests, the test command, and an honest statement of what is not published.</p>
+        </div>
+        <div class="row-head">
+          <a class="h-xs tlink" href="materials.html">Materials</a>
+          <p class="body-light">The thesis, the reviewer guide, and how to request the retained run-level records.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-meta">
+      <span>EGER · Evidence-Grounded Engineering Reasoning</span>
+      <span>Rama Krishna Ketha · independent researcher</span>
+      <span>Not peer reviewed</span>
+      <span id="year"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+<script src="assets/particles.js" defer></script>
+</body>
+</html>

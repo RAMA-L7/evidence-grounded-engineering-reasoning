@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGER · Method</title>
+<!-- Social preview and icon -->
+<meta property="og:site_name" content="EGER · Evidence-Grounded Engineering Reasoning">
+<meta property="og:title" content="Method: five phases, three authorities">
+<meta property="og:description" content="How the EGER loop runs: the model proposes, two deterministic checkers evaluate, evidence enters one contract, and a separate gate decides.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Method: five phases, three authorities">
+<meta name="twitter:description" content="How the EGER loop runs: the model proposes, two deterministic checkers evaluate, evidence enters one contract, and a separate gate decides.">
+<meta name="twitter:image" content="assets/og-card.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta name="description" content="The EGER method: five phases, three separated authorities, the frozen evidence contract, and the implementation layer chain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader-word">EGER</div>
+  <div class="loader-status"><span>Revealing</span><span data-loader-count>0</span></div>
+  <div class="loader-line"><span data-loader-line></span></div>
+</div>
+
+<div class="progress" aria-hidden="true"></div>
+<canvas id="ambient" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<nav class="dots" aria-label="Sections"></nav>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="EGER, home">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="12,2 22,20 2,20" fill="none" stroke="#8052ff" stroke-width="1.8" stroke-linejoin="round"/>
+        <polygon points="12,9 17,18 7,18" fill="none" stroke="#15846e" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-name">EGER</span>
+    </a>
+    <div class="nav-links">
+      <a class="navlink" href="story.html">Story</a>
+      <a class="navlink" href="index.html">Findings</a>
+      <a class="navlink" href="method.html" aria-current="page">Method</a>
+      <a class="navlink" href="evidence.html">Evidence</a>
+      <a class="navlink" href="results.html">Results</a>
+      <a class="navlink" href="reproducibility.html">Reproduce</a>
+      <a class="navlink" href="limitations.html">Limitations</a>
+      <a class="navlink" href="materials.html">Materials</a>
+    </div>
+    <a class="pill" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning" target="_blank" rel="noopener">Code</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero" data-shape="orb">
+    <div class="wrap">
+      <div class="split">
+        <div class="stack">
+          <p class="kicker reveal">Method · five phases · three authorities</p>
+          <h1 class="display reveal">Proposal, evidence, authorization.</h1>
+          <p class="body-light lede reveal maxw">A probabilistic proposal, deterministic evidence about it, and a separate decision. No phase is allowed to do the next phase's job, and no context leaks forward between them.</p>
+        </div>
+        <!-- The constellation is a single fixed canvas behind the page, so the
+             hero column only needs to reserve the space it occupies. -->
+        <div class="figure-canvas tall" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="scroll-cue"><span>Scroll to reveal</span><i></i></div>
+  </section>
+
+  <!-- ----------------------------------------------------------- phases -->
+  <section class="section-lg" data-shape="helix">
+    <div class="wrap">
+      <p class="label reveal">Phases</p>
+      <h2 class="h-lg reveal mt-24 maxw-wide">Five phases, in order.</h2>
+      <div class="steps mt-60">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Initial generation</h3>
+            <p class="body-light">A raw candidate artifact is produced from design context and an objective. The prompt contains no oracle findings, no prior verdicts and no hints about what the checkers will look for, so the first artifact is a genuine unaided proposal.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Independent evaluation</h3>
+            <p class="body-light">Each deterministic authority checks its own property of that artifact and returns structured findings with rule codes, severity and source lines. The findings are normalised into the common evidence contract, which preserves each authority's meaning instead of averaging the two into one number.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num saffron">03</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Legitimate divergence</h3>
+            <p class="body-light">The authorities are allowed to disagree, and disagreement is retained as a first-class result rather than resolved away. Collapsing the authorities was one of the compared baselines, and its effect was to suppress the very signal the design exists to expose. <a class="tlink" href="evidence.html">The observed divergence</a>.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">04</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Bounded revision</h3>
+            <p class="body-light">Revision consumes evidence only, never the model's own assessment. Cycles are bounded and every artifact transformation is hash audited, so the sequence from initial candidate to final candidate can be replayed step by step.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">05</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Separate verification</h3>
+            <p class="body-light">VerificationGate issues the only ACCEPT or REJECT in the system. Nothing in the proposal or revision path can produce an acceptance verdict, which is what keeps the loop from grading its own homework.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------- forbidden -->
+  <section class="section-lg" data-shape="helix">
+    <div class="wrap">
+      <p class="kicker reveal">Authority separation</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Stated as prohibitions, because that is what makes them testable.</h2>
+      <div class="rows mt-36 reveal">
+        <div class="row-head">
+          <span class="mono ash">Proposal</span>
+          <p class="body-light"><strong>Never</strong> decides whether its own output is acceptable, and never sees the findings before writing the first artifact.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono iris">Evaluation</span>
+          <p class="body-light"><strong>Never</strong> authors or edits the artifact. Each authority reports on its own property only, and the other authority's verdict is not permitted to stand in for it.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono verdant">Authorization</span>
+          <p class="body-light"><strong>Never</strong> interprets a successful tool execution as a successful artifact. Execution success and validation are recorded as different things, and only the gate converts collected evidence into a verdict.</p>
+        </div>
+      </div>
+      <p class="note mt-36 reveal">The separation rule is recorded in <a href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning/blob/main/research/architecture/EGER-ARCH-002.md" target="_blank" rel="noopener">research/architecture/EGER-ARCH-002.md</a>, which is carried as a recommended and not yet validated design.</p>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------- contract enums -->
+  <section class="section-lg" data-shape="torus">
+    <div class="wrap">
+      <p class="kicker reveal">Evidence contract</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">One typed artifact, so that two authorities can disagree inside the same schema.</h2>
+      <p class="body-light reveal mt-18 maxw">The contract is a pipeline, and the state that moves through it is fixed:</p>
+      <div class="scroll-x mt-36 reveal">
+        <pre class="term">TaskDefinition        &gt;  PromptBuilder      &gt;  ProposalGenerator   (model)
+CandidateArtifact     &gt;  OracleAdapter      &gt;  EvidenceNormalizer
+EvidenceArtifact      &gt;  RevisionController &gt;  VerificationGate
+ProvenanceTracker</pre>
+      </div>
+      <div class="kv mt-60 reveal">
+        <span class="kv-key">oracle_status</span>
+        <p class="kv-val"><span class="mono">SUCCESS</span> · <span class="mono">INVALID_REQUEST</span> · <span class="mono">ORACLE_FAILURE</span></p>
+        <span class="kv-key mt-24">evidence_scope</span>
+        <p class="kv-val"><span class="mono">FULL</span> · <span class="mono">PARTIAL</span> · <span class="mono">INSUFFICIENT</span> · <span class="mono">UNSUPPORTED</span></p>
+        <span class="kv-key mt-24">Epistemic state</span>
+        <p class="kv-val"><span class="mono">HYPOTHESIS</span> · <span class="mono">VALIDATED</span> · <span class="mono">REFUTED</span> · <span class="mono">UNKNOWN</span></p>
+        <span class="kv-key mt-24">Hash trio</span>
+        <p class="kv-val">Input hash, raw evidence hash and evidence hash are stored together with a timestamp that acts as provenance.</p>
+      </div>
+      <p class="note mt-36 reveal">An authority that could not answer is recorded as insufficient, not as invalid. The distinction is preserved in the schema because treating an unanswered question as a negative answer would manufacture confidence. Contract source: <a href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning/blob/main/research/oracle/EGER-EVIDENCE-ORACLE-CONTRACT.md" target="_blank" rel="noopener">EGER-EVIDENCE-ORACLE-CONTRACT</a>.</p>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------- change control -->
+  <section class="section-lg" data-shape="cube">
+    <div class="wrap">
+      <p class="kicker reveal">Change control</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">The architecture was allowed to change. The records were not.</h2>
+      <div class="stack reveal mt-36" style="max-width:74ch">
+        <p class="body-light">Design changes were made through numbered change records, <span class="mono">EGER-CHANGE-001</span> through <span class="mono">EGER-CHANGE-060</span>, each stating what was revised and why. Frozen experimental records were hash pinned and were not rewritten by any tool after the fact, including when later review found something wrong in them.</p>
+        <p class="body-light">The repositories holding the evaluation authorities and the gate were kept outside the version control of this project and were not modified by it, so the verdicts in a run cannot have been produced by a tool that changed underneath the run.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-meta">
+      <span>EGER · Evidence-Grounded Engineering Reasoning</span>
+      <span>Rama Krishna Ketha · independent researcher</span>
+      <span>Not peer reviewed</span>
+      <span id="year"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+<script src="assets/particles.js" defer></script>
+</body>
+</html>

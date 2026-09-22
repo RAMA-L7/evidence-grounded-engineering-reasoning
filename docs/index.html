@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGER · Findings</title>
+<!-- Social preview and icon -->
+<meta property="og:site_name" content="EGER · Evidence-Grounded Engineering Reasoning">
+<meta property="og:title" content="An AI can write the file. It cannot tell you the file is right.">
+<meta property="og:description" content="EGER findings: heterogeneous deterministic evaluation authorities, bounded revision, and a separate verification gate for LLM-generated timing constraints. Independent, AI-assisted, not peer reviewed.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="An AI can write the file. It cannot tell you the file is right.">
+<meta name="twitter:description" content="EGER findings: heterogeneous deterministic evaluation authorities, bounded revision, and a separate verification gate for LLM-generated timing constraints. Independent, AI-assisted, not peer reviewed.">
+<meta name="twitter:image" content="assets/og-card.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta name="description" content="EGER research findings: heterogeneous deterministic evaluation authorities, bounded revision, and a separate verification gate for LLM-generated timing constraints.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader-word">EGER</div>
+  <div class="loader-status"><span>Revealing</span><span data-loader-count>0</span></div>
+  <div class="loader-line"><span data-loader-line></span></div>
+</div>
+
+<div class="progress" aria-hidden="true"></div>
+<canvas id="ambient" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<nav class="dots" aria-label="Sections"></nav>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="EGER, home">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="12,2 22,20 2,20" fill="none" stroke="#8052ff" stroke-width="1.8" stroke-linejoin="round"/>
+        <polygon points="12,9 17,18 7,18" fill="none" stroke="#15846e" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-name">EGER</span>
+    </a>
+    <div class="nav-links">
+      <a class="navlink" href="story.html">Story</a>
+      <a class="navlink" href="index.html" aria-current="page">Findings</a>
+      <a class="navlink" href="method.html">Method</a>
+      <a class="navlink" href="evidence.html">Evidence</a>
+      <a class="navlink" href="results.html">Results</a>
+      <a class="navlink" href="reproducibility.html">Reproduce</a>
+      <a class="navlink" href="limitations.html">Limitations</a>
+      <a class="navlink" href="materials.html">Materials</a>
+    </div>
+    <a class="pill" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning" target="_blank" rel="noopener">Code</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ------------------------------------------------------------ hero -->
+  <!-- Explicit object order for the home page: the engine keeps any
+       data-shape it finds and only fills the gaps. -->
+  <section class="hero" data-shape="orb">
+    <div class="wrap">
+      <div class="split">
+        <div class="stack">
+          <p class="kicker reveal">Independent research · AI-assisted · not peer reviewed</p>
+          <h1 class="display reveal">An AI can write the file. It cannot tell you the file is <em class="hl">right.</em></h1>
+          <p class="h-md sub-h reveal">Heterogeneous deterministic authorities for reliable LLM-assisted revision</p>
+          <p class="body-light lede reveal maxw">A language model proposes a timing constraint file. Two deterministic checkers evaluate different properties of that same file. A separate gate, never the model, decides whether the artifact is acceptable. This site reports what the arrangement demonstrated, and what it did not.</p>
+          <div class="cta reveal">
+            <a class="pill" href="story.html">Start with the story</a>
+            <a class="ghost" href="results.html#claim">The exact claim</a>
+          </div>
+          <ul class="status reveal">
+            <li><i class="dot" style="background:#15846e"></i>C0 established</li>
+            <li><i class="dot" style="background:#15846e"></i>C1 established</li>
+            <li><i class="dot" style="background:#bdbdbd"></i>C2 partial</li>
+            <li><i class="dot" style="background:#ffb829"></i>C3 not justified</li>
+            <li><i class="dot" style="background:#ffb829"></i>p 0.1626 not significant</li>
+          </ul>
+        </div>
+        <!-- The constellation is a single fixed canvas behind the page, so the
+             hero column only needs to reserve the space it occupies. -->
+        <div class="figure-canvas tall" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="scroll-cue"><span>Scroll to reveal</span><i></i></div>
+  </section>
+
+  <!-- -------------------------------------------------------- findings -->
+  <section class="section-lg" data-shape="cube">
+    <div class="wrap">
+      <p class="label reveal">Findings</p>
+      <h2 class="h-lg reveal mt-24 maxw-wide">Three things the frozen runs support.</h2>
+      <div class="steps mt-60">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Two correct answers</h3>
+            <p class="body-light">On task T2 the same candidate artifact drew ACCEPT from Ṛta and REJECT from OpenSTA. Both verdicts were correct in their own property: the constraint set was structurally sound while the timing genuinely failed. One observation, honestly labelled as one observation, is enough to refute Oracle interchangeability.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num verdant">02</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">Bounded, not collapsed</h3>
+            <p class="body-light">Every checker's findings were normalised into one common evidence contract rather than flattened into a single score. Revision stayed traceable and evidence bound, and the single checker baselines suppressed the divergence instead of preserving it.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num saffron">03</div>
+          <div class="stack-sm">
+            <h3 class="h-xs">The gate is separate</h3>
+            <p class="body-light">VerificationGate is the only component permitted to say ACCEPT or REJECT. The proposal never grades itself, evaluation authorities never author, and the import graph contains no circular dependencies. <a class="tlink" href="evidence.html">Authority separation across four artifact states</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------------- diagram -->
+  <section class="section-lg" data-shape="helix">
+    <div class="wrap">
+      <div class="split">
+        <div class="stack-sm reveal">
+          <p class="kicker">How it runs</p>
+          <h2 class="h-md">Three authorities, never collapsed into one.</h2>
+          <p class="body-light mt-12">The model proposes. Two deterministic checkers evaluate different properties of the same artifact and report through one typed contract. Only the gate authorises. <a class="tlink" href="method.html">The five phases</a> are described in full on the method page.</p>
+        </div>
+        <div class="scroll-x reveal">
+          <svg viewBox="0 0 340 300" width="340" height="300" role="img" aria-label="The EGER loop: the model proposes, two deterministic checkers evaluate, evidence enters a common contract, revision is bounded, and a separate gate decides.">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0 0 L10 5 L0 10 z" fill="#9a9a9a"/>
+              </marker>
+            </defs>
+            <rect x="10" y="10" width="150" height="44" rx="22" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.2"/>
+            <text x="85" y="37" text-anchor="middle" font-size="12" font-family="Inter, sans-serif" fill="#bdbdbd">Model proposes</text>
+            <line x1="85" y1="56" x2="85" y2="86" stroke="rgba(255,255,255,.25)" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+            <rect x="10" y="90" width="150" height="44" rx="22" fill="none" stroke="#8052ff" stroke-width="1.4"/>
+            <text x="85" y="110" text-anchor="middle" font-size="12" font-family="Inter, sans-serif" fill="#ffffff">Ṛta</text>
+            <text x="85" y="124" text-anchor="middle" font-size="10" font-family="ui-monospace, monospace" fill="#9a9a9a">constraint quality</text>
+            <rect x="180" y="90" width="150" height="44" rx="22" fill="none" stroke="#15846e" stroke-width="1.4"/>
+            <text x="255" y="110" text-anchor="middle" font-size="12" font-family="Inter, sans-serif" fill="#ffffff">OpenSTA</text>
+            <text x="255" y="124" text-anchor="middle" font-size="10" font-family="ui-monospace, monospace" fill="#9a9a9a">timing</text>
+
+            <line x1="85" y1="136" x2="150" y2="166" stroke="rgba(255,255,255,.25)" stroke-width="1.2" marker-end="url(#arrow)"/>
+            <line x1="255" y1="136" x2="190" y2="166" stroke="rgba(255,255,255,.25)" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+            <rect x="60" y="170" width="220" height="44" rx="22" fill="rgba(255,184,41,.08)" stroke="#ffb829" stroke-width="1.4"/>
+            <text x="170" y="190" text-anchor="middle" font-size="12" font-family="Inter, sans-serif" fill="#ffb829">Evidence contract</text>
+            <text x="170" y="204" text-anchor="middle" font-size="10" font-family="ui-monospace, monospace" fill="#c9b6ff">hash trio + provenance</text>
+
+            <line x1="170" y1="216" x2="170" y2="240" stroke="rgba(255,255,255,.25)" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+            <rect x="60" y="244" width="220" height="44" rx="22" fill="rgba(128,82,255,.14)" stroke="#8052ff" stroke-width="1.5"/>
+            <text x="170" y="264" text-anchor="middle" font-size="12" font-family="Inter, sans-serif" fill="#ffffff">VerificationGate</text>
+            <text x="170" y="278" text-anchor="middle" font-size="10" font-family="ui-monospace, monospace" fill="#c9b6ff">sole ACCEPT or REJECT</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------- status ladder -->
+  <section class="section-lg" data-shape="wave">
+    <div class="wrap">
+      <p class="kicker reveal">Status ladder</p>
+      <h2 class="h-md reveal mt-12 maxw-wide">Claims are carried at the strength the evidence allows, and no higher.</h2>
+      <div class="rows mt-36 reveal">
+        <div class="row-head">
+          <span class="mono iris">C0</span>
+          <span class="h-xs">Established</span>
+          <p class="body-light">6 of 6 tasks, model only. Five invalid artifacts and one insufficient authority response.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono iris">C1</span>
+          <span class="h-xs">Established</span>
+          <p class="body-light">Implementation verified by 63 of 63 tests. Structured evidence activated revision every time it was observed.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono ash">C2</span>
+          <span class="h-xs">Partially supported</span>
+          <p class="body-light">Absorbed into C1 where applicable. Not carried as a separate claim.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono saffron">C3</span>
+          <span class="h-xs">Not justified</span>
+          <p class="body-light">The evidence did not reach the bar this hypothesis required, so it is recorded as unsupported.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono ash">C4 · C5</span>
+          <span class="h-xs">Deferred</span>
+          <p class="body-light">Deferred means not yet motivated by evidence. It does not mean disproven.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono saffron">RQ-4</span>
+          <span class="h-xs">Closed at behavioural association</span>
+          <p class="body-light">Causality is not established. The one pre-registered inferential test is reported as non-significant.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono verdant">RQ-5</span>
+          <span class="h-xs">Closed at level two</span>
+          <p class="body-light">A descriptive pilot. Generalisation beyond the tested conditions is not established.</p>
+        </div>
+      </div>
+      <p class="note mt-36 reveal">Frozen statuses are recorded in <a href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning/blob/main/research/STATE.md" target="_blank" rel="noopener">research/STATE.md</a>. Deferred and not justified are different verdicts, and the record keeps them apart.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-meta">
+      <span>EGER · Evidence-Grounded Engineering Reasoning</span>
+      <span>Rama Krishna Ketha · independent researcher</span>
+      <span>Not peer reviewed</span>
+      <span id="year"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+<script src="assets/particles.js" defer></script>
+</body>
+</html>

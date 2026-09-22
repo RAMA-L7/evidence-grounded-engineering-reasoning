@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGER · Results</title>
+<!-- Social preview and icon -->
+<meta property="og:site_name" content="EGER · Evidence-Grounded Engineering Reasoning">
+<meta property="og:title" content="Results: frozen records only">
+<meta property="og:description" content="Saturation at 0.0 ns, the one non-significant pilot test, the larger benchmark that measured nothing, and the exact claim this work will defend.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Results: frozen records only">
+<meta name="twitter:description" content="Saturation at 0.0 ns, the one non-significant pilot test, the larger benchmark that measured nothing, and the exact claim this work will defend.">
+<meta name="twitter:image" content="assets/og-card.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta name="description" content="EGER results: revision activation, the pre-registered framing pilot, the benchmark that saturated, the control comparison, the frozen figures, and the maximum claim this work will defend.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader-word">EGER</div>
+  <div class="loader-status"><span>Revealing</span><span data-loader-count>0</span></div>
+  <div class="loader-line"><span data-loader-line></span></div>
+</div>
+
+<div class="progress" aria-hidden="true"></div>
+<canvas id="ambient" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<nav class="dots" aria-label="Sections"></nav>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="EGER, home">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="12,2 22,20 2,20" fill="none" stroke="#8052ff" stroke-width="1.8" stroke-linejoin="round"/>
+        <polygon points="12,9 17,18 7,18" fill="none" stroke="#15846e" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-name">EGER</span>
+    </a>
+    <div class="nav-links">
+      <a class="navlink" href="story.html">Story</a>
+      <a class="navlink" href="index.html">Findings</a>
+      <a class="navlink" href="method.html">Method</a>
+      <a class="navlink" href="evidence.html">Evidence</a>
+      <a class="navlink" href="results.html" aria-current="page">Results</a>
+      <a class="navlink" href="reproducibility.html">Reproduce</a>
+      <a class="navlink" href="limitations.html">Limitations</a>
+      <a class="navlink" href="materials.html">Materials</a>
+    </div>
+    <a class="pill" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning" target="_blank" rel="noopener">Code</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero" data-shape="orb">
+    <div class="wrap">
+      <div class="split">
+        <div class="stack">
+          <p class="kicker reveal">Results · frozen records only</p>
+          <h1 class="display reveal">What the runs measured.</h1>
+          <p class="body-light lede reveal maxw">Three numbers carry the behavioural story. Everything after them is the detail behind those three, including the benchmark that produced no contrast at all.</p>
+        </div>
+        <!-- The constellation is a single fixed canvas behind the page, so the
+             hero column only needs to reserve the space it occupies. -->
+        <div class="figure-canvas tall" aria-hidden="true"></div>
+      </div>
+      <div class="stats mt-96">
+        <div class="reveal">
+          <div class="stat iris">100%</div>
+          <p class="label mt-18">Revision activation</p>
+          <p class="body-light mt-12">Structured evidence triggered a revision every time it was observed, under the tested conditions.</p>
+        </div>
+        <div class="reveal">
+          <div class="stat">0</div>
+          <p class="label mt-18">Circular dependencies</p>
+          <p class="body-light mt-12">Produced by an import graph check over the loop, not by inspection of a diagram.</p>
+        </div>
+        <div class="reveal">
+          <div class="stat saffron">p 0.1626</div>
+          <p class="label mt-18">Pre-registered test</p>
+          <p class="body-light mt-12">Positive in direction, and not significant. Report it both ways or not at all.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-cue"><span>Scroll to reveal</span><i></i></div>
+  </section>
+
+  <!-- ------------------------------------------------------- the pilot -->
+  <section class="section-lg" data-shape="wave">
+    <div class="wrap">
+      <p class="kicker reveal">Pilot</p>
+      <h2 class="h-lg reveal mt-18 maxw-wide">The one inferential test, and what it did not do.</h2>
+      <div class="split mt-36">
+        <div class="stack-sm reveal">
+          <p class="body-light">The framing pilot P191-R4 was randomised and pre-registered before the runs. It asked a narrow question: does a broader task framing change the outcome compared with a narrow one? Three tasks were each run under both framings, eight times per cell.</p>
+          <p class="body-light">The pooled result leaned toward broader framing by one third of a unit, and the direction was consistent across all three task blocks. The exact one-sided test returned a probability of 0.16265286, which does not meet a conventional threshold. It is published as positive in direction and not significant, and the causal claim stays closed.</p>
+        </div>
+        <div class="kv reveal">
+          <span class="kv-key">Pooled difference</span>
+          <p class="kv-val"><span class="mono">RD_equal = +1/3</span></p>
+          <span class="kv-key mt-24">Exact one-sided p</span>
+          <p class="kv-val"><span class="mono">0.16265286</span></p>
+          <span class="kv-key mt-24">Design</span>
+          <p class="kv-val">3 tasks × 2 framings × 8 runs, 48 scheduled, 46 completed, 2 incomplete</p>
+          <span class="kv-key mt-24">Seed and manifest</span>
+          <p class="kv-val"><span class="mono">20260908</span> · <span class="mono">8350e351…ba890</span></p>
+          <span class="kv-key mt-24">Enumerations</span>
+          <p class="kv-val"><span class="mono">2,131,746,903,000</span></p>
+        </div>
+      </div>
+
+      <div class="scroll-x mt-60 reveal">
+        <table class="flat">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>RD</th>
+              <th>Broad framing</th>
+              <th>Narrow framing</th>
+              <th>Runs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>BENCH2-002</td><td>+0.250</td><td>7/8</td><td>5/8</td><td>16 scheduled</td></tr>
+            <tr><td>BENCH2-004</td><td>+0.375</td><td>8/8</td><td>5/8</td><td>16 scheduled</td></tr>
+            <tr><td>BENCH2-005</td><td>+0.375</td><td>7/8</td><td>4/8</td><td>16 scheduled</td></tr>
+            <tr><td>Pooled RD_equal</td><td>+1/3</td><td colspan="2">exact one-sided p = 0.16265286</td><td>48 scheduled · 46 complete · 2 incomplete</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note mt-24 reveal">Per task counts are unconditional over scheduled runs. Incomplete runs are retained rather than dropped, because dropping them would change the denominator after the fact. Retry budget for this pilot was zero, and success required both an input delay and an output delay to be present.</p>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------- stage A no-op -->
+  <section class="section-lg" data-shape="torus">
+    <div class="wrap">
+      <p class="kicker reveal">A negative result, kept</p>
+      <h2 class="h-lg reveal mt-18 maxw-wide">The larger benchmark measured nothing, and that is published.</h2>
+      <div class="split">
+        <div class="stack-sm reveal">
+          <p class="body-light">Stage A ran a budget-frozen four-arm comparison, 128 scheduled runs across four arms, four tasks and eight repetitions. Every completed run finished with a final worst slack of exactly 0.0 nanoseconds, in all arms. The primary contrast was therefore identically zero on the pre-registered estimand, with an exact p of 1.000.</p>
+          <p class="body-light">The correct reading is that the metric could not discriminate on that substrate, so the result is recorded as a metric-power failure rather than as evidence that the arms were equivalent. The gate that would have authorised Stage B failed, and Stage B did not run.</p>
+        </div>
+        <div class="kv reveal">
+          <span class="kv-key">Scheduled runs</span>
+          <p class="kv-val">128 · four arms × four tasks × eight repetitions · seed <span class="mono">20260910</span></p>
+          <span class="kv-key mt-24">Completed</span>
+          <p class="kv-val">117, all at a final worst slack of <span class="mono">0.0 ns</span></p>
+          <span class="kv-key mt-24">Primary contrast</span>
+          <p class="kv-val">Identically zero · exact <span class="mono">p = 1.000</span> over 32 scheduled pairs</p>
+          <span class="kv-key mt-24">Stage B</span>
+          <p class="kv-val">Gate failed, stage not executed</p>
+          <span class="kv-key mt-24">Frozen inputs</span>
+          <p class="kv-val">Dataset <span class="mono">685a916f4fc1deaa</span> · figure script <span class="mono">178491866e20ffd5</span></p>
+        </div>
+      </div>
+
+      <div class="scroll-x mt-60 reveal">
+        <table class="flat">
+          <thead>
+            <tr>
+              <th>Arm</th>
+              <th>Arrangement</th>
+              <th>Role in the design</th>
+              <th>Gate acceptance</th>
+              <th>Alignment class</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>B1</td><td>ordinary self correction, no tool evidence</td><td>baseline and process control</td><td>11/29</td><td>regression 18, ignored 11</td></tr>
+            <tr><td>R</td><td>Ṛta only</td><td>single authority</td><td>24/30</td><td>aligned 24, partial 6</td></tr>
+            <tr><td>S</td><td>OpenSTA only</td><td>single authority</td><td>9/31</td><td>regression 22, ignored 9</td></tr>
+            <tr><td>H</td><td>Ṛta and OpenSTA through the evidence contract</td><td>heterogeneous</td><td>22/27</td><td>aligned 22, partial 5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note mt-24 reveal">Acceptance counts are among completed runs under one uniform post-hoc gate applied identically across arms. The two arms that consumed tool evidence both landed near 80 percent, and the two that did not landed between 29 and 38 percent, but no between-arm test for acceptance was pre-specified, so none is reported and no significance is implied. Eleven runs ended incomplete across the cohort, eight from timeouts and three from provider errors, distributed across all four arms. Token accounting is unavailable and is not estimated.</p>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------ control -->
+  <section class="section-lg" data-shape="helix">
+    <div class="wrap">
+      <p class="kicker reveal">Control comparison</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">The claim of this work is preservation and traceability, not speed.</h2>
+      <div class="scroll-x mt-36 reveal">
+        <table class="flat">
+          <thead>
+            <tr>
+              <th>System</th>
+              <th>Divergence kept</th>
+              <th>Traceable</th>
+              <th>Acceptance decision</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Single checker</td><td>no</td><td>partial</td><td>at risk of circularity</td></tr>
+            <tr><td>Separated authorities</td><td>yes</td><td>yes</td><td>separate gate, no circular dependencies</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note mt-24 reveal">Single checker baselines were compared empirically in Stage A, where they suppressed the divergence the design exists to surface. The comparison is about what each arrangement preserves, not about which finished faster.</p>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------- figures -->
+  <section class="section-lg" data-shape="cube">
+    <div class="wrap">
+      <p class="kicker reveal">Frozen figures</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Seven figures, regenerated from the frozen dataset.</h2>
+      <p class="body-light reveal mt-18 maxw">Captions are quoted from the frozen caption file rather than rewritten, so a reader can compare the figure against the record. Select any figure to view it larger.</p>
+      <div class="figs mt-60">
+        <button class="figbtn reveal" data-figure="assets/fig01_design_parallel_arms.png" data-figure-title="Figure 1 · Experimental design, four parallel arms" data-figure-caption="Four parallel arms from one frozen initial artifact, 128 scheduled runs = 4 × 4 × 8. Budget-frozen loop, uniform shadow measurement, separate verification gate." data-figure-alt="Diagram of four parallel experimental arms branching from one frozen initial constraint file.">
+          <img src="assets/fig01_design_parallel_arms.png" loading="lazy" alt="Diagram of four parallel experimental arms branching from one frozen initial constraint file.">
+          <p class="label mt-18">Figure 01</p>
+          <p class="h-xs fig-cap mt-6">Experimental design</p>
+        </button>
+        <button class="figbtn reveal" data-figure="assets/fig02_primary_saturation.png" data-figure-title="Figure 2 · Primary metric saturation" data-figure-caption="26 complete pairs, all at a difference of 0.0 ns. The frozen estimand uses 32 scheduled pairs with incomplete runs scored as zero, exact p = 1.000. Saturation is metric degeneracy, not arm equivalence." data-figure-alt="Chart showing every paired measurement identical at zero nanoseconds.">
+          <img src="assets/fig02_primary_saturation.png" loading="lazy" alt="Chart showing every paired measurement identical at zero nanoseconds.">
+          <p class="label mt-18">Figure 02</p>
+          <p class="h-xs fig-cap mt-6">Primary metric saturation</p>
+        </button>
+        <button class="figbtn reveal" data-figure="assets/fig03_acceptance_by_arm.png" data-figure-title="Figure 3 · Gate acceptance by arm" data-figure-caption="Among completed runs: B1 11/29, R 24/30, S 9/31, H 22/27. Descriptive only, with no pre-specified between-arm test." data-figure-alt="Bar chart of gate acceptance counts by experimental arm.">
+          <img src="assets/fig03_acceptance_by_arm.png" loading="lazy" alt="Bar chart of gate acceptance counts by experimental arm.">
+          <p class="label mt-18">Figure 03</p>
+          <p class="h-xs fig-cap mt-6">Acceptance by arm</p>
+        </button>
+        <button class="figbtn reveal" data-figure="assets/fig04_alignment_by_arm.png" data-figure-title="Figure 4 · Evidence alignment class by arm" data-figure-caption="Aligned, partial, ignored, misinterpreted and regression. Classes with a zero count are retained so the frozen taxonomy stays visible." data-figure-alt="Stacked chart of evidence alignment classes by arm.">
+          <img src="assets/fig04_alignment_by_arm.png" loading="lazy" alt="Stacked chart of evidence alignment classes by arm.">
+          <p class="label mt-18">Figure 04</p>
+          <p class="h-xs fig-cap mt-6">Evidence alignment</p>
+        </button>
+        <button class="figbtn reveal" data-figure="assets/fig05_authority_confusion_status.png" data-figure-title="Figure 5 · Authority confusion incidence" data-figure-caption="One or more new authority errors or unconstrained paths per 32 scheduled runs. The guard status is recorded as not interpretable because of a defective tail direction, and the reported probability of 1.0 is mechanical." data-figure-alt="Chart of authority confusion incidence by arm with a not interpretable status.">
+          <img src="assets/fig05_authority_confusion_status.png" loading="lazy" alt="Chart of authority confusion incidence by arm with a not interpretable status.">
+          <p class="label mt-18">Figure 05</p>
+          <p class="h-xs fig-cap mt-6">Authority confusion</p>
+        </button>
+        <button class="figbtn reveal" data-figure="assets/fig06_completion_reliability.png" data-figure-title="Figure 6 · Completion and reliability" data-figure-caption="Completed against incomplete, split by timeout, provider error and other. No retries were frozen, and incomplete runs are retained with a success value of zero." data-figure-alt="Chart of completed and incomplete runs split by failure category.">
+          <img src="assets/fig06_completion_reliability.png" loading="lazy" alt="Chart of completed and incomplete runs split by failure category.">
+          <p class="label mt-18">Figure 06</p>
+          <p class="h-xs fig-cap mt-6">Completion and reliability</p>
+        </button>
+        <button class="figbtn reveal" data-figure="assets/fig07_cost_vs_acceptance.png" data-figure-title="Figure 7 · Workload, latency and acceptance" data-figure-caption="Mean calls and oracle evaluations, and wall clock time, against acceptance among completed runs. Descriptive, with no pre-specified test and no token accounting." data-figure-alt="Scatter chart relating workload and latency to acceptance.">
+          <img src="assets/fig07_cost_vs_acceptance.png" loading="lazy" alt="Scatter chart relating workload and latency to acceptance.">
+          <p class="label mt-18">Figure 07</p>
+          <p class="h-xs fig-cap mt-6">Workload and acceptance</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------- claim -->
+  <section class="section-lg" data-shape="torus" id="claim">
+    <div class="wrap">
+      <p class="kicker reveal">The exact claim</p>
+      <h2 class="h-lg reveal mt-18 maxw-wide">The strongest sentence this work will defend, quoted without trimming.</h2>
+      <p class="body-light reveal mt-36" style="max-width:80ch;color:var(--color-bone-white)">The EGER evidence-grounded control loop operated with the two tested language models, <span class="mono">opencode/mimo-v2.5-free</span> and <span class="mono">opencode/nemotron-3.5-lightning-free</span>, across the frozen synthetic VLSI tasks and the two independent deterministic evaluation authorities (Ṛta and OpenSTA), with evaluation evidence entering the common EGER evidence contract and reaching the VerificationGate, under the tested conditions.</p>
+      <div class="rows mt-60 reveal">
+        <div class="row-head">
+          <span class="mono saffron">Not established</span>
+          <p class="body-light">Model independence, statistical superiority or equivalence, universal or production scale generalisation, Oracle interchangeability, and causality.</p>
+        </div>
+        <div class="row-head">
+          <span class="mono saffron">Not claimed</span>
+          <p class="body-light">That the loop repairs errors at any stated rate, that acceptance means a design is correct, or that any of this transfers to a real production design.</p>
+        </div>
+      </div>
+      <p class="note mt-36 reveal">Quoted verbatim from the frozen research state. <a href="limitations.html">Every non-claim in full</a>, including the material limitations and the AI-assistance disclosure.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- figure viewer -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Figure viewer">
+  <div class="overlay-inner">
+    <div class="row-head" style="justify-content:space-between">
+      <p class="label" data-overlay-title></p>
+      <button class="overlay-close" data-overlay-close>Close</button>
+    </div>
+    <img src="" alt="">
+    <p class="note mt-24" data-overlay-caption></p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-meta">
+      <span>EGER · Evidence-Grounded Engineering Reasoning</span>
+      <span>Rama Krishna Ketha · independent researcher</span>
+      <span>Not peer reviewed</span>
+      <span id="year"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+<script src="assets/particles.js" defer></script>
+</body>
+</html>
