@@ -24,6 +24,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <div class="loader" aria-hidden="true">
   <div class="loader-word">EGER</div>
   <div class="loader-status"><span>Revealing</span><span data-loader-count>0</span></div>
@@ -47,18 +49,18 @@
     <div class="nav-links">
       <a class="navlink" href="story.html">Story</a>
       <a class="navlink" href="index.html">Findings</a>
-      <a class="navlink" href="method.html">Method</a>
-      <a class="navlink" href="evidence.html">Evidence</a>
+      <a class="navlink hide-sm" href="method.html">Method</a>
+      <a class="navlink hide-sm" href="evidence.html">Evidence</a>
       <a class="navlink" href="results.html" aria-current="page">Results</a>
-      <a class="navlink" href="reproducibility.html">Reproduce</a>
-      <a class="navlink" href="limitations.html">Limitations</a>
+      <a class="navlink hide-sm" href="reproducibility.html">Reproduce</a>
+      <a class="navlink hide-sm" href="limitations.html">Limitations</a>
       <a class="navlink" href="materials.html">Materials</a>
     </div>
     <a class="pill" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning" target="_blank" rel="noopener">Code</a>
   </div>
 </nav>
 
-<main>
+<main id="main">
 
   <section class="hero" data-shape="orb">
     <div class="wrap">
@@ -75,13 +77,13 @@
       <div class="stats mt-96">
         <div class="reveal">
           <div class="stat iris">100%</div>
-          <p class="label mt-18">Revision activation</p>
-          <p class="body-light mt-12">Structured evidence triggered a revision every time it was observed, under the tested conditions.</p>
+          <p class="label mt-18">Revision activation · tested conditions</p>
+          <p class="body-light mt-12">Structured evidence triggered a revision every time it was observed, under the tested conditions. Activation is not repair.</p>
         </div>
         <div class="reveal">
           <div class="stat">0</div>
           <p class="label mt-18">Circular dependencies</p>
-          <p class="body-light mt-12">Produced by an import graph check over the loop, not by inspection of a diagram.</p>
+          <p class="body-light mt-12">Produced by an import graph check over the loop, not by inspection of a diagram. Record: <a class="tlink" href="https://github.com/RAMA-L7/evidence-grounded-engineering-reasoning/blob/main/research/implementation/EGER-P145-ARCHITECTURE-VALIDATION-001.md" target="_blank" rel="noopener">P145 architecture validation</a>.</p>
         </div>
         <div class="reveal">
           <div class="stat saffron">p 0.1626</div>
