@@ -421,10 +421,10 @@ table.flat tr:first-child td { padding-top: 0; }
 /* Scrollable data regions keep a visible scrollbar affordance, so a table
    that overflows on a narrow screen announces itself instead of silently
    clipping its last column. */
-.scroll-x { overflow-x: auto; scrollbar-width: thin; scrollbar-color: rgba(128, 82, 255, 0.5) transparent; }
+.scroll-x { overflow-x: auto; scrollbar-width: thin; scrollbar-color: rgba(154, 154, 154, 0.6) transparent; }
 .scroll-x::-webkit-scrollbar { height: 4px; }
 .scroll-x::-webkit-scrollbar-track { background: transparent; }
-.scroll-x::-webkit-scrollbar-thumb { background: rgba(128, 82, 255, 0.45); border-radius: 2px; }
+.scroll-x::-webkit-scrollbar-thumb { background: rgba(154, 154, 154, 0.6); border-radius: 2px; }
 
 pre.term {
   font-family: var(--font-data);
@@ -561,7 +561,8 @@ main, footer { position: relative; z-index: 10; }
   width: 7px;
   height: 7px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.22);
+  /* 3.39:1 on the void: passes the 3:1 non-text requirement of WCAG 1.4.11. */
+  background: rgba(255, 255, 255, 0.38);
   transition: background 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .dots a:hover { background: rgba(255, 255, 255, 0.5); }
