@@ -39,6 +39,18 @@
     window.addEventListener('resize', onMove, { passive: true });
     window.addEventListener('hashchange', onMove);
     sweep();
+    /* Backstop for environments where animation frames are suspended (a
+       backgrounded tab, an occluded window, a print preview): a slow interval
+       runs the same sweep until everything is revealed, then removes itself,
+       so the steady-state cost is exactly zero. */
+    var backstop = setInterval(function () {
+      var done = true;
+      for (var i = 0; i < items.length; i++) {
+        if (!items[i].classList.contains('on')) { done = false; break; }
+      }
+      if (done) { clearInterval(backstop); return; }
+      sweep();
+    }, 350);
   }
 
   /* ---- opening loader ---------------------------------------------------
