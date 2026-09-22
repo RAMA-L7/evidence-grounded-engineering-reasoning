@@ -7,54 +7,37 @@
   root.classList.add('js');
 
   /* ---- reveal on scroll -------------------------------------------------
-     threshold 0 with a negative bottom margin so tall sections still fire,
-     plus a sweep so nothing can stay hidden after a jump link or a restored
-     scroll position. */
+     One monotonic sweep is the single source of truth: on every scroll frame
+     anything at or above the fold is revealed, and reaching the end of the
+     document reveals the rest. No IntersectionObserver, so a fast flick on a
+     phone or a jump link cannot skip elements between intersection checks,
+     and nothing can be left stranded below the last scroll position. The
+     visual effect is unchanged: each block still fades and rises as it
+     enters the viewport. */
   var items = [].slice.call(document.querySelectorAll('.reveal'));
-  function show(el) {
-    el.classList.add('on');
-  }
-  if (!items.length) {
-    /* nothing to do */
-  } else if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          show(e.target);
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.14 });
-    items.forEach(function (el) { io.observe(el); });
-
-    /* Two guarantees the reference does not need on short pages but a long
-       research page does. First, a settle pass at load and on hashchange so a
-       restored scroll position or a jump link reveals what is on screen even
-       though no intersection event will fire for it. Second, a final settle at
-       the end of the document, because the last block of a dense page can be
-       shorter than the 14 percent the observer asks for, and stranding real
-       content is worse than skipping its entrance. Scrolling itself is left
-       entirely to the observer, exactly as on the reference. */
-    var settle = function () {
-      items.forEach(function (el) {
-        if (el.classList.contains('on')) return;
+  if (items.length) {
+    var docEl = document.documentElement;
+    var sweep = function () {
+      var vh = window.innerHeight || 1;
+      var y = window.pageYOffset || 0;
+      var ended = y + vh >= (docEl.scrollHeight || 0) - 48;
+      for (var i = 0; i < items.length; i++) {
+        var el = items[i];
+        if (el.classList.contains('on')) continue;
         var r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) show(el);
-      });
-    };
-    var atEnd = function () {
-      var doc = document.documentElement;
-      var vh = window.innerHeight;
-      if ((window.pageYOffset || 0) + vh >= (doc.scrollHeight || 0) - 2) {
-        items.forEach(function (el) { if (!el.classList.contains('on')) show(el); });
+        if (ended || r.top < vh * 0.92) show(el);
       }
     };
-    settle();
-    window.addEventListener('hashchange', settle);
-    window.addEventListener('scroll', function () { requestAnimationFrame(atEnd); }, { passive: true });
-    atEnd();
-  } else {
-    items.forEach(show);
+    var queued = false;
+    var onMove = function () {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; sweep(); });
+    };
+    window.addEventListener('scroll', onMove, { passive: true });
+    window.addEventListener('resize', onMove, { passive: true });
+    window.addEventListener('hashchange', onMove);
+    sweep();
   }
 
   /* ---- opening loader ---------------------------------------------------
