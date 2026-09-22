@@ -26,3 +26,11 @@ research/experiments/EGER-EXP-001/formal/RQ4-MODEL-005/
 
 # Research PDFs (not source code)
 *.pdf
+# Exception: the reviewed submission-candidate thesis is a primary artifact of
+# the record and is published with the package it belongs to.
+!research/thesis/EGER-001-Final-Submission-Package-v1.0/EGER-THESIS-001-SubmissionCandidate-v1.0.pdf
+
+# Obsidian vault config (local only)
+.obsidian/
+.trash/
+
