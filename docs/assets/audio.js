@@ -159,8 +159,12 @@
      flattens. A smooth taper at both ends takes the whole bundle to nothing,
      which is what keeps it from reading as a panel dropped on the page. */
 
-  var LINES = 16;
+  var LINES = 24;
   var POINTS = 140;
+  /* How far the outermost strand is shifted along the wave, in sample points.
+     The shift is what makes neighbouring strands cross near the centre line
+     and weave, rather than merely nesting inside each other. */
+  var WEAVE = 16;
   var wave = new Array(POINTS).fill(0);
   var waveTmp = new Array(POINTS).fill(0);
   var lastT = 0;
@@ -179,26 +183,11 @@
     }
   })();
 
-  /* The site's palette, sweeping along the length and fading at both ends. */
-  var TINT = [
-    [0.00, 21, 132, 110, 0],
-    [0.05, 21, 132, 110, 0.45],
-    [0.20, 128, 82, 255, 0.62],
-    [0.38, 201, 182, 255, 0.5],
-    [0.56, 255, 184, 41, 0.55],
-    [0.74, 128, 82, 255, 0.62],
-    [0.94, 21, 132, 110, 0.4],
-    [1.00, 21, 132, 110, 0]
-  ];
-
-  function tint() {
-    var grad = g.createLinearGradient(0, 0, cw, 0);
-    for (var i = 0; i < TINT.length; i++) {
-      var s = TINT[i];
-      grad.addColorStop(s[0], 'rgba(' + s[1] + ',' + s[2] + ',' + s[3] + ',' + s[4] + ')');
-    }
-    return grad;
-  }
+  /* Monochrome, as drawn: plain white strands whose crossings and fans build
+     the density, on the site's black. White on the void is 21:1, far past the
+     3:1 non-text requirement. */
+  var STRAND = 'rgba(255,255,255,0.5)';
+  var REST = 'rgba(255,255,255,0.35)';
 
   /* Read the low passed wave into a target shape, then ease the drawn shape
      toward it. The analyser hands back a fresh sample window every frame, and
@@ -251,11 +240,10 @@
     if (!g || !viz) return;
     g.clearRect(0, 0, cw, ch);
     var mid = Math.round(ch / 2) + 0.5;
-    var stroke = tint();
 
     if (!live) {
       g.lineWidth = 1;
-      g.strokeStyle = stroke;
+      g.strokeStyle = REST;
       g.beginPath();
       g.moveTo(0, mid);
       g.lineTo(cw, mid);
@@ -267,12 +255,22 @@
     var i, L;
     g.lineWidth = 1;
     g.lineJoin = 'round';
-    g.strokeStyle = stroke;
+    g.strokeStyle = STRAND;
     for (L = 0; L < LINES; L++) {
-      var scale = 1 - 0.52 * (L / (LINES - 1));
+      var u = L / (LINES - 1);
+      /* Deep amplitude spread and an alternating phase: the outer strands
+         carry about half the height of the innermost one and cross it twice
+         per cycle, which is what opens the weave into visible fans instead of
+         a thin band. */
+      var scale = 1 - 0.52 * u;
+      var phase = u * Math.PI;
+      var shift = Math.round(u * WEAVE);
       g.beginPath();
       for (i = 0; i < POINTS; i++) {
-        var v = wave[i] * gain * TAPER[i] * scale;
+        var j = i + shift;
+        if (j >= POINTS) j -= POINTS;
+        var v = wave[j] * gain * TAPER[i] * scale;
+        v += Math.sin(phase) * 0.5 * TAPER[i] * Math.cos(3.1 * (i / (POINTS - 1)) * Math.PI + phase);
         if (v > 1) v = 1; else if (v < -1) v = -1;
         var y = mid - v * amp;
         if (i) g.lineTo(XS[i], y); else g.moveTo(XS[i], y);
