@@ -617,6 +617,130 @@ main, footer { position: relative; z-index: 10; }
 }
 .overlay-close:hover { color: var(--color-bone-white); }
 
+/* ------------------------------------------------------- narration ------- */
+
+/* One player surface for two languages: the source is swapped rather than a
+   second player being added, so only one set of controls is ever on screen.
+   No card: whitespace and a single hairline of rhythm group it on the void,
+   the same flat treatment as the data displays elsewhere. */
+.audio { display: grid; gap: var(--spacing-24); max-width: 660px; }
+
+/* With scripting off the native element is the whole player, so it is shown
+   and the custom surface stays out of the way until the script is ready. */
+.audio audio { width: 100%; }
+.audio-head, .audio-body { display: none; }
+.audio.is-ready audio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+}
+.audio.is-ready .audio-head { display: flex; }
+.audio.is-ready .audio-body { display: grid; }
+
+.audio-head {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-12) var(--spacing-24);
+}
+
+.lang { display: inline-flex; align-items: center; gap: var(--spacing-6); }
+.lang-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-nav-label);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-nav-label);
+  text-transform: uppercase;
+  color: var(--color-ash-gray);
+  transition: color 0.25s ease, background 0.25s ease;
+}
+.lang-btn:hover { color: var(--color-bone-white); }
+.lang-btn.is-active { background: var(--color-electric-iris); color: var(--color-bone-white); }
+
+.audio-body {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--spacing-24);
+}
+
+.audio-play {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--color-electric-iris);
+  color: var(--color-bone-white);
+  display: grid;
+  place-items: center;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.audio-play:hover { opacity: 0.88; }
+.audio-play:active { transform: scale(0.96); }
+.audio-play svg { width: 20px; height: 20px; }
+.audio-play .icon-pause { display: none; }
+.audio-play.is-playing .icon-play { display: none; }
+.audio-play.is-playing .icon-pause { display: block; }
+
+.audio-track { display: grid; gap: var(--spacing-12); min-width: 0; }
+
+/* The spectrum. Drawn by the script; a resting hairline when nothing plays, so
+   a reader who asks for less motion still gets the same quiet instrument. */
+.audio-viz { width: 100%; height: 56px; }
+
+.audio-line {
+  position: relative;
+  /* 24px keeps the seek target at the WCAG 2.5.8 minimum on touch. */
+  height: 24px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+.audio-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: #202020;
+}
+.audio-fill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 1px;
+  width: 0;
+  background: var(--color-electric-iris);
+}
+.audio-thumb {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: var(--radius-full);
+  background: var(--color-bone-white);
+  transition: transform 0.15s ease;
+}
+.audio-line:hover .audio-thumb,
+.audio-line:focus-visible .audio-thumb { transform: scale(1.25); }
+
+.audio-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-data);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--color-ash-gray);
+}
+
 /* ---------------------------------------------------------- footer ------- */
 
 .footer { padding-block: var(--spacing-60) var(--spacing-36); }
@@ -780,4 +904,5 @@ main, footer { position: relative; z-index: 10; }
 @media (prefers-contrast: more) {
   .body-light, .kv-val, .note, table.flat td, pre.term, .data { color: var(--color-bone-white); }
   .navlink, .label, .footer-meta, .status { color: var(--color-silver-mist); }
+  .lang-btn { color: var(--color-silver-mist); }
 }

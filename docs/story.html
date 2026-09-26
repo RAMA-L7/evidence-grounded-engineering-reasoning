@@ -82,6 +82,49 @@
     <div class="scroll-cue"><span>Scroll to reveal</span><i></i></div>
   </section>
 
+  <!-- ----------------------------------------------------------- listen -->
+  <section class="section-lg" data-shape="wave">
+    <div class="wrap">
+      <p class="kicker reveal">Listen · English or Telugu</p>
+      <h2 class="h-md reveal mt-18 maxw-wide">Hear this story, in either language.</h2>
+      <p class="body-light reveal mt-24 maxw">A spoken overview, in English or Telugu. English plays by default.</p>
+      <div class="audio reveal mt-36" data-audio
+           data-src-en="assets/audio-eger-en.m4a"
+           data-src-te="assets/audio-eger-te.m4a"
+           data-dur-en="22:23"
+           data-dur-te="20:42">
+        <div class="audio-head">
+          <div class="lang" role="group" aria-label="Narration language">
+            <button type="button" class="lang-btn is-active" data-lang="en" aria-pressed="true">English</button>
+            <button type="button" class="lang-btn" data-lang="te" lang="te" aria-pressed="false">తెలుగు</button>
+          </div>
+          <p class="label" data-audio-lang>English narration</p>
+        </div>
+        <div class="audio-body">
+          <button type="button" class="audio-play" data-audio-play aria-label="Play English narration">
+            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>
+          </button>
+          <div class="audio-track">
+            <canvas class="audio-viz" data-audio-viz aria-hidden="true"></canvas>
+            <div class="audio-line" data-audio-seek role="slider" tabindex="0"
+                 aria-label="Seek within the narration" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                 aria-valuetext="0:00 of 22:23">
+              <span class="audio-fill" data-audio-fill></span>
+              <span class="audio-thumb" data-audio-thumb></span>
+            </div>
+            <div class="audio-meta">
+              <span class="mono" data-audio-cur>0:00</span>
+              <span class="mono" data-audio-dur>22:23</span>
+            </div>
+          </div>
+        </div>
+        <audio data-audio-el controls preload="metadata" src="assets/audio-eger-en.m4a"></audio>
+      </div>
+      <p class="note mt-24 reveal">Recorded narration of the material on this page, offered as a second way in. It is a reading aid, not a source: the claims, numbers and documents remain those cited on the <a href="materials.html">materials page</a>.</p>
+    </div>
+  </section>
+
   <!-- ---------------------------------------------------------- problem -->
   <section class="section-lg" data-shape="torus">
     <div class="wrap">
@@ -195,6 +238,7 @@
 </footer>
 
 <script src="assets/site.js" defer></script>
+<script src="assets/audio.js" defer></script>
 <script src="assets/particles.js" defer></script>
 </body>
 </html>
