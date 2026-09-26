@@ -159,20 +159,23 @@
      flattens. A smooth taper at both ends takes the whole bundle to nothing,
      which is what keeps it from reading as a panel dropped on the page. */
 
-  var LINES = 26;
-  var POINTS = 150;
+  var LINES = 16;
+  var POINTS = 140;
   var wave = new Array(POINTS).fill(0);
+  var waveTmp = new Array(POINTS).fill(0);
+  var lastT = 0;
   var gain = 1;
   var ref = 0;
   var XS = new Array(POINTS).fill(0);
   var TAPER = new Array(POINTS);
 
-  /* Full amplitude across the middle, easing to nothing over the outer eighth
-     at each end, so the bundle ends in the page rather than on a line. */
+  /* Full amplitude across the middle, easing to nothing over the outer tenth
+     at each end, and keeping only the slow part of the signal so the bundle
+     never turns into a dense scribble at small widths. */
   (function () {
     for (var i = 0; i < POINTS; i++) {
       var t = Math.min(i, POINTS - 1 - i) / (POINTS - 1);
-      TAPER[i] = t >= 0.12 ? 1 : Math.sin(0.5 * Math.PI * (t / 0.12));
+      TAPER[i] = t >= 0.10 ? 1 : Math.pow(t / 0.10, 0.6);
     }
   })();
 
@@ -197,9 +200,15 @@
     return grad;
   }
 
-  /* Read the low passed wave, then one gain for the frame. The gain is eased
-     rather than snapped, so the bundle breathes instead of pumping. */
-  function readWave() {
+  /* Read the low passed wave into a target shape, then ease the drawn shape
+     toward it. The analyser hands back a fresh sample window every frame, and
+     at 60fps that makes the pattern jump several cycles between frames: on a
+     narrow phone strip that reads as fast jitter even though the motion is
+     locked to the narration. Easing the drawn shape toward each new window
+     keeps the lock while slowing what the eye sees to a calm pace, on any
+     frame rate. The gain is eased on the same clock, so the bundle breathes
+     instead of pumping. */
+  function readWave(dt) {
     var len = lfTime.length;
     var per = Math.max(1, Math.floor(len / POINTS));
     var peak = 0;
@@ -208,24 +217,23 @@
       var sum = 0;
       var base = i * per;
       for (k = 0; k < per; k++) sum += (lfTime[(base + k) % len] - 128) / 128;
-      sum /= per;
-      wave[i] = sum;
+      waveTmp[i] = sum / per;
     }
-    var prev = wave.slice();
-    for (i = 1; i < POINTS - 1; i++) wave[i] = (prev[i - 1] + prev[i] * 2 + prev[i + 1]) / 4;
-    /* Measured after smoothing, so the gain is set from the shape that is
-       actually drawn. */
+    var prev = waveTmp.slice();
+    for (i = 1; i < POINTS - 1; i++) waveTmp[i] = (prev[i - 1] + prev[i] * 2 + prev[i + 1]) / 4;
     for (i = 0; i < POINTS; i++) {
-      var a = Math.abs(wave[i]);
+      var a = Math.abs(waveTmp[i]);
       if (a > peak) peak = a;
     }
     /* The low band of speech is a small signal, so the ribbon is normalised
        against a slowly decaying reference peak rather than the frame's own
        peak. The bundle then fills the strip at any level, and falls back to
        the resting line within about a second of the narration going quiet. */
-    ref = Math.max(peak, ref * 0.97);
+    ref = Math.max(peak, ref * Math.pow(0.97, dt * 60));
     var want = ref > 0.0008 ? Math.min(400, 0.9 / ref) : 1;
-    gain += (want - gain) * 0.12;
+    gain += (want - gain) * Math.min(1, 0.12 * dt * 60);
+    var ease = 1 - Math.pow(1 - 0.12, dt * 60);
+    for (i = 0; i < POINTS; i++) wave[i] += (waveTmp[i] - wave[i]) * ease;
   }
 
   /* The same shape without any audio to read: a travelling wave, so a reader
@@ -234,9 +242,7 @@
     var s = now / 1000;
     for (var i = 0; i < POINTS; i++) {
       var x = i / (POINTS - 1);
-      wave[i] = 0.46 * Math.sin(x * 9.4 - s * 1.5)
-        + 0.24 * Math.sin(x * 16.5 - s * 2.3)
-        + 0.14 * Math.sin(x * 5.2 - s * 0.9);
+      wave[i] = 0.6 * Math.sin(x * 6.2 - s * 1.4) * (0.5 + 0.5 * Math.sin(x * 3.8));
     }
     gain = 1;
   }
@@ -257,13 +263,13 @@
       return;
     }
 
-    var amp = ch / 2 - 3;
+    var amp = ch / 2 - 4;
     var i, L;
     g.lineWidth = 1;
     g.lineJoin = 'round';
     g.strokeStyle = stroke;
     for (L = 0; L < LINES; L++) {
-      var scale = 1 - 0.66 * (L / (LINES - 1));
+      var scale = 1 - 0.52 * (L / (LINES - 1));
       g.beginPath();
       for (i = 0; i < POINTS; i++) {
         var v = wave[i] * gain * TAPER[i] * scale;
@@ -277,9 +283,11 @@
 
   function loop(now) {
     raf = requestAnimationFrame(loop);
+    var dt = lastT ? Math.min(0.1, (now - lastT) / 1000) : 0.016;
+    lastT = now;
     if (lfAnalyser && lfTime) {
       lfAnalyser.getByteTimeDomainData(lfTime);
-      readWave();
+      readWave(dt);
     } else {
       freeWave(now || performance.now());
     }
@@ -288,11 +296,13 @@
 
   function startViz() {
     if (raf) return;
+    lastT = 0;
     raf = requestAnimationFrame(loop);
   }
 
   function stopViz() {
     if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    lastT = 0;
     draw(false);
   }
 
