@@ -125,7 +125,7 @@ The strongest defensible aggregate claim is:
 - Reproducibility: `research/REPRODUCIBILITY.md`
 - Architecture (pending/unvalidated design recommendation): `research/architecture/EGER-ARCH-002.md`
 - EvidenceOracle contract: `research/oracle/EGER-EVIDENCE-ORACLE-CONTRACT.md`
-- Change control: `research/implementation/EGER-CHANGE-001.md` through `EGER-CHANGE-060.md`
+- Change control: `research/implementation/EGER-CHANGE-001.md` through `EGER-CHANGE-062.md`
 
 ## Repository integrity
 
